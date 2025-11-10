@@ -41,13 +41,13 @@ const WorkList = ({ items, category, title, sectionId }: WorkListProps) => {
   if (sortedItems.length === 0) return null;
 
   return (
-    <section id={sectionId} className="py-24 px-6 lg:px-8">
+    <section id={sectionId} className="py-32 px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-16">
+        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-24">
           {title}
         </h2>
         
-        <div className="space-y-8">
+        <div className="space-y-12">
           {sortedItems.map((item) => (
             <WorkCard key={item.slug} item={item} />
           ))}

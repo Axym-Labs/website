@@ -21,8 +21,8 @@ export const workItems: WorkItem[] = [
     slug: "real-time-inference",
     title: "Real-Time ML Inference Pipeline",
     category: "product",
-    summary: "A low-latency inference system designed for production environments, handling thousands of predictions per second with sub-10ms response times.",
-    cover_image: "/placeholder.svg",
+    summary: "A low-latency inference system designed for production environments.",
+    cover_image: "/work/real-time-inference.jpg",
     use_cover_as_card_bg: false,
     main_points: [
       ["bolt", "Sub-10ms latency"],
@@ -67,8 +67,8 @@ In production testing, the system maintained:
     slug: "attention-mechanisms",
     title: "Efficient Attention Mechanisms",
     category: "research",
-    summary: "Exploring sparse attention patterns that reduce computational complexity while maintaining model performance on long sequences.",
-    cover_image: "/placeholder.svg",
+    summary: "Exploring sparse attention patterns that reduce computational complexity.",
+    cover_image: "/work/private-ml.jpg",
     main_points: [
       ["cpu", "50% faster training"],
       ["database", "Linear memory"],
@@ -108,8 +108,8 @@ We plan to extend this work to multimodal transformers and explore dynamic spars
     slug: "meta-learning-thoughts",
     title: "Thoughts on Meta-Learning Paradigms",
     category: "idea",
-    summary: "An exploration of meta-learning approaches and their potential for few-shot adaptation in resource-constrained environments.",
-    cover_image: "/placeholder.svg",
+    summary: "An exploration of meta-learning approaches and their potential.",
+    cover_image: "/work/neural-architecture.jpg",
     main_points: [
       ["eye", "Few-shot learning"],
       ["shield", "Robust adaptation"],

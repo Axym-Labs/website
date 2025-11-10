@@ -60,54 +60,23 @@ const WorkCard = ({ item }: WorkCardProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <article
-        className="grid md:grid-cols-2 gap-8 p-8 rounded-lg transition-all duration-200 border border-transparent hover:border-accent"
-        style={{ 
-          backgroundColor: item.use_cover_as_card_bg && coverSrc 
-            ? 'transparent' 
-            : 'hsl(var(--canvas))'
-        }}
-      >
+      <article className="grid md:grid-cols-2 gap-8 p-8 rounded-lg transition-all duration-200 border border-transparent hover:border-accent bg-transparent">
         {/* Text Content - Left Column */}
         <div className="space-y-4 flex flex-col justify-center order-2 md:order-1">
-          <div className="flex items-center gap-3">
-            <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${categoryColor}`}>
-              {item.category}
-            </span>
-          </div>
-          
-          <h3 className="text-2xl font-bold text-canvas-foreground group-hover:text-accent transition-colors">
+          <h3 className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors">
             {item.title}
             <span
-              className={`inline-flex items-center gap-2 ml-3 text-xs text-muted-foreground transition-opacity duration-200 ${
+              className={`inline-flex items-center gap-2 ml-3 text-sm transition-opacity duration-200 ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
             >
-              <span className="w-1 h-1 rounded-full bg-muted-foreground" />
-              <span>View details</span>
+              →
             </span>
           </h3>
           
-          <p className="text-base text-canvas-foreground/70 leading-relaxed">
+          <p className="text-base text-foreground/70 leading-relaxed">
             {item.summary}
           </p>
-          
-          {item.main_points && item.main_points.length > 0 && (
-            <div className="flex flex-wrap gap-2 pt-2">
-              {item.main_points.map(([iconKey, text], idx) => {
-                const Icon = iconMap[iconKey] || Zap;
-                return (
-                  <span
-                    key={idx}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-muted/50 text-canvas-foreground rounded-full"
-                  >
-                    <Icon className="w-3 h-3" />
-                    {text}
-                  </span>
-                );
-              })}
-            </div>
-          )}
         </div>
 
         {/* Cover Image - Right Column */}

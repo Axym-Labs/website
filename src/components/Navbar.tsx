@@ -46,19 +46,26 @@ const Navbar = () => {
           </button>
           
           <div className="flex items-center gap-8">
-            {["products", "research", "ideas", "about"].map((section) => (
-              <button
-                key={section}
-                onClick={() => scrollToSection(section)}
-                className={`text-sm font-medium capitalize transition-colors ${
-                  activeSection === section
-                    ? "text-accent"
-                    : "text-foreground/70 hover:text-foreground"
-                }`}
-              >
-                {section}
-              </button>
-            ))}
+            <button
+              onClick={() => scrollToSection("products")}
+              className={`text-sm font-medium transition-colors ${
+                ["products", "research", "ideas"].includes(activeSection)
+                  ? "text-accent"
+                  : "text-foreground/70 hover:text-foreground"
+              }`}
+            >
+              Work
+            </button>
+            <button
+              onClick={() => scrollToSection("about")}
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "about"
+                  ? "text-accent"
+                  : "text-foreground/70 hover:text-foreground"
+              }`}
+            >
+              About
+            </button>
             <a
               href="mailto:contact@axym.org"
               className="text-sm font-medium text-foreground/70 hover:text-accent transition-colors"

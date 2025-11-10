@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import { workItems } from "@/data/work-items";
+import Footer from "@/components/Footer";
 import "highlight.js/styles/github-dark.css";
 
 const iconMap: Record<string, any> = {
@@ -58,15 +59,15 @@ const WorkDetail = () => {
             </p>
 
             {item.main_points && item.main_points.length > 0 && (
-              <div className="flex flex-wrap gap-3 pt-4">
+              <div className="flex flex-wrap gap-4 pt-6">
                 {item.main_points.map(([iconKey, text], idx) => {
                   const Icon = iconMap[iconKey] || Zap;
                   return (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-canvas text-canvas-foreground rounded-full"
+                      className="inline-flex flex-col items-center gap-3 px-6 py-5 text-sm font-medium bg-transparent text-white border border-white rounded-lg"
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-8 h-8" />
                       {text}
                     </span>
                   );
@@ -95,8 +96,8 @@ const WorkDetail = () => {
       )}
 
       {/* Content Canvas */}
-      <main className="py-16 px-6 lg:px-8">
-        <article className="max-w-3xl mx-auto bg-canvas text-canvas-foreground rounded-lg p-8 md:p-12 prose prose-lg prose-neutral max-w-none">
+      <main className="py-24 px-6 lg:px-12">
+        <article className="w-full bg-canvas text-canvas-foreground rounded-lg p-12 md:p-20 lg:p-32 prose prose-lg prose-neutral max-w-none">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeHighlight]}
@@ -125,7 +126,7 @@ const WorkDetail = () => {
 
       {/* What's Next Section */}
       {item.links && item.links.length > 0 && (
-        <section className="py-16 px-6 lg:px-8 border-t border-foreground/10">
+        <section className="py-24 px-6 lg:px-8 border-t border-foreground/10">
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
               <h2 className="text-3xl font-bold text-foreground">
@@ -150,6 +151,8 @@ const WorkDetail = () => {
           </div>
         </section>
       )}
+
+      <Footer />
     </div>
   );
 };

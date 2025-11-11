@@ -52,4 +52,73 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Prose/Markdown Styling */
+  .prose {
+    @apply text-canvas-foreground;
+  }
+
+  .prose h1 {
+    @apply text-4xl font-bold mb-6 mt-8 text-canvas-foreground;
+  }
+
+  .prose h2 {
+    @apply text-3xl font-bold mb-4 mt-8 text-canvas-foreground;
+  }
+
+  .prose h3 {
+    @apply text-2xl font-semibold mb-3 mt-6 text-canvas-foreground;
+  }
+
+  .prose h4 {
+    @apply text-xl font-semibold mb-2 mt-4 text-canvas-foreground;
+  }
+
+  .prose p {
+    @apply mb-4 leading-relaxed text-canvas-foreground;
+  }
+
+  .prose ul, .prose ol {
+    @apply mb-4 ml-6;
+  }
+
+  .prose li {
+    @apply mb-2 text-canvas-foreground;
+  }
+
+  .prose ul li {
+    @apply list-disc;
+  }
+
+  .prose ol li {
+    @apply list-decimal;
+  }
+
+  .prose strong {
+    @apply font-semibold text-canvas-foreground;
+  }
+
+  .prose em {
+    @apply italic;
+  }
+
+  .prose a {
+    @apply text-accent hover:underline;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-accent pl-4 italic my-4;
+  }
+
+  .prose code {
+    @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose pre {
+    @apply bg-background text-foreground font-mono text-sm p-4 rounded-lg overflow-x-auto border border-foreground/10 my-6;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0;
+  }
 }

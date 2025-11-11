@@ -51,7 +51,7 @@ const Navbar = () => {
               className={`text-sm font-medium transition-colors ${
                 ["products", "research", "ideas"].includes(activeSection)
                   ? "text-accent"
-                  : "text-foreground/70 hover:text-foreground"
+                  : "text-foreground/70 hover:text-accent"
               }`}
             >
               Work
@@ -61,7 +61,7 @@ const Navbar = () => {
               className={`text-sm font-medium transition-colors ${
                 activeSection === "about"
                   ? "text-accent"
-                  : "text-foreground/70 hover:text-foreground"
+                  : "text-foreground/70 hover:text-accent"
               }`}
             >
               About

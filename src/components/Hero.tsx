@@ -17,7 +17,7 @@ const Hero = () => {
         <img 
           src="/work/real-time-inference.jpg" 
           alt="Background" 
-          className="w-full h-full object-cover opacity-20"
+          className="w-full h-full object-cover opacity-40"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background"></div>
       </div>
@@ -30,16 +30,6 @@ const Hero = () => {
         <p className="text-sm md:text-base text-foreground/70 max-w-3xl mx-auto leading-relaxed">
           Student-run organization producing prototypes, reproducible demos, and experimental essays.
         </p>
-        
-        <div className="pt-8">
-          <button
-            onClick={() => scrollToSection("products")}
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-medium text-accent-foreground bg-accent hover:bg-accent/90 rounded-md transition-colors"
-          >
-            See work
-            <ChevronDown className="w-5 h-5" />
-          </button>
-        </div>
       </div>
     </section>
   );

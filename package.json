@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@hookform/resolvers": "^3.10.0",
     "@mdx-js/react": "^3.1.1",
     "@radix-ui/react-accordion": "^1.2.11",

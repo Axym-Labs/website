@@ -21,6 +21,18 @@ links:
 
 Research into sparse attention patterns for transformer models.
 
+## Introduction
+
+Attention mechanisms allow models to dynamically focus on different parts of the input when producing an output.
+
+The core attention formula is:
+
+$$
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V
+$$
+
+where $Q$, $K$, and $V$ represent queries, keys, and values respectively, and $d_k$ is the dimension of the keys.
+
 ## Abstract
 
 We investigate various sparse attention patterns that maintain model quality while significantly reducing computational requirements for long-context tasks.

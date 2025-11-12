@@ -62,9 +62,9 @@ const WorkDetail = () => {
                   return (
                     <span
                       key={idx}
-                      className="inline-flex flex-col items-start gap-4 px-10 py-9 text-base font-medium bg-transparent text-white border border-white rounded-lg"
+                      className="inline-flex items-center gap-4 px-10 py-8 text-base font-medium bg-transparent text-white border border-white rounded-lg"
                     >
-                      <Icon className="w-10 h-10 flex-shrink-0" />
+                      <Icon className="w-10 h-10 flex-shrink-0" strokeWidth={1.5} />
                       {text}
                     </span>
                   );

@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="flex justify-center gap-8 text-base text-foreground/70">
           <a
             href="mailto:contact@axym.org"
-            className="text-accent hover:underline"
+            className="text-accent underline"
           >
             Contact
           </a>
@@ -17,9 +17,17 @@ const Footer = () => {
             href="https://github.com/Axym-Labs"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-accent hover:underline"
+            className="text-accent underline"
           >
             Github
+          </a>
+          <a
+            href="/disclosure"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent underline"
+          >
+            Disclosure
           </a>
         </div>
       </div>

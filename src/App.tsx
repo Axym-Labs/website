@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import WorkDetail from "./pages/WorkDetail";
 import NotFound from "./pages/NotFound";
+import Disclosure from "./pages/Disclosure";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/work/:slug" element={<WorkDetail />} />
+          <Route path="disclosure" element={<Disclosure/>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

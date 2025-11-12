@@ -47,7 +47,7 @@ const Index = () => {
               We focus on proof-of-concept work and open-ended experiments in underexplored areas of 
               machine learning and related fields. We welcome collaborations 
               and follow-up projects. For inquiries:{" "}
-              <a href="mailto:contact@axym.org" className="text-accent hover:underline">
+              <a href="mailto:contact@axym.org" className="hover:text-accent underline">
                 contact@axym.org
               </a>
               .

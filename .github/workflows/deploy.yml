@@ -6,6 +6,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: github-pages 
+    
     steps:
       - uses: actions/checkout@v4
 
@@ -28,6 +30,6 @@ jobs:
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GH_CUSTOM_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages

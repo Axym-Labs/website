@@ -4,6 +4,7 @@ title: Efficient Attention Mechanisms
 category: research
 summary: Exploring sparse attention patterns that reduce computational complexity.
 cover_image: /work/private-ml.jpg
+show_cover_in_detail: true
 main_points:
   - [cpu, 50% faster training]
   - [database, Linear memory]
@@ -16,10 +17,6 @@ links:
   - label: Code
     url: https://github.com/axym-labs/attention
 ---
-
-# Efficient Attention Mechanisms
-
-Research into sparse attention patterns for transformer models.
 
 ## Introduction
 

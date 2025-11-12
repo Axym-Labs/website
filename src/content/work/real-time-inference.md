@@ -5,6 +5,7 @@ category: product
 summary: A low-latency inference system designed for production environments.
 cover_image: /work/real-time-inference.jpg
 use_cover_as_card_bg: false
+show_cover_in_detail: true
 main_points:
   - [bolt, Sub-10ms latency]
   - [shield, Fault-tolerant]
@@ -18,8 +19,6 @@ links:
   - label: Documentation
     url: https://docs.axym.org/inference
 ---
-
-# Real-Time ML Inference Pipeline
 
 A production-ready inference system built for speed and reliability.
 

@@ -9,6 +9,7 @@ export interface WorkItem {
   cover_animated?: boolean;
   cover_poster?: string;
   use_cover_as_card_bg?: boolean;
+  show_cover_in_detail?: boolean;
   external_url?: string;
   main_points?: [string, string][];
   draft: boolean;
@@ -35,6 +36,7 @@ const parseWorkItem = (markdownContent: string): WorkItem => {
     cover_animated: attributes.cover_animated,
     cover_poster: attributes.cover_poster,
     use_cover_as_card_bg: attributes.use_cover_as_card_bg,
+    show_cover_in_detail: attributes.show_cover_in_detail,
     external_url: attributes.external_url,
     main_points: attributes.main_points,
     draft: attributes.draft,

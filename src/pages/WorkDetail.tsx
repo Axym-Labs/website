@@ -7,8 +7,10 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { workItems } from "@/data/work-items";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 import "highlight.js/styles/github-dark.css";
 import "katex/dist/katex.min.css";
+import { useEffect, useState } from "react";
 
 const iconMap: Record<string, any> = {
   bolt: Zap,
@@ -33,11 +35,32 @@ const WorkDetail = () => {
     idea: "bg-foreground/10 text-foreground/80",
   }[item.category] || "bg-foreground/10 text-foreground";
 
+  const [coverSrc, setCoverSrc] = useState(
+    item.cover_animated ? item.cover_poster : item.cover_image
+  );
+  const [animatedLoaded, setAnimatedLoaded] = useState(false);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    
+    if (item.cover_animated && !prefersReducedMotion && item.cover_image) {
+      const img = new Image();
+      img.src = item.cover_image;
+      img.onload = () => {
+        setAnimatedLoaded(true);
+        setCoverSrc(item.cover_image);
+      };
+    }
+  }, [item.cover_animated, item.cover_image]);
+
   return (
     <div className="min-h-screen bg-background">
+      <Navbar />
+
       {/* Header Band */}
-      <header className="bg-background border-b border-foreground/10 pt-24 pb-16 px-6 lg:px-8">
+      <header className="bg-background pt-24 pb-16 px-6 lg:px-8">
         <div className="max-w-4xl mx-auto space-y-6">
+          {/*
           <Link
             to="/"
             className="inline-flex items-center gap-2 text-sm text-foreground/70 hover:text-accent transition-colors"
@@ -45,8 +68,9 @@ const WorkDetail = () => {
             <ArrowLeft className="w-4 h-4" />
             Back to home
           </Link>
+          */}
 
-          <div className="space-y-4">
+          <div className="space-y-4 mt-24">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground">
               {item.title}
             </h1>
@@ -56,15 +80,15 @@ const WorkDetail = () => {
             </p>
 
             {item.main_points && item.main_points.length > 0 && (
-              <div className="flex flex-wrap gap-6 pt-6">
+              <div className="flex flex-col sm:flex-row flex-wrap gap-6 pt-6">
                 {item.main_points.map(([iconKey, text], idx) => {
                   const Icon = iconMap[iconKey] || Zap;
                   return (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-4 px-10 py-8 text-base font-medium bg-transparent text-white border border-white rounded-lg"
+                      className="inline-flex items-center gap-4 p-4 md:px-10 md:py-8 text-base font-medium bg-transparent text-white border border-white rounded-lg"
                     >
-                      <Icon className="w-10 h-10 flex-shrink-0" strokeWidth={1.5} />
+                      <Icon className="w-8 md:w-10 h-8 md:h-10 flex-shrink-0" strokeWidth={1.5} />
                       {text}
                     </span>
                   );
@@ -92,32 +116,54 @@ const WorkDetail = () => {
         </div>
       )}
 
+      {item.cover_image && item.show_cover_in_detail && (
+      <div className="flex justify-center rounded-lg order-1 md:order-2 translate-y-24">
+        <div className="rounded-3xl shadow-2xl">
+          {coverSrc ? (
+            <img className="rounded-3xl"
+              src={coverSrc}
+              alt={item.title}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+              <Cpu className="w-16 h-16" />
+            </div>
+          )}
+
+        </div>
+      </div>
+      )}
+
       {/* Content Canvas */}
-      <main className="py-48">
-        <article className="w-full bg-canvas text-canvas-foreground p-12 md:p-20 lg:p-32 prose prose-lg prose-neutral max-w-none">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm, remarkMath]}
-            rehypePlugins={[rehypeHighlight, rehypeKatex]}
-            components={{
-              pre: ({ children }) => (
-                <pre className="bg-background text-foreground font-mono text-sm p-4 rounded-lg overflow-x-auto border border-foreground/10">
-                  {children}
-                </pre>
-              ),
-              code: ({ children, className }) => {
-                const isInline = !className;
-                return isInline ? (
-                  <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">
-                    {children}
-                  </code>
-                ) : (
-                  <code className={className}>{children}</code>
-                );
-              },
-            }}
-          >
-            {item.content}
-          </ReactMarkdown>
+      <main className="">
+        <article className="w-full bg-canvas text-canvas-foreground p-12 py-36 md:p-20 md:py-48 lg:p-48 lg:py-56 prose prose-lg prose-neutral max-w-none">
+          <div className="flex justify-center">
+            <div className="max-w-4xl">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm, remarkMath]}
+                rehypePlugins={[rehypeHighlight, rehypeKatex]}
+                components={{
+                  pre: ({ children }) => (
+                    <pre className="bg-background text-foreground font-mono text-sm p-4 rounded-lg overflow-x-auto border border-foreground/10">
+                      {children}
+                    </pre>
+                  ),
+                  code: ({ children, className }) => {
+                    const isInline = !className;
+                    return isInline ? (
+                      <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">
+                        {children}
+                      </code>
+                    ) : (
+                      <code className={className}>{children}</code>
+                    );
+                  },
+                }}
+              >
+                {item.content}
+              </ReactMarkdown>
+            </div>
+          </div>
         </article>
       </main>
 

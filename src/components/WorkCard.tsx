@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Zap, Shield, Eye, Cpu, Database, Lock } from "lucide-react";
+import { MoveRight, Zap, Shield, Eye, Cpu, Database, Lock } from "lucide-react";
 
 interface WorkItem {
   slug: string;
@@ -66,11 +66,12 @@ const WorkCard = ({ item }: WorkCardProps) => {
           <h3 className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors">
             {item.title}
             <span
-              className={`inline-flex items-center gap-2 ml-3 text-3xl transition-opacity duration-200 ${
+              className={`inline-flex items-center gap-2 ml-3 transition-opacity duration-200 translate-y-1.5 ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
             >
-              →
+            
+              <MoveRight className="w-8 h-8" />
             </span>
           </h3>
           

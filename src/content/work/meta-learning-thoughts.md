@@ -4,6 +4,7 @@ title: Thoughts on Meta-Learning Paradigms
 category: idea
 summary: An exploration of meta-learning approaches and their potential.
 cover_image: /work/neural-architecture.jpg
+show_cover_in_detail: true
 main_points:
   - [eye, Few-shot learning]
   - [shield, Robust adaptation]
@@ -13,8 +14,6 @@ links:
   - label: Discussion
     url: https://axym.org/discussions/meta-learning
 ---
-
-# Thoughts on Meta-Learning Paradigms
 
 Reflections on the current state and future directions of meta-learning.
 

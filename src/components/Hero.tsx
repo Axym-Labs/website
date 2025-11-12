@@ -17,7 +17,7 @@ const Hero = () => {
         <img 
           src="/work/real-time-inference.jpg" 
           alt="Background" 
-          className="w-full h-full object-cover opacity-40"
+          className="w-full h-full object-cover opacity-70"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background"></div>
       </div>

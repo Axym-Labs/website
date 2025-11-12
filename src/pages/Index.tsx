@@ -42,9 +42,9 @@ const Index = () => {
           </h2>
           
           <div className="prose prose-lg">
-            <p className="text-lg text-foreground leading-relaxed">
+            <p className="text-lg text-foreground leading-relaxed !text-gray-200">
               Axym Labs is a student-run organization that shares code, prototypes, and ideas. 
-              We prioritize proof-of-concept work and open-minded experiments in underexplored areas in 
+              We focus on proof-of-concept work and open-ended experiments in underexplored areas of 
               machine learning and related fields. We welcome collaborations 
               and follow-up projects. For inquiries:{" "}
               <a href="mailto:contact@axym.org" className="text-accent hover:underline">

@@ -5,7 +5,8 @@ import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import { workItems } from "@/data/work-items";
+import { getWorkItems } from "@/data/work-items";
+import type { WorkItem } from "@/data/work-items";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import "highlight.js/styles/github-dark.css";
@@ -23,6 +24,12 @@ const iconMap: Record<string, any> = {
 
 const WorkDetail = () => {
   const { slug } = useParams();
+  const [workItems, setWorkItems] = useState<WorkItem[]>([]);
+
+  useEffect(() => {
+    getWorkItems().then(setWorkItems);
+  }, []);
+
   const item = workItems.find((w) => w.slug === slug);
 
   if (!item) {

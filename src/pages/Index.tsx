@@ -2,9 +2,17 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import WorkList from "@/components/WorkList";
 import Footer from "@/components/Footer";
-import { workItems } from "@/data/work-items";
+import type { WorkItem } from '@/data/work-items';
+import { getWorkItems } from "@/data/work-items";
+import { useEffect, useState } from 'react';
 
 const Index = () => {
+  const [workItems, setWorkItems] = useState<WorkItem[]>([]);
+
+  useEffect(() => {
+    getWorkItems().then(setWorkItems);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />

@@ -19,10 +19,6 @@ export interface WorkItem {
   links?: { label: string; url: string }[];
 }
 
-// Import markdown files
-import realTimeInferenceContent from "../content/work/real-time-inference.md?raw";
-import attentionMechanismsContent from "../content/work/attention-mechanisms.md?raw";
-import metaLearningContent from "../content/work/meta-learning-thoughts.md?raw";
 
 // Parse markdown files with frontmatter
 const parseWorkItem = (markdownContent: string): WorkItem => {
@@ -47,8 +43,24 @@ const parseWorkItem = (markdownContent: string): WorkItem => {
   };
 };
 
-export const workItems: WorkItem[] = [
-  parseWorkItem(realTimeInferenceContent),
-  parseWorkItem(attentionMechanismsContent),
-  parseWorkItem(metaLearningContent),
-];
+// Import markdown files
+// import realTimeInferenceContent from "../content/work/real-time-inference.md?raw";
+
+// export const workItems: WorkItem[] = [
+//   parseWorkItem(realTimeInferenceContent),
+// ];
+
+const markdownFiles = import.meta.glob('../content/work/*.md', { as: 'raw' });
+
+export async function getWorkItems(): Promise<WorkItem[]> {
+  const entries = Object.entries(markdownFiles);
+
+  const workItems: WorkItem[] = [];
+
+  for (const [, importer] of entries) {
+    const content = await importer();
+    workItems.push(parseWorkItem(content));
+  }
+
+  return workItems;
+}

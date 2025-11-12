@@ -6,6 +6,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: github_pages 
+    
     steps:
       - uses: actions/checkout@v4
 

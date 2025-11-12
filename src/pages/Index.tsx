@@ -35,14 +35,14 @@ const Index = () => {
       </div>
 
       {/* About Section */}
-      <section id="about" className="py-32 border-t border-foreground/10">
-        <div className="px-6 lg:px-8">
+      <section id="about" className="py-48 border-t border-foreground/10">
+        <div className="px-6 lg:px-8 max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-16">
             About
           </h2>
           
-          <div className="prose prose-lg max-w-none">
-            <p className="text-lg text-foreground/80 leading-relaxed">
+          <div className="prose prose-lg">
+            <p className="text-lg text-foreground leading-relaxed">
               Axym Labs is a student-run organization that shares code, prototypes, and ideas. 
               We prioritize proof-of-concept work and open-minded experiments in underexplored areas in 
               machine learning and related fields. We welcome collaborations 

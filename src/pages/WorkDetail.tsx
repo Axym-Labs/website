@@ -3,9 +3,12 @@ import { ArrowLeft, ExternalLink, Zap, Shield, Eye, Cpu, Database, Lock } from "
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import { workItems } from "@/data/work-items";
 import Footer from "@/components/Footer";
 import "highlight.js/styles/github-dark.css";
+import "katex/dist/katex.min.css";
 
 const iconMap: Record<string, any> = {
   bolt: Zap,
@@ -53,13 +56,13 @@ const WorkDetail = () => {
             </p>
 
             {item.main_points && item.main_points.length > 0 && (
-              <div className="flex flex-wrap gap-4 pt-6">
+              <div className="flex flex-wrap gap-6 pt-6">
                 {item.main_points.map(([iconKey, text], idx) => {
                   const Icon = iconMap[iconKey] || Zap;
                   return (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-4 px-8 py-7 text-base font-medium bg-transparent text-white border border-white rounded-lg"
+                      className="inline-flex flex-col items-start gap-4 px-10 py-9 text-base font-medium bg-transparent text-white border border-white rounded-lg"
                     >
                       <Icon className="w-10 h-10 flex-shrink-0" />
                       {text}
@@ -90,11 +93,11 @@ const WorkDetail = () => {
       )}
 
       {/* Content Canvas */}
-      <main className="py-24">
+      <main className="py-48">
         <article className="w-full bg-canvas text-canvas-foreground p-12 md:p-20 lg:p-32 prose prose-lg prose-neutral max-w-none">
           <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeHighlight]}
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeHighlight, rehypeKatex]}
             components={{
               pre: ({ children }) => (
                 <pre className="bg-background text-foreground font-mono text-sm p-4 rounded-lg overflow-x-auto border border-foreground/10">

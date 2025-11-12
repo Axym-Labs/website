@@ -66,7 +66,7 @@ const WorkCard = ({ item }: WorkCardProps) => {
           <h3 className="text-2xl font-bold text-foreground group-hover:text-accent transition-colors">
             {item.title}
             <span
-              className={`inline-flex items-center gap-2 ml-3 text-sm transition-opacity duration-200 ${
+              className={`inline-flex items-center gap-2 ml-3 text-3xl transition-opacity duration-200 ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
             >

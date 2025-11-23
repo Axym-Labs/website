@@ -103,7 +103,7 @@ All colors MUST be HSL.
   }
 
   .prose a {
-    @apply text-accent hover:underline;
+    @apply underline text-accent hover:underline;
   }
 
   .prose blockquote {

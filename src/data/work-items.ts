@@ -11,6 +11,7 @@ export interface WorkItem {
   use_cover_as_card_bg?: boolean;
   show_cover_in_detail?: boolean;
   external_url?: string;
+  external_url_label?: string;
   main_points?: [string, string][];
   draft: boolean;
   date: string;
@@ -34,6 +35,7 @@ const parseWorkItem = (markdownContent: string): WorkItem => {
     use_cover_as_card_bg: attributes.use_cover_as_card_bg,
     show_cover_in_detail: attributes.show_cover_in_detail,
     external_url: attributes.external_url,
+    external_url_label: attributes.external_url_label,
     main_points: attributes.main_points,
     draft: attributes.draft,
     date: attributes.date,

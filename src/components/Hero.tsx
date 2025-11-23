@@ -16,19 +16,19 @@ const Hero = () => {
       <div className="absolute inset-0 overflow-hidden">
         <img 
           src="/work/real-time-inference.jpg" 
-          alt="Background" 
+          alt="" 
           className="w-full h-full object-cover opacity-70"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/70 to-background"></div>
       </div>
       
       <div className="relative max-w-4xl text-center space-y-8">
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
           We build and explore machine-learning systems and ideas
         </h1>
         
         <p className="text-sm md:text-base text-foreground/70 max-w-3xl mx-auto leading-relaxed">
-          Student-run organization producing research, demos, and experimental essays.
+          Student-run organization conducting research, producing prototypes and sharing ideas.
         </p>
       </div>
     </section>

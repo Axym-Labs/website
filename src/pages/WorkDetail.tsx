@@ -119,9 +119,9 @@ const WorkDetail = () => {
               href={item.external_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-accent hover:underline font-bold text-lg border border-accent p-5 rounded-full hover:bg-accent/20 transition-colors duration-100 ease-in-out"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium bg-accent text-accent-foreground hover:bg-accent/90 rounded-md transition-colors"
             >
-              Open link
+              {item.external_url_label}
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>
@@ -156,7 +156,7 @@ const WorkDetail = () => {
       <main className="">
         <article className="w-full bg-canvas text-canvas-foreground p-12 py-36 md:p-20 md:py-48 lg:p-48 lg:py-56 prose prose-lg prose-neutral max-w-none">
           <div className="flex justify-center">
-            <div className="max-w-4xl">
+            <div className="max-w-3xl md:text-lg">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkMath]}
                 rehypePlugins={[rehypeHighlight, rehypeKatex]}

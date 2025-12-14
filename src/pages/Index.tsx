@@ -51,7 +51,7 @@ const Index = () => {
           
           <div className="prose prose-lg">
             <p className="text-lg text-foreground leading-relaxed !text-gray-200">
-              Axym works on research, proofs-of-concept and open-ended experiments in underexplored areas of machine learning and related fields. 
+              Axym Labs works on research, proofs-of-concept and open-ended experiments in underexplored areas of machine learning and related fields. 
               We prioritize openness, sharing experimental results, ideas, notes and code for reproducibility.
               Interested in collaborating or building on our work? Reach out at:{" "}
               <a href="mailto:contact@axym.org" className="hover:text-accent underline">

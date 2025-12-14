@@ -24,7 +24,7 @@ const Hero = () => {
       
       <div className="relative max-w-4xl text-center space-y-8">
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
-          We build and explore machine-learning systems and ideas
+          Machine Learning Systems and Ideas
         </h1>
         
         <p className="text-foreground/70 max-w-3xl mx-auto leading-relaxed">

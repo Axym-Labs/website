@@ -18,6 +18,7 @@ export interface WorkItem {
   rank?: number;
   content: string;
   links?: { label: string; url: string }[];
+  content_format?: "markdown" | "html";
 }
 
 
@@ -42,6 +43,7 @@ const parseWorkItem = (markdownContent: string): WorkItem => {
     rank: attributes.rank,
     content: body,
     links: attributes.links,
+    content_format: attributes.content_format || "markdown",
   };
 };
 
@@ -52,10 +54,17 @@ const parseWorkItem = (markdownContent: string): WorkItem => {
 //   parseWorkItem(realTimeInferenceContent),
 // ];
 
-const markdownFiles = import.meta.glob('../content/work/*.md', { as: 'raw' });
+const markdownFiles = import.meta.glob('../content/work/*.md', {
+  query: '?raw',
+  import: 'default',
+});
+const latexHtmlFiles = import.meta.glob('../generated/work/*.html', {
+  query: '?raw',
+  import: 'default',
+});
 
 export async function getWorkItems(): Promise<WorkItem[]> {
-  const entries = Object.entries(markdownFiles);
+  const entries = Object.entries({ ...markdownFiles, ...latexHtmlFiles });
 
   const workItems: WorkItem[] = [];
 

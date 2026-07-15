@@ -11,6 +11,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Checkout publication renderer
+        uses: actions/checkout@v4
+        with:
+          repository: Axym-Labs/harness-execution
+          ref: 318ab1fcf862c2fa57f2305ecd19899f152346f4
+          path: .publication-tools
+
+      - name: Install LaTeX-to-HTML dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends texlive-extra-utils texlive-fonts-recommended texlive-latex-extra
+
+      - name: Render embedded LaTeX work pages
+        run: |
+          python .publication-tools/skills/publish-work/scripts/render-latex-publications.py \
+            --source-dir src/content/latex/work \
+            --output-dir src/generated/work \
+            --site-root . \
+            --css-output public/publication.css \
+            --metadata-field content_format=html
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:

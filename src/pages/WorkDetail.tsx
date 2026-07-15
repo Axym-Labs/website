@@ -4,6 +4,7 @@ import { getWorkItems } from "@/data/work-items";
 import type { WorkItem } from "@/data/work-items";
 import Footer from "@/components/Footer";
 import MarkdownContent from "@/components/MarkdownContent";
+import LatexContent from "@/components/LatexContent";
 import Navbar from "@/components/Navbar";
 import { useEffect, useState } from "react";
 
@@ -151,7 +152,11 @@ const WorkDetail = () => {
         <article className="w-full bg-canvas text-canvas-foreground p-12 py-36 md:p-20 md:py-48 lg:p-48 lg:py-56 prose prose-lg prose-neutral max-w-none">
           <div className="flex justify-center">
             <div className="w-full min-w-0 max-w-3xl md:text-lg">
-              <MarkdownContent>{item.content}</MarkdownContent>
+              {item.content_format === "html" ? (
+                <LatexContent>{item.content}</LatexContent>
+              ) : (
+                <MarkdownContent>{item.content}</MarkdownContent>
+              )}
             </div>
           </div>
         </article>

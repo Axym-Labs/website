@@ -61,6 +61,25 @@
   margin-inline: auto;
 }
 
+.latex-publication .publication-badge {
+  display: inline-block;
+  margin: 0 0.3rem 0.4rem 0;
+}
+
+.latex-publication .publication-badge img {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+}
+
+.latex-publication .publication-divider {
+  width: 50%;
+  margin: 2rem auto;
+  border: 0;
+  border-top: 1px solid currentColor;
+  opacity: 0.45;
+}
+
 .latex-publication h2,
 .latex-publication h3,
 .latex-publication h4 {

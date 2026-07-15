@@ -1,0 +1,131 @@
+@font-face {
+  font-family: "P052";
+  src: url("./fonts/P052-Roman.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "P052";
+  src: url("./fonts/P052-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "P052";
+  src: url("./fonts/P052-Italic.otf") format("opentype");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "P052";
+  src: url("./fonts/P052-BoldItalic.otf") format("opentype");
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+}
+
+.latex-publication {
+  --publication-accent: #3f21b6;
+  box-sizing: border-box;
+  width: 100%;
+  color: inherit;
+  font-family: "P052", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  font-size: 1.125rem;
+  line-height: 1.52;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+}
+
+.latex-publication *,
+.latex-publication *::before,
+.latex-publication *::after {
+  box-sizing: inherit;
+}
+
+.latex-publication a {
+  color: var(--publication-accent);
+  text-underline-offset: 0.14em;
+}
+
+.latex-publication img,
+.latex-publication svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.latex-publication h2,
+.latex-publication h3,
+.latex-publication h4 {
+  text-wrap: balance;
+}
+
+.latex-publication .publication-figure {
+  margin: 2rem 0;
+}
+
+.latex-publication figcaption {
+  margin-top: 0.65rem;
+  font-size: 0.92em;
+  line-height: 1.4;
+}
+
+.latex-publication table,
+.latex-publication table.tabular,
+.latex-publication .tabular {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.latex-publication mjx-container[display="true"],
+.latex-publication .math-display {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow-x: auto !important;
+  overflow-y: hidden;
+  padding-block: 0.25rem;
+}
+
+.latex-publication pre,
+.latex-publication .verbatim {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.latex-publication .publication-interactive {
+  margin: 1.5rem 0;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--publication-accent);
+  background: #f3f1fb;
+}
+
+.latex-publication .publication-interactive summary {
+  color: var(--publication-accent);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 48rem) {
+  .latex-publication {
+    font-size: 1.0625rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .latex-publication {
+    font-size: 1rem;
+    line-height: 1.48;
+  }
+}

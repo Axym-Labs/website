@@ -149,7 +149,7 @@ const WorkDetail = () => {
 
       {/* Content Canvas */}
       <main className="">
-        <article className="w-full bg-canvas text-canvas-foreground p-12 py-36 md:p-20 md:py-48 lg:p-48 lg:py-56 prose prose-lg prose-neutral max-w-none">
+        <article className="w-full bg-canvas text-canvas-foreground px-5 py-24 sm:px-8 sm:py-32 md:p-20 md:py-48 lg:p-48 lg:py-56 prose prose-lg prose-neutral max-w-none">
           <div className="flex justify-center">
             <div className="w-full min-w-0 max-w-3xl md:text-lg">
               {item.content_format === "html" ? (

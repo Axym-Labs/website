@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Axym-Labs/harness-execution
-          ref: 318ab1fcf862c2fa57f2305ecd19899f152346f4
+          ref: bd2c0c5aedf16eb9934590fdcd093d35aa0afe2f
           path: .publication-tools
 
       - name: Install LaTeX-to-HTML dependencies

@@ -13,7 +13,7 @@ const WorkCard = ({ item }: { item: WorkItem }) => (
     <article className="grid gap-5 py-10 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center md:py-14">
       <div className="max-w-4xl">
         {item.eyebrow && (
-          <span className="mb-4 inline-flex rounded-full bg-foreground/8 px-3 py-1 text-[0.7rem] font-semibold tracking-[0.16em] text-foreground/55">
+          <span className="mb-4 inline-flex rounded-full border border-foreground/15 bg-foreground/10 px-3 py-1 text-[0.7rem] font-semibold tracking-[0.16em] text-foreground/60">
             {item.eyebrow}
           </span>
         )}

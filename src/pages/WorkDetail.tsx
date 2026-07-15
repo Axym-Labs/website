@@ -1,16 +1,10 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { ArrowLeft, ExternalLink, Zap, Shield, Eye, Cpu, Database, Lock } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import rehypeHighlight from "rehype-highlight";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
 import { getWorkItems } from "@/data/work-items";
 import type { WorkItem } from "@/data/work-items";
 import Footer from "@/components/Footer";
+import MarkdownContent from "@/components/MarkdownContent";
 import Navbar from "@/components/Navbar";
-import "highlight.js/styles/github-dark.css";
-import "katex/dist/katex.min.css";
 import { useEffect, useState } from "react";
 
 const iconMap: Record<string, any> = {
@@ -156,30 +150,8 @@ const WorkDetail = () => {
       <main className="">
         <article className="w-full bg-canvas text-canvas-foreground p-12 py-36 md:p-20 md:py-48 lg:p-48 lg:py-56 prose prose-lg prose-neutral max-w-none">
           <div className="flex justify-center">
-            <div className="max-w-3xl md:text-lg">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm, remarkMath]}
-                rehypePlugins={[rehypeHighlight, rehypeKatex]}
-                components={{
-                  pre: ({ children }) => (
-                    <pre className="bg-background text-foreground font-mono text-sm p-4 rounded-lg overflow-x-auto border border-foreground/10">
-                      {children}
-                    </pre>
-                  ),
-                  code: ({ children, className }) => {
-                    const isInline = !className;
-                    return isInline ? (
-                      <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">
-                        {children}
-                      </code>
-                    ) : (
-                      <code className={className}>{children}</code>
-                    );
-                  },
-                }}
-              >
-                {item.content}
-              </ReactMarkdown>
+            <div className="w-full min-w-0 max-w-3xl md:text-lg">
+              <MarkdownContent>{item.content}</MarkdownContent>
             </div>
           </div>
         </article>

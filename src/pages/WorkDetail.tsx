@@ -1,5 +1,4 @@
-import { useParams, Link, Navigate } from "react-router-dom";
-import { ArrowLeft, ExternalLink, Zap, Shield, Eye, Cpu, Database, Lock } from "lucide-react";
+import { Navigate, useParams } from "react-router-dom";
 import { getWorkItems } from "@/data/work-items";
 import type { WorkItem } from "@/data/work-items";
 import Footer from "@/components/Footer";
@@ -7,189 +6,49 @@ import MarkdownContent from "@/components/MarkdownContent";
 import LatexContent from "@/components/LatexContent";
 import Navbar from "@/components/Navbar";
 import { useEffect, useState } from "react";
-
-const iconMap: Record<string, any> = {
-  bolt: Zap,
-  shield: Shield,
-  eye: Eye,
-  cpu: Cpu,
-  database: Database,
-  lock: Lock,
-};
+import { setPageMetadata } from "@/lib/seo";
 
 const WorkDetail = () => {
   const { slug } = useParams();
-
   const [workItems, setWorkItems] = useState<WorkItem[]>([]);
-  const [coverSrc, setCoverSrc] = useState<string | null>(null);
-  const [animatedLoaded, setAnimatedLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    getWorkItems().then(setWorkItems);
+    getWorkItems().then((items) => {
+      setWorkItems(items);
+      setLoaded(true);
+    });
   }, []);
 
-  const item = workItems.find((w) => w.slug === slug);
+  const item = workItems.find((work) => work.slug === slug);
 
-  // Initialize coverSrc when item becomes available
   useEffect(() => {
     if (!item) return;
-
-    setCoverSrc(item.cover_animated ? item.cover_poster : item.cover_image);
-
-    const prefersReducedMotion =
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (item.cover_animated && !prefersReducedMotion && item.cover_image) {
-      const img = new Image();
-      img.src = item.cover_image;
-      img.onload = () => {
-        setAnimatedLoaded(true);
-        setCoverSrc(item.cover_image);
-      };
-    }
+    setPageMetadata({
+      title: `${item.title} | Axym Labs`,
+      description: item.summary,
+      path: `/work/${item.slug}`,
+      type: "article",
+    });
   }, [item]);
 
-  if (!item) {
-    return <div className="min-h-screen bg-background" />;
-  }
-
-  const categoryColor =
-    {
-      product: "bg-accent/10 text-accent",
-      research: "bg-foreground/10 text-foreground",
-      idea: "bg-foreground/10 text-foreground/80",
-    }[item.category] || "bg-foreground/10 text-foreground";
+  if (!loaded) return <div className="min-h-screen bg-background" />;
+  if (!item) return <Navigate to="/work" replace />;
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-
-      {/* Header Band */}
-      <header className="bg-background pt-24 pb-16 px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto space-y-6">
-          {/*
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-sm text-foreground/70 hover:text-accent transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to home
-          </Link>
-          */}
-
-          <div className="space-y-4 mt-24">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-              {item.title}
-            </h1>
-
-            <p className="text-xl text-foreground/80">
-              {item.summary}
-            </p>
-
-            {item.main_points && item.main_points.length > 0 && (
-              <div className="flex flex-col sm:flex-row flex-wrap gap-6 pt-6">
-                {item.main_points.map(([iconKey, text], idx) => {
-                  const Icon = iconMap[iconKey] || Zap;
-                  return (
-                    <span
-                      key={idx}
-                      className="inline-flex items-center gap-4 p-4 md:px-10 md:py-8 text-base font-medium bg-transparent text-white border border-white rounded-lg"
-                    >
-                      <Icon className="w-8 md:w-10 h-8 md:h-10 flex-shrink-0" strokeWidth={1.5} />
-                      {text}
-                    </span>
-                  );
-                })}
-              </div>
+      <main className="pt-16">
+        <article className="publication-canvas w-full bg-canvas text-canvas-foreground px-5 py-16 sm:px-8 sm:py-20 md:px-12 lg:px-16">
+          <div className="mx-auto w-full min-w-0 max-w-[46rem] text-[1.06rem] sm:text-[1.1rem]">
+            {item.content_format === "html" ? (
+              <LatexContent>{item.content}</LatexContent>
+            ) : (
+              <MarkdownContent>{item.content}</MarkdownContent>
             )}
-          </div>
-        </div>
-      </header>
-
-      {/* External URL Banner */}
-      {item.external_url && (
-        <div className="py-4 px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto flex justify-end">
-            <a
-              href={item.external_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium bg-accent text-accent-foreground hover:bg-accent/90 rounded-md transition-colors"
-            >
-              {item.external_url_label}
-              <ExternalLink className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      )}
-
-      {item.external_url && (!item.cover_image || !item.show_cover_in_detail) && (
-        <div className="pb-24 lg:pb-36">
-
-        </div>
-      )}
-
-      {item.cover_image && item.show_cover_in_detail && (
-      <div className="flex justify-center rounded-lg order-1 md:order-2 translate-y-24">
-        <div className="rounded-3xl shadow-2xl">
-          {coverSrc ? (
-            <img className="rounded-3xl"
-              src={coverSrc}
-              alt={item.title}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-              <Cpu className="w-16 h-16" />
-            </div>
-          )}
-
-        </div>
-      </div>
-      )}
-
-      {/* Content Canvas */}
-      <main className="">
-        <article className="w-full bg-canvas text-canvas-foreground px-5 py-24 sm:px-8 sm:py-32 md:p-20 md:py-48 lg:p-48 lg:py-56 prose prose-lg prose-neutral max-w-none">
-          <div className="flex justify-center">
-            <div className="w-full min-w-0 max-w-3xl md:text-lg">
-              {item.content_format === "html" ? (
-                <LatexContent>{item.content}</LatexContent>
-              ) : (
-                <MarkdownContent>{item.content}</MarkdownContent>
-              )}
-            </div>
           </div>
         </article>
       </main>
-
-      {/* What's Next Section */}
-      {item.links && item.links.length > 0 && (
-        <section className="py-24 border-t border-foreground/10">
-          <div className="px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-              <h2 className="text-3xl font-bold text-foreground">
-                What's Next
-              </h2>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                {item.links.map((link, idx) => (
-                  <a
-                    key={idx}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium bg-accent text-accent-foreground hover:bg-accent/90 rounded-md transition-colors"
-                  >
-                    {link.label}
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       <Footer />
     </div>
   );

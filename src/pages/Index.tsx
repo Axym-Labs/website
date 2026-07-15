@@ -5,12 +5,18 @@ import Footer from "@/components/Footer";
 import type { WorkItem } from '@/data/work-items';
 import { getWorkItems } from "@/data/work-items";
 import { useEffect, useState } from 'react';
+import { setPageMetadata } from "@/lib/seo";
 
 const Index = () => {
   const [workItems, setWorkItems] = useState<WorkItem[]>([]);
 
   useEffect(() => {
     getWorkItems().then(setWorkItems);
+    setPageMetadata({
+      title: "Axym Labs",
+      description: "Axym Labs is a small organization conducting collaborative machine learning research across continual, local, and task-agnostic learning.",
+      path: "/",
+    });
   }, []);
 
   return (
@@ -18,29 +24,10 @@ const Index = () => {
       <Navbar />
       <Hero />
       
-      {/* Work Section with Three Subsections */}
-      <div className="space-y-0">
-        <WorkList
-          items={workItems}
-          category="product"
-          title="Products"
-          sectionId="products"
-        />
-        
-        <WorkList
-          items={workItems}
-          category="research"
-          title="Research"
-          sectionId="research"
-        />
-        
-        <WorkList
-          items={workItems}
-          category="idea"
-          title="Ideas & Notes"
-          sectionId="ideas"
-        />
-      </div>
+      <WorkList
+        items={workItems}
+        title="New Methods Across Various Settings"
+      />
 
       {/* About Section */}
       <section id="about" className="py-48 border-t border-foreground/10">
@@ -51,8 +38,8 @@ const Index = () => {
           
           <div className="prose prose-lg">
             <p className="text-lg text-foreground leading-relaxed !text-gray-200">
-              Axym Labs aims to work on research, proofs-of-concept and open-ended experiments in underexplored areas of machine learning and related fields. 
-              We prioritize openness, sharing experimental results, ideas, notes and code for reproducibility.
+              Axym Labs develops and studies machine-learning methods across research and engineering settings.
+              We publish papers, project pages, experimental evidence, and code so others can inspect and build on the work.
               Interested in collaborating or building on our work? Reach out at:{" "}
               <a href="mailto:contact@axym.org" className="hover:text-accent underline">
                 contact@axym.org

@@ -1,0 +1,57 @@
+%---
+% slug: pptrain
+% title: pptrain
+% category: product
+% eyebrow: TASK-AGNOSTIC LEARNING
+% summary: A reusable library for training language models on synthetic tasks before ordinary pretraining and evaluating what transfers downstream.
+% draft: false
+% date: 2026-06-18
+% rank: 3
+%---
+\documentclass[11pt]{article}
+\usepackage{publication-web}
+\begin{document}
+
+\section{pptrain: ready-to-use prepretraining}
+
+\textbf{Axym Labs}\\
+Darmstadt, Germany
+
+\paragraph{Task-agnostic training.}
+Prepretraining is an emerging form of training that precedes ordinary pretraining. We term the broader objective \emph{task-agnostic training}: learning general patterns from synthetic or procedural tasks that can transfer across diverse downstream settings. Cellular automata, symbolic transformations, and mathematical primitives all fit this pattern.
+
+\textbf{\href{https://github.com/Axym-Labs/pptrain}{Code}} \quad
+\textbf{\href{https://pypi.org/project/pptrain/}{Package}}
+
+One hurdle toward using these ideas in practice is that most implementations live in paper-specific code, hidden data generators, and one-off training scripts. Another is verifying that the pre-pretrainer was instantiated correctly and has a positive effect. \href{https://github.com/Axym-Labs/pptrain}{\texttt{pptrain}} provides a common interface for both.
+
+\section{Ready to use}
+
+\begin{verbatim}
+pip install pptrain
+\end{verbatim}
+
+\begin{verbatim}
+from pptrain import PrePreTrainer, RunConfig, create_task
+from pptrain.integrations import HFCausalLMAdapter, HFModelConfig
+
+trainer = PrePreTrainer(
+    task=create_task("simpler_tasks", {"preset": "paper_binary_1m"}),
+    model_adapter=HFCausalLMAdapter(
+        HFModelConfig(model_name_or_path="sshleifer/tiny-gpt2")
+    ),
+    run_config=RunConfig(output_dir="runs/initial", max_steps=20),
+)
+
+bundle = trainer.fit().load_transfer_bundle()
+\end{verbatim}
+
+\section{Task families}
+
+The library packages six task families from the literature as reusable presets: cellular-automata rollouts, balanced-bracket languages, procedural programs, symbolic operations, mathematical-reasoning primitives, and synthetic summarization. Each preset can be customized, and new task families can implement the same interface.
+
+\section{Reference parity and evaluation}
+
+Reference-parity utilities compare local outputs against original-source fixtures, because a changed generator, tokenizer, or serialization no longer tests the mechanism from the paper. The library also supports downstream transfer evaluation, compute-matched natural warmups, diagnostic metrics, plots, CSVs, and reports.
+
+\end{document}

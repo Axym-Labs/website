@@ -1,56 +1,30 @@
 import WorkCard from "./WorkCard";
-
-interface WorkItem {
-  slug: string;
-  title: string;
-  category: string;
-  summary: string;
-  cover_image?: string;
-  cover_animated?: boolean;
-  cover_poster?: string;
-  use_cover_as_card_bg?: boolean;
-  main_points?: [string, string][];
-  date: string;
-  rank?: number;
-  draft?: boolean;
-}
+import type { WorkItem } from "@/data/work-items";
 
 interface WorkListProps {
   items: WorkItem[];
-  category: string;
   title: string;
-  sectionId: string;
+  sectionId?: string;
 }
 
-const WorkList = ({ items, category, title, sectionId }: WorkListProps) => {
-  // Filter items by category and draft status
-  const filteredItems = items.filter(
-    (item) => item.category === category && !item.draft
-  );
-
-  // Sort: ranked items first (ascending rank), then by date (descending)
-  const sortedItems = [...filteredItems].sort((a, b) => {
-    if (a.rank !== undefined && b.rank !== undefined) {
-      return a.rank - b.rank;
-    }
-    if (a.rank !== undefined) return -1;
-    if (b.rank !== undefined) return 1;
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
-
-  if (sortedItems.length === 0) return null;
+const WorkList = ({ items, title, sectionId = "work" }: WorkListProps) => {
+  const sortedItems = items
+    .filter((item) => !item.draft)
+    .sort((a, b) => {
+      if (a.rank !== undefined && b.rank !== undefined) return a.rank - b.rank;
+      if (a.rank !== undefined) return -1;
+      if (b.rank !== undefined) return 1;
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
 
   return (
-    <section id={sectionId} className="py-32 px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-24">
+    <section id={sectionId} className="px-6 py-28 lg:px-8 lg:py-36">
+      <div className="mx-auto max-w-6xl">
+        <h2 className="max-w-4xl text-4xl font-semibold leading-tight text-foreground md:text-5xl">
           {title}
         </h2>
-        
-        <div className="space-y-12">
-          {sortedItems.map((item) => (
-            <WorkCard key={item.slug} item={item} />
-          ))}
+        <div className="mt-14 divide-y divide-foreground/15">
+          {sortedItems.map((item) => <WorkCard key={item.slug} item={item} />)}
         </div>
       </div>
     </section>

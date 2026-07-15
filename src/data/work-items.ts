@@ -5,6 +5,7 @@ export interface WorkItem {
   title: string;
   category: "product" | "research" | "idea";
   summary: string;
+  eyebrow?: string;
   cover_image?: string;
   cover_animated?: boolean;
   cover_poster?: string;
@@ -24,12 +25,13 @@ export interface WorkItem {
 
 // Parse markdown files with frontmatter
 const parseWorkItem = (markdownContent: string): WorkItem => {
-  const { attributes, body } = fm<any>(markdownContent);
+  const { attributes, body } = fm<Partial<WorkItem>>(markdownContent);
   return {
     slug: attributes.slug,
     title: attributes.title,
     category: attributes.category,
     summary: attributes.summary,
+    eyebrow: attributes.eyebrow,
     cover_image: attributes.cover_image,
     cover_animated: attributes.cover_animated,
     cover_poster: attributes.cover_poster,

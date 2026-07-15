@@ -15,7 +15,7 @@ All colors MUST be HSL.
     --canvas: 0 0% 100%;             /* #FFFFFF - White reading canvas */
     --canvas-foreground: 220 26% 9%; /* #111827 - Body text on white */
 
-    --accent: 270 65% 50%;           /* #6D28D9 - Single accent color */
+    --accent: 251 69% 42%;           /* #3F21B6 - Axym primary */
     --accent-foreground: 0 0% 100%;
 
     --card: 0 0% 100%;
@@ -24,7 +24,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 220 26% 9%;
 
-    --primary: 270 65% 50%;
+    --primary: 251 69% 42%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 96%;
@@ -38,7 +38,7 @@ All colors MUST be HSL.
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 270 65% 50%;
+    --ring: 251 69% 42%;
 
     --radius: 0.375rem;
   }

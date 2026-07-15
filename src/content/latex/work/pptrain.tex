@@ -3,7 +3,7 @@
 % title: pptrain
 % category: product
 % eyebrow: TASK-AGNOSTIC LEARNING
-% summary: A reusable library for training language models on synthetic tasks before ordinary pretraining and evaluating what transfers downstream.
+% summary: A reusable library for task-agnostic pretraining on synthetic tasks and for measuring what transfers to later training.
 % draft: false
 % date: 2026-06-18
 % rank: 3
@@ -12,18 +12,22 @@
 \usepackage{publication-web}
 \begin{document}
 
-\section{pptrain: ready-to-use prepretraining}
+\publicationtitle{pptrain: Ready-to-use task-agnostic pretraining}
+\publicationauthors{Axym Labs}
+\publicationaffiliations{Darmstadt, Germany}
 
-\textbf{Axym Labs}\\
-Darmstadt, Germany
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
 
-\paragraph{Task-agnostic training.}
-Prepretraining is an emerging form of training that precedes ordinary pretraining. We term the broader objective \emph{task-agnostic training}: learning general patterns from synthetic or procedural tasks that can transfer across diverse downstream settings. Cellular automata, symbolic transformations, and mathematical primitives all fit this pattern.
+\publicationabstract{\textbf{Task-agnostic pretraining} trains a model on synthetic or procedural tasks selected for reusable structure rather than for one downstream objective. It seeks patterns that transfer across later tasks, including compositional rules, state transitions, symbolic operations, and compression strategies. Prepretraining is one implementation: the task-agnostic phase runs before training on natural data.}
 
-\textbf{\href{https://github.com/Axym-Labs/pptrain}{Code}} \quad
-\textbf{\href{https://pypi.org/project/pptrain/}{Package}}
+\publicationactions{%
+  \publicationaction{https://github.com/Axym-Labs/pptrain}{View code}
+  \publicationaction{https://pypi.org/project/pptrain/}{Open package}%
+}
 
-One hurdle toward using these ideas in practice is that most implementations live in paper-specific code, hidden data generators, and one-off training scripts. Another is verifying that the pre-pretrainer was instantiated correctly and has a positive effect. \href{https://github.com/Axym-Labs/pptrain}{\texttt{pptrain}} provides a common interface for both.
+Pre-pretraining is a good idea trapped in an awkward workflow. Most implementations live in paper-specific code, hidden data generators, and one-off training scripts, which makes it difficult to reproduce a task faithfully or determine whether it improves later training. \href{https://github.com/Axym-Labs/pptrain}{\texttt{pptrain}} provides one interface for both parts of that workflow.
 
 \section{Ready to use}
 
@@ -48,10 +52,30 @@ bundle = trainer.fit().load_transfer_bundle()
 
 \section{Task families}
 
-The library packages six task families from the literature as reusable presets: cellular-automata rollouts, balanced-bracket languages, procedural programs, symbolic operations, mathematical-reasoning primitives, and synthetic summarization. Each preset can be customized, and new task families can implement the same interface.
+The library packages six task families from the literature as reusable presets:
 
-\section{Reference parity and evaluation}
+\begin{itemize}
+\tightlist
+\item \texttt{nca}: cellular-automata rollouts that test whether simple dynamical systems provide useful upstream structure.
+\item \texttt{dyck}: balanced-bracket languages that isolate nested and stack-like structure.
+\item \texttt{procedural}: abstract programs such as reverse, sort, set, union, and delete that test algorithmic text transformations.
+\item \texttt{simpler\_tasks}: copy, search, set operations, and related symbolic transformations that decompose pretraining into controlled operations.
+\item \texttt{lime}: induction, deduction, and abduction tasks that target primitives of mathematical reasoning.
+\item \texttt{summarization}: synthetic document transformations that separate compression and selection from factual knowledge transfer.
+\end{itemize}
 
-Reference-parity utilities compare local outputs against original-source fixtures, because a changed generator, tokenizer, or serialization no longer tests the mechanism from the paper. The library also supports downstream transfer evaluation, compute-matched natural warmups, diagnostic metrics, plots, CSVs, and reports.
+Each preset can be customized. New task families can implement the same interface.
+
+\section{Reference parity}
+
+Production use also requires a correctness check. A changed generator, tokenizer, or serialization no longer tests the mechanism from the source paper, so \texttt{pptrain} compares local outputs against original-source fixtures for LIME, synthetic summarization, procedural pretraining, and NCA pre-pretraining. Normalized examples or token sequences must match the reference output exactly where exact parity is expected.
+
+\section{Empirical testing}
+
+The same interface supports downstream transfer evaluation and compute-matched natural-data warmups, together with diagnostic metrics, plots, CSVs, and reports. These tools test whether a synthetic task transfers in a particular model and training setup rather than assuming that a faithful implementation is useful by itself.
+
+\section{Extensibility}
+
+Custom pre-pretraining logic can implement \texttt{SymbolicTaskFamily} by defining how examples are sampled, executed, serialized, and tokenized. Tasks that need a custom dataset or loss path can implement \texttt{Task} directly. After the task supplies data and tokenization, the remaining path is ordinary model training: build a dataset, train a Hugging Face causal language model, save the checkpoint, and export a transfer bundle.
 
 \end{document}

@@ -12,23 +12,26 @@
 \usepackage{publication-web}
 \begin{document}
 
-\section{Improved Elastic Weight Consolidation as an Optimization Constraint for Continual Learning}
+\publicationtitle{Improved Elastic Weight Consolidation as an Optimization Constraint for Continual Learning}
+\publicationauthors{Davide Wiest}
+\publicationaffiliations{Department of Computer Science, TU Darmstadt; Independent Researcher; Darmstadt, Germany}
 
-\textbf{Davide Wiest}\\
-Department of Computer Science, TU Darmstadt; Independent Researcher\\
-Darmstadt, Germany
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
 
 \publicationfigure[0.9\linewidth]
   {figures/iewc-overview.png}{/work/iewc-overview.png}
   {Penalty surfaces comparing empirical-Fisher EWC, uniform IEWC, and sample-weighted IEWC.}
   {Each surface shows the continual-learning penalty over normalized directions. EF-EWC induces anisotropy through gradient-scale weighting; uniform IEWC removes this scaling, while GSS-IEWC weights samples by diversity.}
 
-\paragraph{Abstract.}
-Elastic Weight Consolidation (EWC) is widely used in continual learning, and standard implementations use the empirical Fisher matrix, whose justification beyond probabilistic classification remains incomplete. We derive EWC from first principles by expressing old-task solution preservation as a constrained optimization problem. Preserving the old scalar loss recovers the empirical Fisher used in EWC. Preserving outputs up to motion along the old-task loss level set recovers the improved empirical Fisher and leads to IEWC, a generalized and normalized sibling of EWC. This separates the outer EWC mechanism from output geometry and enables geometry-aware continual learning within the same regularization template. Across image classification, continual LLM/NLP, segmentation, forecasting, and diffusion, IEWC improves final average performance in two settings and, with sample weighting, improves performance across all tested settings.
+\publicationabstract{Elastic Weight Consolidation (EWC) is widely used in continual learning, and standard implementations use the empirical Fisher matrix, whose justification beyond probabilistic classification remains incomplete. We derive EWC from first principles by expressing old-task solution preservation as a constrained optimization problem. Preserving the old scalar loss recovers the empirical Fisher used in EWC. Preserving outputs up to motion along the old-task loss level set recovers the improved empirical Fisher and leads to IEWC, a generalized and normalized sibling of EWC. This separates the outer EWC mechanism from output geometry and enables geometry-aware continual learning within the same regularization template. Across image classification, continual LLM/NLP, segmentation, forecasting, and diffusion, IEWC improves final average performance in two settings and, with sample weighting, improves performance across all tested settings.}
 
-\textbf{\href{/files/iewc.pdf}{Paper}} \quad
-\textbf{\href{https://github.com/Axym-Labs/iewc}{Code}} \quad
-\textbf{\href{https://doi.org/10.5281/zenodo.20724067}{DOI}}
+\publicationactions{%
+  \publicationaction{/files/iewc.pdf}{Read paper}
+  \publicationaction{https://github.com/Axym-Labs/iewc}{View code}
+  \publicationaction{https://doi.org/10.5281/zenodo.20724067}{Open DOI}%
+}
 
 \section{From preservation constraints to IEWC}
 

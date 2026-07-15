@@ -38,10 +38,10 @@ const Index = () => {
           
           <div className="prose prose-lg">
             <p className="text-lg text-foreground leading-relaxed !text-gray-200">
-              Axym Labs develops and studies machine-learning methods across research and engineering settings.
-              We publish papers, project pages, experimental evidence, and code so others can inspect and build on the work.
-              Interested in collaborating or building on our work? Reach out at:{" "}
-              <a href="mailto:contact@axym.org" className="hover:text-accent underline">
+              We combine theoretical analysis, empirical evaluation, and implementation to develop machine-learning methods.
+              We publish the resulting papers, project pages, evidence, and code so others can reproduce the results and extend the methods.
+              For collaboration or questions, write to{" "}
+              <a href="mailto:contact@axym.org" className="text-accent underline">
                 contact@axym.org
               </a>
               .

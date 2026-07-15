@@ -15,7 +15,7 @@ All colors MUST be HSL.
     --canvas: 0 0% 100%;             /* #FFFFFF - White reading canvas */
     --canvas-foreground: 220 26% 9%; /* #111827 - Body text on white */
 
-    --accent: 251 69% 42%;           /* #3F21B6 - Axym primary */
+    --accent: 251 63% 62%;           /* #7862DC - lighter indigo on black */
     --accent-foreground: 0 0% 100%;
 
     --card: 0 0% 100%;
@@ -38,7 +38,7 @@ All colors MUST be HSL.
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 251 69% 42%;
+    --ring: 251 63% 62%;
 
     --radius: 0.375rem;
   }
@@ -103,11 +103,19 @@ All colors MUST be HSL.
   }
 
   .prose a {
-    @apply underline text-accent hover:underline;
+    @apply underline hover:underline;
   }
 
   .prose blockquote {
-    @apply border-l-4 border-accent pl-4 italic my-4;
+    @apply border-l-4 pl-4 italic my-4;
+  }
+
+  .publication-canvas .prose a {
+    color: #3f21b6;
+  }
+
+  .publication-canvas .prose blockquote {
+    border-color: #3f21b6;
   }
 
   .prose code {

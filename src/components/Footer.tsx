@@ -19,7 +19,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             className="text-accent underline"
           >
-            Github
+            GitHub
           </a>
           <a
             href="/disclosure"

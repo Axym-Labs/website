@@ -12,22 +12,26 @@
 \usepackage{publication-web}
 \begin{document}
 
-\section{Temporal Regularized Learning: Self-supervised learning local in space and time}
+\publicationtitle{Temporal Regularized Learning: Self-supervised learning local in space and time}
+\publicationauthors{Davide R. Wiest}
+\publicationaffiliations{Axym Labs; Darmstadt, Germany}
 
-\textbf{Davide R. Wiest}\\
-Axym Labs, Darmstadt, Germany
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
 
 \publicationfigure[\linewidth]
   {figures/terel-lead.png}{/work/terel-lead.png}
-  {A Laplacian-eigenmap projection of TeReL representations beside an MNIST accuracy comparison.}
-  {\textbf{Left:} Laplacian-eigenmap projection of TeReL validation representations, colored by MNIST class. \textbf{Right:} validation accuracy for the $4\times2000$ setting. TeReL closes the gap to backpropagation to 0.13 percentage points; Forward-Forward remains the strongest reported comparison.}
+  {A spectral projection of TeReL representations beside an MNIST accuracy comparison.}
+  {\textbf{Left:} Spectral projection of TeReL validation representations, colored by MNIST class. \textbf{Right:} validation accuracy for the $4\times2000$ setting. TeReL closes the gap to backpropagation to 0.13 percentage points at this scale; Forward-Forward remains the strongest reported comparison. TeReL, TeReL-S, and BP average five runs, whereas FF is a reported comparison without matched uncertainty.}
 
-\paragraph{Abstract.}
-We introduce Temporal Regularized Learning (TeReL), a spatially and temporally local learning rule for self-supervised representation learning from sequential input streams. The key idea is to instantiate a VICReg-style objective with temporally adjacent positives and non-differentiated running population statistics, yielding a per-neuron online loss with bounded state. We also analyze how this perspective connects modern SSL objectives to classical temporal representation learning rules such as Slow Feature Analysis and trace learning. We present TeReL and a simplified variant, TeReL-S, and evaluate them on MNIST under controlled temporal orderings. Our method achieves competitive accuracy compared to backpropagation, Forward-Forward, and Equilibrium Propagation, while learning highly class-separable representations with rich first-layer receptive fields; TeReL-S attains similar performance despite its more restricted design. We further study a scoped recurrent setting on MNIST-Rows next-row prediction, comparing against a backpropagation-through-time baseline, and provide quantitative latent trajectories.
+\publicationabstract{We introduce Temporal Regularized Learning (TeReL), a spatially and temporally local learning rule for self-supervised representation learning from sequential input streams. The key idea is to instantiate a VICReg-style objective with temporally adjacent positives and non-differentiated running population statistics, yielding a per-neuron online loss with bounded state. We also analyze how this perspective connects modern SSL objectives to classical temporal representation learning rules such as Slow Feature Analysis and trace learning. We present TeReL and a simplified variant, TeReL-S, and evaluate them on MNIST under controlled temporal orderings. Our method achieves competitive accuracy compared to backpropagation, Forward-Forward, and Equilibrium Propagation, while learning highly class-separable representations with rich first-layer receptive fields; TeReL-S attains similar performance despite its more restricted design. We further study a scoped recurrent setting on MNIST-Rows next-row prediction, comparing against a backpropagation-through-time baseline, and provide quantitative latent trajectories.}
 
-\textbf{\href{/files/terel.pdf}{Paper}} \quad
-\textbf{\href{https://github.com/Axym-Labs/TeReL}{Code}} \quad
-\textbf{\href{https://doi.org/10.5281/zenodo.18673107}{DOI}}
+\publicationactions{%
+  \publicationaction{/files/terel.pdf}{Read paper}
+  \publicationaction{https://github.com/Axym-Labs/TeReL}{View code}
+  \publicationaction{https://doi.org/10.5281/zenodo.18673107}{Open DOI}%
+}
 
 \section{Method}
 

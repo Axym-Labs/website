@@ -36,10 +36,20 @@ const Index = () => {
             About
           </h2>
           
-          <div className="prose prose-lg">
+          <div className="space-y-6 text-lg leading-relaxed text-gray-200">
             <p className="text-lg text-foreground leading-relaxed !text-gray-200">
-              We combine theoretical analysis, empirical evaluation, and implementation to develop machine-learning methods.
+              We combine theoretical analysis, empirical evaluation, and implementation to develop new machine-learning methods and improve existing ones.
               We publish the resulting papers, project pages, evidence, and code so others can reproduce the results and extend the methods.
+            </p>
+            <p>
+              Our core team consists of{" "}
+              <a href="https://davidewiest.com" className="text-accent underline">Davide Wiest</a>{" "}
+              and{" "}
+              <a href="https://github.com/Jonathan-Schaefer-git" className="text-accent underline">Jonathan Schäfer</a>{" "}
+              and is based in Darmstadt, Germany. Our mission is to advance current methods in deep learning through careful research and engineering.
+              We have a mild preference for unconventional ideas, especially when they provide a credible alternative to established approaches.
+            </p>
+            <p>
               For collaboration or questions, write to{" "}
               <a href="mailto:contact@axym.org" className="text-accent underline">
                 contact@axym.org

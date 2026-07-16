@@ -87,6 +87,88 @@
   opacity: 0.45;
 }
 
+.latex-publication .publication-head {
+  margin-bottom: 2rem;
+}
+
+.latex-publication .publication-title-block {
+  padding: 1.35rem 0 1.2rem;
+  border-top: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+}
+
+.latex-publication .publication-title {
+  max-width: 46rem;
+  margin: 0;
+  color: inherit;
+  font-size: clamp(2.15rem, 5.5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.latex-publication .publication-authors {
+  margin: 1.25rem 0 0.1rem;
+  font-weight: 700;
+}
+
+.latex-publication .publication-affiliations,
+.latex-publication .publication-date {
+  margin: 0.1rem 0;
+  color: #4b5563;
+  font-size: 0.95em;
+}
+
+.latex-publication .publication-abstract {
+  margin: 2rem auto 1.5rem;
+}
+
+.latex-publication .publication-abstract-heading {
+  margin: 0 0 0.8rem;
+  font-size: 1.35rem;
+  text-align: center;
+}
+
+.latex-publication .publication-abstract-body p:first-child {
+  margin-top: 0;
+}
+
+.latex-publication .publication-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 1.5rem 0 2.25rem;
+}
+
+.latex-publication .publication-action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.7rem;
+  padding: 0.62rem 0.95rem;
+  border: 1px solid var(--publication-accent);
+  border-radius: 0.25rem;
+  background: var(--publication-accent);
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: 0.84rem;
+  font-weight: 650;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.latex-publication .publication-action::after {
+  margin-left: 0.55rem;
+  content: "↗";
+}
+
+.latex-publication .publication-action:hover {
+  border-color: #2f1889;
+  background: #2f1889;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
 .latex-publication h2,
 .latex-publication h3,
 .latex-publication h4 {
@@ -115,6 +197,25 @@
 
 .latex-publication p {
   margin: 0.95rem 0;
+}
+
+.latex-publication ul,
+.latex-publication ol {
+  margin: 1rem 0;
+  padding-left: 1.4rem;
+}
+
+.latex-publication ul {
+  list-style: disc;
+}
+
+.latex-publication ol {
+  list-style: decimal;
+}
+
+.latex-publication li {
+  margin: 0.38rem 0;
+  padding-left: 0.2rem;
 }
 
 .latex-publication .publication-figure {
@@ -187,5 +288,20 @@
   .latex-publication {
     font-size: 1rem;
     line-height: 1.48;
+  }
+
+  .latex-publication .publication-title {
+    font-size: 2rem;
+  }
+
+  .latex-publication .publication-action {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .latex-publication .publication-action {
+    transition: none;
   }
 }

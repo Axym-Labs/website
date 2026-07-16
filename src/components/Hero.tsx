@@ -6,7 +6,7 @@ const Hero = () => (
       width={720}
       height={405}
       fetchPriority="high"
-      src="/backgrounds/interference-caustics.gif"
+      src="/backgrounds/interference-caustics.webp"
       className="pointer-events-none absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
     />
     <img

@@ -45,8 +45,8 @@ const Index = () => {
               Our core team consists of{" "}
               <a href="https://davidewiest.com" className="text-accent underline">Davide Wiest</a>{" "}
               and{" "}
-              <a href="https://github.com/Jonathan-Schaefer-git" className="text-accent underline">Jonathan Schäfer</a>{" "}
-              and is based in Darmstadt, Germany. Our mission is to advance current methods in deep learning through careful research and engineering.
+              <a href="https://github.com/Jonathan-Schaefer-git" className="text-accent underline">Jonathan Schäfer</a>,
+              both based in Darmstadt, Germany. Our mission is to advance deep-learning methods through careful research and engineering.
               We have a mild preference for unconventional ideas, especially when they provide a credible alternative to established approaches.
             </p>
             <p>

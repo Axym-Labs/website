@@ -23,14 +23,14 @@ transitions, symbolic operations, and compression strategies. Prepretraining is
 one implementation: the task-agnostic phase runs before training on natural
 data.</div></section>
    <nav aria-label='Project resources' class='publication-actions'><a class='publication-action' href='https://github.com/Axym-Labs/pptrain'>View code</a> <a class='publication-action' href='https://pypi.org/project/pptrain/'>Open package</a></nav>
-<!-- l. 35 --><p class='indent'>   Pre-pretraining is a good idea trapped in an awkward workflow. Before
-training a language model on natural text, first train it on synthetic tasks that
-may teach useful structure. Cellular automata, symbolic transformations,
-mathematical primitives all fit this pattern. One hurdle toward shipping this in
-production is that most of the work lives in paper-specific code, hidden data
-generators, and one-off training scripts. Another one is verifying the
-prepretrainer was instantiated correctly and actually has a positive effect. The
-package  <a href='https://github.com/Axym-Labs/pptrain'><span class='cmtt-10x-x-109'>pptrain</span></a> can help practitioners with that:
+<!-- l. 35 --><p class='indent'>   Pre-pretraining is a good idea trapped in an awkward workflow. The basic
+recipe is to train a language model on synthetic tasks before natural text,
+using tasks that may teach useful structure. Cellular automata, symbolic
+transformations, and mathematical primitives all fit this pattern. One hurdle to
+production use is that most of the work lives in paper-specific code, hidden data
+generators, and one-off training scripts. A second is verifying that the
+prepretrainer matches the intended method and improves subsequent training.
+The package  <a href='https://github.com/Axym-Labs/pptrain'><span class='cmtt-10x-x-109'>pptrain</span></a> addresses both:
 </p>
    <h2 class='sectionHead'><a id='x1-1000'></a>Ready to use</h2>
 <!-- l. 39 --><p class='noindent'>Install it via:
@@ -102,10 +102,10 @@ maximum length, gzip-complexity band, and per-epoch regeneration.
 </p><!-- l. 84 --><p class='noindent'>
 </p>
    <h2 class='sectionHead'><a id='x1-2000'></a>Reference parity</h2>
-<!-- l. 86 --><p class='noindent'>Production-readiness also requires a correctness check: because a changed
-generator, tokenizer, or serialization no longer tests the mechanism from the
-paper, <span class='cmtt-10x-x-109'>pptrain </span>includes reference-parity utilities that compare local outputs
-against original-source fixtures for LIME, synthetic summarization, procedural
+<!-- l. 86 --><p class='noindent'>Production use also requires a correctness check. A changed generator, tokenizer,
+or serialization no longer tests the mechanism from the paper, so <span class='cmtt-10x-x-109'>pptrain</span>
+includes reference-parity utilities that compare local outputs against
+original-source fixtures for LIME, synthetic summarization, procedural
 pretraining, and NCA pre-pretraining.
 </p><!-- l. 88 --><p class='indent'>   These checks are exact where they should be exact: normalized examples or
 token sequences must match the reference output.
@@ -115,11 +115,11 @@ token sequences must match the reference output.
                                                                      
 
                                                                      
-<!-- l. 92 --><p class='noindent'>To determine whether and how well certain tasks interact with custom
-environments, users can use the evaluation and replication utilities built around
-the same interface from training. The library supports downstream transfer
-evaluation, compute-matched natural warmups, simple diagnostic metrics,
-plots, CSVs, and markdown reports.
+<!-- l. 92 --><p class='noindent'>To determine whether a synthetic task transfers in a particular model and
+training setup, users can run the evaluation and replication utilities through the
+same interface used for training. The library supports downstream transfer
+evaluation, compute-matched natural warmups, diagnostic metrics, plots, CSVs,
+and Markdown reports.
 </p><!-- l. 94 --><p class='noindent'>
 </p>
    <h2 class='sectionHead'><a id='x1-4000'></a>Extensibility</h2>
@@ -127,10 +127,9 @@ plots, CSVs, and markdown reports.
 <span class='cmtt-10x-x-109'>SymbolicTaskFamily</span>: define how examples are sampled, executed, serialized,
 and tokenized. If the task needs a custom dataset or loss path, implement <span class='cmtt-10x-x-109'>Task</span>
 directly.
-</p><!-- l. 98 --><p class='indent'>   If you’re curious about internal structure, the core abstraction is a
-task family. A task family samples an example, executes it if needed,
-serializes it into tokens, and exposes a tokenizer specification. After that,
-the path is ordinary model training: build a dataset, train a Hugging
+</p><!-- l. 98 --><p class='indent'>   The core abstraction is a task family. It samples an example, executes it if
+needed, serializes it into tokens, and exposes a tokenizer specification. The
+remaining path is ordinary model training: build a dataset, train a Hugging
 Face causal language model, save the checkpoint, and export a transfer
 bundle.
 </p>

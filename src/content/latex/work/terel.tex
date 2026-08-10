@@ -3,7 +3,7 @@
 % title: Temporal Regularized Learning
 % category: research
 % eyebrow: LOCAL LEARNING
-% summary: TeReL is a spatially and temporally local learning rule for self-supervised representation learning from sequential streams. On MNIST, it learns class-separable representations with competitive accuracy while requiring no error signals from later layers.
+% summary: TeReL turns a soft-SFA target residual into a neuron state whose endpoint-local factors update feedforward and lateral synapses without errors crossing layers or time.
 % draft: false
 % date: 2026-07-15
 % rank: 2
@@ -12,7 +12,7 @@
 \usepackage{publication-web}
 \begin{document}
 
-\publicationtitle{Temporal Regularized Learning: Self-supervised learning local in space and time}
+\publicationtitle{Temporal Regularized Learning: Deep Slow-Feature Learning Local in Space and Time}
 \publicationauthors{Davide R. Wiest}
 \publicationaffiliations{Axym Labs; Darmstadt, Germany}
 
@@ -22,10 +22,10 @@
 
 \publicationfigure[\linewidth]
   {figures/terel-lead.png}{/work/terel-lead.png}
-  {A spectral projection of TeReL representations beside an MNIST accuracy comparison.}
-  {\textbf{Left:} Spectral projection of TeReL validation representations, colored by MNIST class. \textbf{Right:} validation accuracy for the $4\times2000$ setting. TeReL closes the gap to backpropagation to 0.13 percentage points at this scale; Forward-Forward remains the strongest reported comparison. TeReL, TeReL-S, and BP average five runs, whereas FF is a reported comparison without matched uncertainty.}
+  {Three regular stages show a soft-SFA target becoming a neuron state and then two local synaptic updates.}
+  {TeReL converts soft-SFA forces into neuron-local synaptic signals. A detached regularized target defines a preactivation neuron state; one inhibitory pass modifies that state, which then supplies both the feedforward and anti-Hebbian lateral changes.}
 
-\publicationabstract{We introduce Temporal Regularized Learning (TeReL), a spatially and temporally local learning rule for self-supervised representation learning from sequential input streams. The key idea is to instantiate a VICReg-style objective with temporally adjacent positives and non-differentiated running population statistics, yielding a per-neuron online loss with bounded state. We also analyze how this perspective connects modern SSL objectives to classical temporal representation learning rules such as Slow Feature Analysis and trace learning. We present TeReL and a simplified variant, TeReL-S, and evaluate them on MNIST under controlled temporal orderings. Our method achieves competitive accuracy compared to backpropagation, Forward-Forward, and Equilibrium Propagation, while learning highly class-separable representations with rich first-layer receptive fields; TeReL-S attains similar performance despite its more restricted design. We further study a scoped recurrent setting on MNIST-Rows next-row prediction, comparing against a backpropagation-through-time baseline, and provide quantitative latent trajectories.}
+\publicationabstract{Slow Feature Analysis learns persistent factors by making adjacent representations similar while preserving variance and decorrelating coordinates. Temporal Regularized Learning (TeReL) derives a detached target from these three forces and maps its residual to the preactivation of each neuron. The outer product of this neuron state and presynaptic activity is the exact feedforward gradient without lateral coupling. One learned inhibitory pass modifies the state, while pairs of the same states drive an anti-Hebbian lateral rule. TeReL processes one observation at a time, retains fixed detached state, uses plain stochastic gradient descent without optimizer moments, and sends no error between learned layers.}
 
 \publicationactions{%
   \publicationaction{/files/terel.pdf}{Read paper}
@@ -35,19 +35,34 @@
 
 \section{Method}
 
-TeReL uses temporally adjacent observations as positive pairs and treats running population means and variances as non-differentiated state. Its objective combines temporal coherence, variance preservation, and decorrelation through a detached same-layer lateral mapping. The resulting update is local in space and time: it needs the current and previous activations, bounded per-neuron state, and a same-layer signal, but no error propagated from later layers.
+For one observation, temporal similarity, variance preservation, and
+decorrelation define a regularized activation target. The residual to this
+target becomes a preactivation neuron state. Multiplying that postsynaptic
+state by presynaptic activity gives the feedforward update, while products of
+two neuron states train a same-layer inhibitory operator. Spatial locality
+means that each synapse reads quantities available at its endpoints, possibly
+after same-layer dynamics; temporal locality means that the update reads fixed
+detached state rather than an activation graph extending into the past.
 
 \section{Main results}
 
-On MNIST, TeReL reaches competitive accuracy against backpropagation, Forward-Forward, and Equilibrium Propagation while learning class-separable representations and structured receptive fields. TeReL-S retains similar performance with a more restricted design. A scoped MNIST-Rows experiment also tests recurrent training under the same locality constraint.
+On a label-ordered MNIST stream, samplewise TeReL reaches
+$95.84\pm0.07\%$ held-out accuracy after two presentations. On a train-derived
+validation split, one residual-state inhibitory pass improves an otherwise
+matched samplewise rule by 1.42 percentage points without sacrificing
+effective rank. The less constrained minibatch reference, TeReL-Offline,
+reaches $97.30\pm0.07\%$, compared with $98.34\pm0.08\%$ for matched
+backpropagation and $96.98\pm0.10\%$ for Local SupCon. Objective ablations and
+a direct-covariance control identify the roles of the three soft-SFA forces and
+the lagged decorrelation signal.
 
 \section{Citation}
 
 \begin{verbatim}
 @misc{wiest2026terel,
   author = {Wiest, Davide R.},
-  title  = {Temporal Regularized Learning: Self-supervised
-            learning local in space and time},
+  title  = {Temporal Regularized Learning: Deep Slow-Feature
+            Learning Local in Space and Time},
   year   = {2026},
   doi    = {10.5281/zenodo.18673107},
   url    = {https://doi.org/10.5281/zenodo.18673107}

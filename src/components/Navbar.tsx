@@ -11,7 +11,7 @@ const Navbar = () => {
         </Link>
         <div className="flex items-center gap-3 sm:gap-6">
           <Link
-            to="/work"
+            to="/work/"
             className={`text-sm font-medium transition-colors ${location.pathname.startsWith("/work") ? "text-accent" : "text-foreground/70 hover:text-accent"}`}
           >
             Work

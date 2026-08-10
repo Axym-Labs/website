@@ -27,13 +27,13 @@ const WorkDetail = () => {
     setPageMetadata({
       title: `${item.title} | Axym Labs`,
       description: item.summary,
-      path: `/work/${item.slug}`,
+      path: `/work/${item.slug}/`,
       type: "article",
     });
   }, [item]);
 
   if (!loaded) return <div className="min-h-screen bg-background" />;
-  if (!item) return <Navigate to="/work" replace />;
+  if (!item) return <Navigate to="/work/" replace />;
 
   return (
     <div className="min-h-screen bg-background">

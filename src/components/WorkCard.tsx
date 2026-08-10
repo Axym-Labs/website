@@ -9,7 +9,7 @@ interface WorkItem {
 }
 
 const WorkCard = ({ item }: { item: WorkItem }) => (
-  <Link to={`/work/${item.slug}`} className="group block">
+  <Link to={`/work/${item.slug}/`} className="group block">
     <article className="grid gap-5 py-10 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center md:py-14">
       <div className="max-w-4xl">
         {item.eyebrow && (

@@ -40,8 +40,14 @@ jobs:
       - name: Install deps
         run: npm ci
 
+      - name: Test
+        run: npm test
+
       - name: Build
         run: npm run build
+
+      - name: Verify canonical indexing routes
+        run: node tests/indexing-routes.mjs
 
       - name: Copy index to 404 for SPA routing
         # ensures client-side routing works on GitHub Pages

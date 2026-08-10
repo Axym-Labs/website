@@ -14,7 +14,7 @@ const Work = () => {
     setPageMetadata({
       title: "Work | Axym Labs",
       description: "Papers, project pages, articles, and code from Axym Labs.",
-      path: "/work",
+      path: "/work/",
     });
   }, []);
 

@@ -16,7 +16,8 @@ const setMeta = (selector: string, attribute: "name" | "property", key: string, 
 };
 
 export const setPageMetadata = ({ title, description, path, type = "website" }: PageMetadata) => {
-  const url = new URL(path, "https://axym.org").toString();
+  const canonicalPath = path.endsWith("/") ? path : `${path}/`;
+  const url = new URL(canonicalPath, "https://axym.org").toString();
   document.title = title;
   setMeta('meta[name="description"]', "name", "description", description);
   setMeta('meta[property="og:title"]', "property", "og:title", title);

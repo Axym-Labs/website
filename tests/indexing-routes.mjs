@@ -4,7 +4,7 @@ import path from "node:path";
 
 const origin = "https://axym.org";
 const dist = path.resolve("dist");
-const routes = ["/", "/work/", "/work/iewc/", "/work/terel/", "/work/pptrain/"];
+const routes = ["/", "/work/", "/work/iewc/", "/work/pptrain/"];
 
 const sitemap = fs.readFileSync(path.join(dist, "sitemap.xml"), "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);

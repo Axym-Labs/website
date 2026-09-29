@@ -25,7 +25,7 @@ const setHead = (html, item, route) => {
     headline: item.title,
     description: item.summary,
     url: canonical,
-    author: { "@type": "Person", name: "Davide Wiest" },
+    author: { "@type": "Person", name: item.author ?? "Davide Wiest" },
     publisher: { "@type": "Organization", name: "Axym Labs", url: origin },
     datePublished: item.date,
   }).replaceAll("<", "\\u003c");

@@ -44,6 +44,16 @@ All colors MUST be HSL.
   }
 }
 
+.latex-publication .publication-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 2.25rem;
+  border-radius: 0.35rem;
+  background: #07080d;
+  box-shadow: 0 1.25rem 3rem rgb(18 15 35 / 14%);
+}
+
 @layer base {
   * {
     @apply border-border;

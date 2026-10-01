@@ -3,7 +3,7 @@
 % title: Finding Visual Dynamics in a Simulated Fly Brain
 % category: research
 % eyebrow: NEURAL SIMULATION
-% summary: We run a frozen pretrained AxoSim neuron model on an exact 45,669-cell FlyVis graph and find a generalizable motion-direction geometry in its T4/T5 voltage responses, alongside stable oscillatory trajectories under sustained images.
+% summary: We run a pretrained AxoSim neuron model on a 45,669-cell fly connectome and find a generalizable motion-direction geometry in its T4/T5 voltage responses, alongside stable oscillatory behavior when exposing image stimuli.
 % author: Axym Labs
 % draft: false
 % date: 2026-10-01
@@ -31,9 +31,9 @@
     {}
 \fi
 
-In this research update, we examine how a simulated fly visual circuit represents natural images and optic flow. We run a frozen pretrained AxoSim neuron model on the exact expanded FlyVis graph, record membrane voltage from direction-selective T4 and T5 cells, and test whether motion direction is encoded geometrically in a learned low-dimensional space. On images held out from every representation-selection and decoder-fitting step, the circuit reaches 0.5625 balanced accuracy over twelve directions and a 0.6597 correlation between neural distance and true circular angle distance.
+In this research update, we examine how a simulated visual circuit of a fly represents natural images and optic flow. We instantiate a population of pretrained AxoSim neuron models with the FlyVis graph, record membrane voltage from T4 and T5 cells, and test whether motion direction is encoded geometrically in a low-dimensional space \cite{axosim,flyvis}. On held-out images, a readout of the circuit's voltage response reaches 56.25\% accuracy over twelve directions and a 65.97\% correlation between neural distance and true circular angle distance.
 
-Our results support an emerging picture of neural simulation as a source of inspectable population geometry: raw states retain image-specific texture, while an anatomically structured subspace exposes a simpler motion representation underneath. The temporal response provides a complementary dynamical view. Under sustained visual inputs, the fly brain model reaches a local minimum in activation space, then oscillates stably. This article follows the section and figure progression of Goodfire's \textit{Finding the Tree of Life in Evo 2}, including its label tree, raw UMAPs, graph-distance analysis, held-out flat subspace, residual directions, and image-statistics plots; here, each role is rebuilt around AxoSim voltage and controlled visual motion \cite{goodfire}.
+Our results support an emerging picture of neural simulation as a source of inspectable population geometry: We observe that raw states are heavily influenced by image-specific texture, while variables regarding motion can be extracted from a simpler anatomically structured subspace. Under sustained visual stimuli, the fly brain model first descends towards a point in activation space, then oscillates stably around it. This article follows the structure of Goodfire's \textit{Finding the Tree of Life in Evo 2}, including its choices of visualization \cite{goodfire}.
 
 \section{Background: Why do interpretability on scientific simulators?}
 
@@ -43,12 +43,12 @@ Scientific machine-learning models are becoming useful across molecular biology,
 \tightlist
 \item A surrogate can reproduce single-neuron traces while still changing the collective dynamics of a large connected circuit. Population-level interpretation can reveal those changes.
 \item A connectome-constrained model can carry biological structure and model-specific artifacts at the same time. Interpretability helps distinguish a signal supported by the graph from one introduced by preprocessing or analysis.
-\item Neural inputs and internal states are high-dimensional and temporally coupled. Geometry can provide a human-readable view of what the model preserves without inserting a behavioral controller or decoder into the simulation.
+\item Neural inputs and internal states are high-dimensional and temporally coupled, making dimensionality reduction an important tool.
 \end{itemize}
 
 At Axym Labs, we are building neuron models and the tooling needed to test them inside large biological circuits. As part of that work, we study how the resulting population states organize under controlled stimuli---in this case, visual motion across natural images and sustained visual input in a released fly visual-system graph.
 
-We use AxoSim-Lite, a compact adaptive surrogate instantiated once per neuron and stepped through the released FlyVis connectivity. The expanded graph contains 45,669 cells and 1,513,231 edges. The checkpoint is frozen, and every result here comes from its inferred voltage rather than a hand-authored activity trace, gait controller, steering rule, or behavioral replay.
+We use AxoSim-Lite, a compact adaptive surrogate model instantiated once per neuron and stepped through the released FlyVis connectivity. The expanded graph contains 45,669 cells and 1,513,231 edges. The checkpoint is frozen, and every result here comes from its inferred voltage rather than a hand-authored activity trace, gait controller, steering rule, or behavioral replay (as recent viral demonstrations related to fly connectomes do) \cite{flybraindemo}.
 
 \section{Understanding model ontologies: how does the simulated circuit represent visual motion?}
 
@@ -58,7 +58,7 @@ This article addresses three questions: Can the substituted circuit distinguish 
 
 Unlike open-ended image interpretation, this setting supplies approximate ground truth. Each photograph moves at one of twelve angles separated by 30 degrees, and circular angular distance defines the relationship between every pair of labels. Complete photographs, rather than individual trials, are held out to prevent the decoder from recognizing image texture.
 
-The display set contains 1,000 photographs: 500 ImageNet validation images and 500 licensed iNaturalist observations. Their WordNet and taxonomic labels provide a useful way to audit the image cohort, but the label tree below is dataset metadata only. It is never used as a neural target, loss, distance metric, or model-selection signal.
+The display set contains 1,000 photographs: 500 ImageNet validation images and 500 licensed iNaturalist observations \cite{imagenet,inaturalist}. Their WordNet and taxonomic labels provide a useful way to audit the image cohort, but the label tree below is dataset metadata only. It is never used as a neural target, loss, distance metric, or model-selection signal.
 
 \publicationfigure[0.92\linewidth]
   {figures/taxonomic-tree.png}{/work/axosim/taxonomic-tree.png}
@@ -101,20 +101,20 @@ A visual network trained directly for motion estimation would likely expose dire
 
 \subsection{Finding a visual motion manifold}
 
-Recent interpretability work has identified circular manifolds for calendar features and colors, and helical manifolds for numbers and years. These examples show how meaning can be encoded in geometric relationships between population states rather than in a single feature direction.
+Recent interpretability work has identified circular manifolds for calendar features and colors, and helical manifolds for numbers and years \cite{engels2025,modell2025,kantamneni2025}. These examples show how meaning can be encoded in geometric relationships between population states rather than in a single feature direction.
 
 Motion direction has the same circular topology but a different evidentiary advantage: its distance is specified by the experiment. That lets us ask whether shortest paths through the voltage manifold follow a known physical variable rather than relying on visual resemblance alone.
 
 Curved manifolds often contain extra dimensions beyond the simplest circle. Those deviations might separate nearby conditions, carry image-specific information, or reflect nuisance variation. In this circuit, natural texture is a strong candidate because every direction is observed through a different retinal pattern.
 
-Distances along the curved manifold may still be meaningful. We therefore compare raw cosine and graph-geodesic distance with circular motion-angle separation before learning any supervised projection.
+Distances along the curved manifold may still be meaningful \cite{modell2025}. We therefore compare raw cosine and graph-geodesic distance with circular motion-angle separation before learning any supervised projection.
 
 \publicationfigure[\linewidth]
   {figures/graph-construction.png}{/work/axosim/graph-construction.png}
   {Angular distances form a nearest-neighbor graph whose shortest paths define manifold distance.}
   {}
 
-We follow the same basic analysis pattern used for other feature manifolds:
+We follow the same basic analysis pattern used for other feature manifolds \cite{modell2025,goodfire}:
 
 \begin{itemize}
 \tightlist
@@ -143,7 +143,7 @@ Consider an analogous analysis of place representations. A curved embedding may 
 
 The raw voltage manifold contains extra information about each photograph. We therefore ask whether a low-dimensional linear transformation can expose a flatter direction representation underneath that curvature.
 
-We learn a ten-dimensional transformation in which pairwise neural distance predicts circular angular separation while a reconstruction term retains the original centered representation. In simplified form,
+We learn a ten-dimensional transformation in which pairwise neural distance predicts circular angular separation while a reconstruction term retains the original centered representation, following Goodfire's flat-representation analysis \cite{goodfire}. In simplified form,
 
 \[
 z = W(x-b), \qquad
@@ -201,7 +201,7 @@ We find preliminary evidence for this account. Photograph identity dominates raw
   {Associations between the neural subspace and luminance, contrast, and edge energy.}
   {}
 
-The film at the top provides a temporal view of the same idea. Each pale point is one complete 2,884-neuron population state; the bright causal trail follows one continuous AxoSim response across twelve naturalistic images and twelve public-domain images carried on the Voyager Golden Record \cite{voyagerimages}. Across 23 cross-image transitions, the median distance to the target image's late recurrent orbit falls by a factor of 2.17. Within the steady portion of all 24 intervals, the dominant frequency is unchanged between consecutive 1.5-second windows, while oscillation-amplitude ratios range from 0.909 to 1.302. The fly brain model reaches a local minimum in activation space, then oscillates stably. This connects to observed limit-cycle attractors from work on recurrent neural population dynamics, such as those reviewed by Miller, alongside stimulus-linked 20--30 Hz central-brain oscillations and coherent membrane-potential oscillations recorded across identified neuron pairs in \textit{Drosophila} \cite{miller2016,grabowska2020,franco2025}. This resemblance is an interpretation of the simulated trajectory, not evidence that its frequency or mechanism matches those biological recordings.
+The film at the top provides a temporal view of the same idea. Each pale point is one complete 2,884-neuron population state; the bright causal trail follows one continuous AxoSim response across twelve naturalistic images and twelve public-domain images carried on the Voyager Golden Record \cite{voyagerimages}. Across 23 cross-image transitions, the median distance to the target image's late recurrent orbit falls by a factor of 2.17. The dominant frequency stays the same between consecutive 1.5-second windows of the steady portion of all 24 intervals whereas amplitudes differ, ranging from $0.909\times$ to $1.302\times$. The population descends towards a point in activation space, then oscillates stably around it. This connects to observed limit-cycle attractors from work on recurrent neural population dynamics, such as those reviewed by Miller, alongside stimulus-linked 20--30 Hz central-brain oscillations and coherent oscillations of membrane potential recorded across neuron pairs in \textit{Drosophila} \cite{miller2016,grabowska2020,franco2025}. Up to what fidelity this population replicates prior biological dynamics remains an important open question.
 
 \publicationfigure[\linewidth]
   {figures/retinotopic-vision-manifold.png}{/work/axosim/retinotopic-vision-manifold.png}
@@ -220,17 +220,24 @@ Although preliminary, the results add evidence to two useful observations about 
 \item A compact, approximately flat coordinate can coexist with higher-dimensional deviations that carry image-specific content.
 \end{itemize}
 
-Manifolds and attractors are useful descriptions, but neither should be inferred from a clean visualization alone. Complete-image holdouts, a label-preserving permutation test, and uncertainty over images support the motion claim; a continuous mean-gray control tests the film's temporal separation. Establishing a limit cycle would additionally require perturbation-and-return tests in the full state space; the current video supports the visual interpretation and exposes the trajectory for that next experiment.
+Population manifolds appear useful, but methods that treat neural features as isolated directions do not capture their geometry well \cite{modell2025,goodfire}. Here we use a supervised distance objective to expose the motion subspace, alongside unsupervised displays of the raw voltage. Developing methods that recover such structure without a chosen external metric, and with less manual analysis, would make the approach more scalable. Manifolds and attractors should not be inferred from a clean visualization alone: complete-image holdouts, a label-preserving permutation test, and uncertainty over images support the motion claim, while a continuous mean-gray control tests the film's temporal separation. Establishing a limit cycle would additionally require perturbation-and-return tests in the full state space.
 
 These results suggest a practical path for interpreting scientific neural models: choose a variable with an external metric, isolate it from obvious input confounds, test generalization across the confounding unit, and only then inspect the remaining geometry. Better population-level understanding is a starting point for auditing the surrogate, comparing it with neural recordings, and eventually connecting validated sensory dynamics to a neuron-to-muscle pathway without inserting an engineered controller.
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
+\bibitem{axosim} D. Wiest. \href{https://github.com/Axym-Labs/AxoSim-paper}{AxoSim: Learned Neuron Models for Fast Population Simulation and Inference-Time Adaptation}. Axym Labs technical report, 2026.
+\bibitem{flyvis} J. Lappalainen et al. \href{https://doi.org/10.1038/s41586-024-07939-3}{Connectome-constrained networks predict neural activity across the fly visual system}. \textit{Nature}, 2024.
+\bibitem{goodfire} M. Pearce et al. \href{https://www.goodfire.com/research/phylogeny-manifold}{Finding the Tree of Life in Evo 2}. Goodfire, 2025.
+\bibitem{flybraindemo} J. Paquette. \href{https://github.com/jppaquet/flybrain}{flybrain: Simulate the Complete Connectome of the Male Fruit Fly}. GitHub repository, 2026.
+\bibitem{imagenet} J. Deng, W. Dong, R. Socher, L.-J. Li, K. Li, and L. Fei-Fei. \href{https://doi.org/10.1109/CVPR.2009.5206848}{ImageNet: A Large-Scale Hierarchical Image Database}. \textit{CVPR}, 2009.
+\bibitem{inaturalist} G. Van Horn et al. \href{https://doi.org/10.1109/CVPR.2018.00914}{The iNaturalist Species Classification and Detection Dataset}. \textit{CVPR}, 2018.
+\bibitem{engels2025} J. Engels, E. J. Michaud, I. Liao, W. Gurnee, and M. Tegmark. \href{https://arxiv.org/abs/2405.14860}{Not All Language Model Features Are One-Dimensionally Linear}. \textit{ICLR}, 2025.
+\bibitem{modell2025} A. Modell, P. Rubin-Delanchy, and N. Whiteley. \href{https://arxiv.org/abs/2505.18235}{The Origins of Representation Manifolds in Large Language Models}. arXiv:2505.18235, 2025.
+\bibitem{kantamneni2025} S. Kantamneni and M. Tegmark. \href{https://arxiv.org/abs/2502.00873}{Language Models Use Trigonometry to Do Addition}. arXiv:2502.00873, 2025.
+\bibitem{voyagerimages} NASA Science. \href{https://science.nasa.gov/mission/voyager/golden-record-contents/images/}{Images on the Golden Record}.
 \bibitem{miller2016} P. Miller. \href{https://doi.org/10.12688/f1000research.7698.1}{Dynamical systems, attractors, and neural circuits}. \textit{F1000Research}, 2016.
 \bibitem{grabowska2020} M. J. Grabowska, R. Jeans, J. Steeves, and B. van Swinderen. \href{https://doi.org/10.1073/pnas.2010749117}{Oscillations in the central brain of Drosophila are phase locked to attended visual features}. \textit{PNAS}, 2020.
 \bibitem{franco2025} M. G. Franco et al. \href{https://doi.org/10.1016/j.isci.2025.112942}{Neuronal synchronization in Drosophila}. \textit{iScience}, 2025.
-\bibitem{flyvis} J. Lappalainen et al. \href{https://doi.org/10.1038/s41586-024-07939-3}{Connectome-constrained networks predict neural activity across the fly visual system}. \textit{Nature}, 2024.
-\bibitem{goodfire} M. Pearce et al. \href{https://www.goodfire.com/research/phylogeny-manifold}{Finding the Tree of Life in Evo 2}. Goodfire, 2025.
-\bibitem{voyagerimages} NASA Science. \href{https://science.nasa.gov/mission/voyager/golden-record-contents/images/}{Images on the Golden Record}.
 \end{thebibliography}
 
 \end{document}

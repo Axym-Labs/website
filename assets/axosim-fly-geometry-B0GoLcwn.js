@@ -345,28 +345,26 @@ class="pplb7t-x-x-109">Figure 10. </span></figcaption></figure>
 <!--l. 204--><p class="indent" >   The film at the top provides a temporal view of the same idea. Each pale
 point is one complete 2,884-neuron population state; the bright causal trail
 follows one continuous AxoSim response across twelve naturalistic images and
-twelve public-domain images carried on the Voyager Golden Record
-<span class="cite">[<a 
-href="#Xvoyagerimages">6</a>]</span>. Across 23 cross-image transitions, the median distance to the target
-image’s late recurrent orbit falls by a factor of 2.17. Within the steady
-portion of all 24 intervals, the dominant frequency is unchanged between
-consecutive 1.5-second windows, while oscillation-amplitude ratios range from
-0.909 to 1.302. The fly brain model reaches a local minimum in activation
-space, then oscillates stably. The connection is recurrent neural population
+twelve public-domain images carried on the Voyager Golden Record <span class="cite">[<a 
+href="#Xvoyagerimages">6</a>]</span>. Across
+23 cross-image transitions, the median distance to the target image’s late
+recurrent orbit falls by a factor of 2.17. Within the steady portion of all 24
+intervals, the dominant frequency is unchanged between consecutive 1.5-second
+windows, while oscillation-amplitude ratios range from 0.909 to 1.302. The fly
+brain model reaches a local minimum in activation space, then oscillates
+stably. This connects to observed limit-cycle attractors from work on
                                                                      
 
                                                                      
-dynamics. The term is a stable limit-cycle attractor. Miller’s review of
-neural dynamical systems describes cyclic attractors and limit cycles
-as the canonical language for oscillating circuits, while recordings in
+recurrent neural population dynamics, such as those reviewed by Miller,
+alongside stimulus-linked 20–30 Hz central-brain oscillations and coherent
+membrane-potential oscillations recorded across identified neuron pairs in
 <span 
-class="pplri7t-x-x-109">Drosophila </span>have found stimulus-linked 20–30 Hz central-brain oscillations and
-coherent membrane-potential oscillations across identified neuron pairs
-<span class="cite">[<a 
+class="pplri7t-x-x-109">Drosophila </span><span class="cite">[<a 
 href="#Xmiller2016">1</a>, <a 
 href="#Xgrabowska2020">2</a>, <a 
-href="#Xfranco2025">3</a>]</span>. This resemblance is an interpretation of the simulated trajectory,
-not evidence that its frequency or mechanism matches those biological
+href="#Xfranco2025">3</a>]</span>. This resemblance is an interpretation of the simulated
+trajectory, not evidence that its frequency or mechanism matches those biological
 recordings.
 <a 
  id="x1-7003r11"></a>
@@ -398,11 +396,11 @@ about neural population geometry:
 inferred from a clean visualization alone. Complete-image holdouts, a
 label-preserving permutation test, and uncertainty over images support
 the motion claim; a continuous mean-gray control tests the film’s
+temporal separation. Establishing a limit cycle would additionally require
+perturbation-and-return tests in the full state space; the current video
                                                                      
 
                                                                      
-temporal separation. Establishing a limit cycle would additionally require
-perturbation-and-return tests in the full state space; the current video
 supports the visual interpretation and exposes the trajectory for that next
 experiment.
 </p><!--l. 225--><p class="indent" >   These results suggest a practical path for interpreting scientific neural
@@ -446,14 +444,14 @@ class="pplri7t-x-x-109">iScience</span>, 2025.
 href="https://doi.org/10.1038/s41586-024-07939-3" >Connectome-constrained  networks  predict
    neural activity across the fly visual system</a>. <span 
 class="pplri7t-x-x-109">Nature</span>, 2024.
-                                                                     
-
-                                                                     
    </p>
    <p class="bibitem" ><span class="biblabel">
  [5]<span class="bibsp">   </span></span><a 
  id="Xgoodfire"></a>M. Pearce et al.  <a 
 href="https://www.goodfire.com/research/phylogeny-manifold" >Finding the Tree of Life in Evo 2</a>. Goodfire, 2025.
+                                                                     
+
+                                                                     
    </p>
    <p class="bibitem" ><span class="biblabel">
  [6]<span class="bibsp">   </span></span><a 

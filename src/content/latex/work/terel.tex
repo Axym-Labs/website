@@ -1,0 +1,88 @@
+%---
+% slug: terel
+% title: Temporal Regularized Learning
+% category: research
+% eyebrow: LOCAL LEARNING
+% summary: TeReL turns VICReg's invariance, variance, and covariance decomposition into a causal neuron-local surrogate by pairing adjacent observations, replacing batch statistics with detached running moments, and obtaining covariance control from a lagged same-layer operator.
+% author: Davide Wiest
+% draft: false
+% date: 2026-09-01
+% rank: 2
+%---
+\documentclass[11pt]{article}
+\usepackage{publication-web}
+\begin{document}
+
+\publicationtitle{Temporal Regularized Learning: Deep Slow-Feature Learning Local in Space and Time}
+\publicationauthors{Davide Wiest}
+\publicationaffiliations{Department of Computer Science, TU Darmstadt; Independent Researcher\\Darmstadt, Germany}
+
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
+
+\publicationfigure[\linewidth]
+  {figures/terel-method-overview.png}{/work/terel-method-overview.png}
+  {Three stages form a causal VICReg target, define the postsynaptic neuron state, and update local feedforward and lateral synapses.}
+  {TeReL in one layer. \textbf{a}, A causal VICReg surrogate forms the target. \textbf{b}, Its residual and one lateral correction define neuron state. \textbf{c}, Synapses update from endpoint quantities before output detachment.}
+
+\publicationabstract{VICReg organizes noncontrastive representation learning around invariance, marginal variance, and cross-coordinate covariance. Its usual batch statistics and two-view computation do not directly yield a causal, neuron-local update. Temporal Regularized Learning (TeReL) converts this decomposition into a causal surrogate: adjacent observations form the positive pair, detached running moments replace batch statistics, and a lagged same-layer operator supplies a covariance signal. Temporal adjacency turns invariance into slowness, making the construction a soft form of Slow Feature Analysis. Detaching historical quantities truncates cross-time credit assignment without removing the current-observation gradient. At each layer, a detached regularized target maps its residual to the state of each neuron. The feedforward update then factors into a presynaptic value and this postsynaptic state; one lateral matrix corrects the state once and receives an anti-Hebbian state--state contribution. The resulting encoder processes one observation at a time, sends no error signal across learned layers or time, and stores three causal scalars per neuron together with one matrix of auxiliary lateral parameters per layer. On a class-chunked MNIST stream, batch-size-one stochastic-gradient training reaches $96.39\pm0.19\%$ held-out linear-probe accuracy.}
+
+\publicationactions{%
+  \publicationaction{/files/terel.pdf}{Read paper}
+  \publicationaction{https://github.com/Axym-Labs/TeReL}{View code}
+  \publicationaction{https://doi.org/10.5281/zenodo.18673107}{Open DOI}%
+}
+
+\section{A causal VICReg construction}
+
+\href{https://arxiv.org/abs/2105.04906}{VICReg} separates representation learning into invariance between paired views, marginal variance, and cross-coordinate decorrelation. TeReL preserves these three roles while replacing the second view by the preceding observation, batch moments by detached running moments, and the differentiated batch-covariance signal by a lagged same-layer operator. Because the positive pair consists of adjacent observations, its invariance term is a soft \href{https://doi.org/10.1162/089976602317318938}{Slow Feature Analysis} objective.
+
+For current activation $z_t$, preceding same-sequence activation $p_t$, detached running mean $\mu_t$ and variance $v_t$, and lateral matrix $M_t$, the surrogate gradient is proportional to
+
+\[
+r_t
+=I_t(z_t-p_t)
+-\frac{\lambda_V}{\lambda_T}[\tau-v_t]_+\odot(z_t-\mu_t)
++\frac{\lambda_C}{2\lambda_T}\operatorname{offdiag}(M_t)(z_t-\mu_t).
+\]
+
+The three terms supply temporal agreement, variance expansion below the target $\tau$, and covariance control. For the detached target $\widehat z_t=\operatorname{sg}(z_t-r_t)$, the local loss $\lambda_T\lVert z_t-\widehat z_t\rVert_2^2/D$ has the same derivative with respect to $z_t$ as the weighted surrogate at its construction point. This is a causal surrogate of VICReg's decomposition, not a scalar re-expression of the original batch objective: its gradient depends on the current observation and fixed-size detached quantities, but not on the history that produced them.
+
+\section{From target residual to neuron-local update}
+
+Mapping the residual through the activation derivative gives $b_t=J_{\phi,t}^{\top}r_t$. One same-layer correction defines the signed postsynaptic state
+
+\[
+s_t=b_t-\eta\kappa M_tb_t.
+\]
+
+The feedforward gradient then factors as
+
+\[
+\nabla_{W_t}\widetilde\ell_a
+=\frac{2\lambda_T}{D}s_tx_t^{\top}.
+\]
+
+Each feedforward synapse therefore reads a presynaptic scalar and a postsynaptic scalar. The same lateral matrix supplies the covariance signal and state correction, while its state--state contribution is anti-Hebbian under the inhibitory sign convention. The output is detached before entering the next learned layer. A width-$D$ layer retains $3D$ causal scalars, one boundary-validity bit, and $D^2$ auxiliary lateral parameters; the reported online rule uses plain stochastic gradient descent without optimizer moments.
+
+\section{Results}
+
+On the class-chunked MNIST stream, TeReL reaches $96.39\pm0.19\%$ held-out linear-probe accuracy. Random features reach $95.14\pm0.27\%$, batch SFA reaches $89.52\pm0.13\%$, and incremental SFA reaches $88.70\pm0.09\%$. Layer-local supervised contrastive learning reaches $96.95\pm0.13\%$ while using labels, minibatches, batch normalization, and AdamW. The spatially and temporally relaxed TeReL-Offline reference reaches $98.39\pm0.04\%$, compared with $98.17\pm0.07\%$ for fully supervised offline learning.
+
+Randomly shuffling the stream reduces TeReL accuracy by $1.31$ paired percentage points, and removing the temporal term reduces it by $1.84$. Removing variance control yields a nearly constant representation at $15.10\pm0.18\%$ accuracy; removing covariance control makes all five evaluations non-finite. With a validation-selected continuation step, unlabeled online updates retain $96.43\pm0.15\%$ accuracy, compared with $96.39\pm0.19\%$ for the fixed encoder.
+
+\section{Citation}
+
+\begin{verbatim}
+@misc{wiest2026terel,
+  author = {Wiest, Davide},
+  title  = {Temporal Regularized Learning: Deep Slow-Feature
+            Learning Local in Space and Time},
+  year   = {2026},
+  doi    = {10.5281/zenodo.18673107},
+  url    = {https://doi.org/10.5281/zenodo.18673107}
+}
+\end{verbatim}
+
+\end{document}

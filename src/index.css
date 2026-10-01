@@ -54,6 +54,10 @@ All colors MUST be HSL.
   box-shadow: 0 1.25rem 3rem rgb(18 15 35 / 14%);
 }
 
+.latex-publication .publication-figure > .publication-video {
+  margin-bottom: 0;
+}
+
 @layer base {
   * {
     @apply border-border;

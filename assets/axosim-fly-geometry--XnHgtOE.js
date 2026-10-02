@@ -14,7 +14,7 @@ content_format: html
 <div class="latex-publication">
 <header class="publication-head"> <div class="publication-title-block"><h1 class="publication-title">Finding Visual Dynamics in a Simulated Fly Brain</h1><p class="publication-authors">Davide Wiest</p><p class="publication-affiliations">Darmstadt,
 Germany</p></div></header>
-   <figure class="publication-figure"><video class="publication-video" controls muted playsinline preload="metadata" poster="/work/axosim/axosim-neural-landscape-poster.png"><source src="/work/axosim/axosim-neural-landscape.mp4" type="video/mp4">Your browser does not support embedded video.</video><figcaption>Neural-state trajectory under naturalistic and Voyager images.</figcaption></figure>
+   <figure class="publication-figure"><video class="publication-video" controls muted playsinline preload="metadata" poster="/work/axosim/axosim-neural-landscape-poster.png?v=unique-20261002"><source src="/work/axosim/axosim-neural-landscape.mp4?v=unique-20261002" type="video/mp4">Your browser does not support embedded video.</video><figcaption>Neural-state trajectory under naturalistic and Voyager images.</figcaption></figure>
 <!--l. 34--><p class="indent" >   In this research update, we examine how a simulated visual circuit of a fly
 represents natural images and optic flow. Various demonstrations of learningo or
 embodyment of the male fruit fly’s brain circulate on the internet, but almost all
@@ -369,11 +369,13 @@ shared across them.
 one complete 2,884-neuron population state; the bright causal trail follows one
 continuous AxoSim response across twelve naturalistic images and twelve
 public-domain images carried on the Voyager Golden Record <span class="cite">[<a 
-href="#Xvoyagerimages">16</a>]</span>. Across
-23 cross-image transitions, the median distance to the target image’s
-late recurrent orbit falls by a factor of 2.17. The dominant frequency
-stays the same between consecutive 1.5-second windows of the steady
-portion of all 24 intervals whereas amplitudes differ, ranging from \\(0.909\\times \\) to \\(1.302\\times \\). The
+href="#Xvoyagerimages">16</a>]</span>. Across 23
+cross-image transitions, the median distance to the target image’s late recurrent
+orbit falls by a factor of 2.21. The dominant frequency stays the same
+between consecutive 1.5-second windows in 22 of the 24 intervals; the
+eating-and-drinking and X-ray-hand Voyager intervals switch between the 3.33
+and 62.67 Hz peaks. Oscillation amplitudes range from \\(0.884\\times \\) to \\(1.302\\times \\). The Bitterroot
+transition falls just below the prespecified \\(1.25\\times \\) approach threshold, at \\(1.247\\times \\). The
 population descends towards a point in activation space, then oscillates stably
 around it. This connects to observed limit-cycle attractors from work on
 recurrent neural population dynamics, such as those reviewed by Miller,
@@ -410,11 +412,11 @@ higher amplitude.
 class="pplb7t-x-x-109">Figure 12. </span>Full-state perturbations return toward the unperturbed
 orbit.</figcaption></figure>
 <!--l. 220--><p class="indent" >   The phase test is measured on the full 478,812-dimensional free recurrent
-state. Together with contraction at both perturbation amplitudes, this
-establishes evidence for input-dependent limit cycles across the six tested
                                                                      
 
                                                                      
+state. Together with contraction at both perturbation amplitudes, this
+establishes evidence for input-dependent limit cycles across the six tested
 images.
 </p><!--l. 222--><p class="noindent" >
 </p>
@@ -451,11 +453,11 @@ href="#Xgoodfire">15</a>]</span>. Here we use a
 supervised distance objective to expose the motion subspace, alongside
 unsupervised displays of the raw voltage. Developing methods that recover
 such structure without a chosen external metric, and with less manual analysis,
-would make the approach more scalable. Manifolds and attractors should not be
-inferred from a clean visualization alone: complete-image holdouts, a
                                                                      
 
                                                                      
+would make the approach more scalable. Manifolds and attractors should not be
+inferred from a clean visualization alone: complete-image holdouts, a
 label-preserving permutation test, and uncertainty over images support
 the motion claim, while a continuous mean-gray control tests the film’s
 temporal separation. Here, the full-state perturbation test establishes

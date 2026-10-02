@@ -15,7 +15,7 @@ describe("canonical internal navigation", () => {
 
     expect(html).toContain('href="/work/"');
     expect(html).toContain('href="/work/iewc/"');
-    expect(html).toContain('src="/brand/axym-logo.svg"');
+    expect(html).toContain('src="/brand/axym-logo.svg?v=bb0592ee"');
     expect(html).toContain('width="32" height="32"');
   });
 });

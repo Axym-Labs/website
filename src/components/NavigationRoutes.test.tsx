@@ -15,7 +15,17 @@ describe("canonical internal navigation", () => {
 
     expect(html).toContain('href="/work/"');
     expect(html).toContain('href="/work/iewc/"');
-    expect(html).toContain('src="/brand/axym-logo.svg?v=f6597f4d"');
-    expect(html).toContain('width="32" height="32"');
+  });
+
+  it("renders the Axym wordmark without a graphic mark", () => {
+    const html = renderToStaticMarkup(
+      <StaticRouter location="/">
+        <Navbar />
+      </StaticRouter>,
+    );
+
+    expect(html).toContain('aria-label="Axym Labs home"');
+    expect(html).toContain("Axym");
+    expect(html).not.toContain("<img");
   });
 });

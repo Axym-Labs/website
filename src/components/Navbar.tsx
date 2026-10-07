@@ -6,8 +6,7 @@ const Navbar = () => {
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-foreground/10 bg-background/90 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link to="/" aria-label="Axym Labs home" className="inline-flex shrink-0 items-center gap-2 text-base font-semibold text-foreground transition-colors duration-150 hover:text-accent focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent motion-reduce:transition-none sm:text-lg">
-          <img src="/brand/axym-logo.svg?v=f6597f4d" alt="" width="32" height="32" className="h-8 w-8 shrink-0" />
+        <Link to="/" aria-label="Axym Labs home" className="inline-flex shrink-0 items-center text-base font-semibold text-foreground transition-colors duration-150 hover:text-accent focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent motion-reduce:transition-none sm:text-lg">
           <span>Axym<span className="hidden sm:inline"> Labs</span></span>
         </Link>
         <div className="flex items-center gap-2 [&>a]:text-xs sm:gap-6 sm:[&>a]:text-sm">

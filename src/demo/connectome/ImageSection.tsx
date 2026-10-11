@@ -436,7 +436,7 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
                 return (
                   <li key={n.id} className="min-w-0">
                     <a href={meta?.page_url} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-md bg-black">
-                      <img src={imageUrl(db!, n.id, "thumb")} alt={meta?.title ?? n.category} loading="lazy" className="aspect-square w-full object-cover" />
+                      <img src={imageUrl(db!, n.id, "thumb")} alt={meta?.title ?? n.category} className="aspect-square w-full object-cover" />
                     </a>
                     <p className="mt-1 truncate text-[0.72rem] text-white/75" title={meta?.title}>
                       {i + 1}. {meta?.title ?? n.category}

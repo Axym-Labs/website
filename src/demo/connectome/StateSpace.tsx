@@ -26,6 +26,8 @@ interface Props {
   trail?: number;
   markers?: Marker[];
   autoRotate?: boolean;
+  /** Camera distance from the centre (the cloud spans [-1, 1]). */
+  distance?: number;
   className?: string;
   ariaLabel: string;
 }
@@ -49,7 +51,7 @@ function pointTexture() {
   return texture;
 }
 
-export default function StateSpace({ cloud, path, pathLength = 0, trail = 100, markers = [], autoRotate = true, className, ariaLabel }: Props) {
+export default function StateSpace({ cloud, path, pathLength = 0, trail = 100, markers = [], autoRotate = true, distance = 3.55, className, ariaLabel }: Props) {
   const mount = useRef<HTMLDivElement>(null);
   const three = useRef<{
     renderer: THREE.WebGLRenderer;
@@ -72,7 +74,7 @@ export default function StateSpace({ cloud, path, pathLength = 0, trail = 100, m
     element.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, 1, 0.01, 50);
-    camera.position.set(2.2, 1.0, 2.6);
+    camera.position.set(2.2, 1.0, 2.6).setLength(distance);
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enablePan = false;
@@ -116,7 +118,7 @@ export default function StateSpace({ cloud, path, pathLength = 0, trail = 100, m
       renderer.dispose();
       element.removeChild(renderer.domElement);
     };
-  }, [autoRotate]);
+  }, [autoRotate, distance]);
 
   // Reference cloud.
   useEffect(() => {

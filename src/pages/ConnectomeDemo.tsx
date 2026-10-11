@@ -52,7 +52,7 @@ const ConnectomeDemo = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="pt-16">
-        <article className="publication-canvas w-full bg-canvas px-5 py-16 text-canvas-foreground sm:px-8 sm:py-20 md:px-12 lg:px-16">
+        <article className="publication-canvas connectome-page w-full bg-canvas px-5 py-16 text-canvas-foreground sm:px-8 sm:py-20 md:px-12 lg:px-16">
           <div className="latex-publication mx-auto w-full min-w-0 max-w-[46rem]">
             <header className="publication-head">
               <div className="publication-title-block">
@@ -73,7 +73,7 @@ const ConnectomeDemo = () => {
             </p>
           </div>
 
-          <section className="latex-publication mx-auto mt-12 w-full min-w-0 max-w-[46rem]" aria-labelledby="video-heading">
+          <section className="latex-publication mx-auto mt-16 w-full min-w-0 max-w-[46rem]" aria-labelledby="video-heading">
             <h2 id="video-heading">Follow the circuit through a video</h2>
             <p>
               Pick a clip. Every frame is converted to luminance, sampled at the 721 columns of the fly's hexagonal retina and contrast-normalized, then fed
@@ -86,11 +86,11 @@ const ConnectomeDemo = () => {
               the last 1.6 seconds. Drag to rotate the view.
             </p>
           </section>
-          <div className="mx-auto mt-6 w-full max-w-[72rem]">
+          <div className="mx-auto mt-8 w-full max-w-[72rem]">
             <VideoSection sim={sim} cloud={cloud} />
           </div>
 
-          <section className="latex-publication mx-auto mt-16 w-full min-w-0 max-w-[46rem]" aria-labelledby="image-heading">
+          <section className="latex-publication mx-auto mt-24 w-full min-w-0 max-w-[46rem]" aria-labelledby="image-heading">
             <h2 id="image-heading">Find the images the circuit treats alike</h2>
             <p>
               Pick or upload an image. After one second of gray, the circuit sees the image unchanged for five seconds, as in the held frames at the end of
@@ -107,11 +107,11 @@ const ConnectomeDemo = () => {
               protocol run on the database.
             </p>
           </section>
-          <div className="mx-auto mt-6 w-full max-w-[72rem]">
+          <div className="mx-auto mt-8 w-full max-w-[72rem]">
             <ImageSection sim={sim} cloud={cloud} db={db} dbError={dbError} reference={reference} lattice={lattice} />
           </div>
 
-          <div className="latex-publication mx-auto mt-14 w-full min-w-0 max-w-[46rem]">
+          <div className="latex-publication mx-auto mt-20 w-full min-w-0 max-w-[46rem]">
             <p className="text-sm text-[#4b5563]">
               The neuron model was trained on mammalian layer-5 pyramidal neurons, so these dynamics describe this simulator on the fly graph rather than
               measured fly physiology. Code: <a href="https://github.com/Axym-Labs/axosim-demo">github.com/Axym-Labs/axosim-demo</a>. Image sources and

@@ -181,7 +181,7 @@ All colors MUST be HSL.
 
 /* Interactive connectome demo panels */
 .connectome-panel {
-  @apply rounded-lg p-3 text-white sm:p-5;
+  @apply rounded-lg p-4 text-white sm:p-8;
   background: #0d0e14;
   box-shadow: 0 1.25rem 3rem rgb(18 15 35 / 18%);
 }
@@ -247,4 +247,27 @@ All colors MUST be HSL.
   .publication-canvas .latex-publication .publication-title {
     font-size: 1.6rem;
   }
+}
+
+/* Demo links: Axym purple and underlined on the white canvas, a lighter purple inside dark panels. */
+.connectome-page .latex-publication a {
+  color: #3f21b6;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.connectome-page .latex-publication a:hover {
+  color: #2f1889;
+}
+
+.connectome-link {
+  color: #b3a7f7;
+  text-decoration: underline;
+  text-decoration-color: rgb(179 167 247 / 55%);
+  text-underline-offset: 2px;
+}
+
+.connectome-link:hover {
+  color: #ffffff;
 }

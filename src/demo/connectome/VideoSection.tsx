@@ -124,7 +124,7 @@ export default function VideoSection({ sim, cloud }: Props) {
 
   return (
     <div className="connectome-panel">
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div className="flex flex-col gap-3">
           <div className="relative aspect-video overflow-hidden rounded-md bg-black">
             <video ref={video} className="h-full w-full" controls muted playsInline preload="metadata" aria-label={active ? `${active.title} video` : "Selected video"} />
@@ -144,7 +144,7 @@ export default function VideoSection({ sim, cloud }: Props) {
               <>
                 {simulated.toFixed(1)} s simulated
                 {speed ? ` · ${speed.toFixed(1)}× real time` : ""} · Footage:{" "}
-                <a className="underline decoration-white/30 underline-offset-2 hover:text-white" href={active.page_url} target="_blank" rel="noreferrer">
+                <a className="connectome-link" href={active.page_url} target="_blank" rel="noreferrer">
                   {active.creator}
                 </a>{" "}
                 ({active.license})
@@ -155,7 +155,7 @@ export default function VideoSection({ sim, cloud }: Props) {
           </div>
         </div>
         <StateSpace
-          className="aspect-square w-full rounded-md bg-[#07080d] lg:aspect-auto lg:min-h-[22rem]"
+          className="aspect-square w-full rounded-md bg-[#07080d] lg:aspect-auto lg:min-h-[24rem]"
           cloud={cloud}
           path={path}
           pathLength={shown}
@@ -163,7 +163,7 @@ export default function VideoSection({ sim, cloud }: Props) {
           ariaLabel="Three-dimensional UMAP of population states with the trajectory of the current video"
         />
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3" role="list" aria-label="Preset videos">
+      <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3" role="list" aria-label="Preset videos">
         {presets.map((preset) => (
           <button
             key={preset.id}

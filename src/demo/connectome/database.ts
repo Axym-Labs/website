@@ -60,7 +60,9 @@ async function loadFrom(base: string, source: Database["source"]): Promise<Datab
 
 export async function loadDatabase(): Promise<Database> {
   try {
-    return await loadFrom(PRIMARY_DB, "primary");
+    // The primary host may be offline; fall back quickly instead of waiting for a TCP timeout.
+    const timeout = new Promise<never>((_, reject) => setTimeout(() => reject(new Error("timed out")), 6000));
+    return await Promise.race([loadFrom(PRIMARY_DB, "primary"), timeout]);
   } catch (error) {
     console.info("Primary image database unavailable, using bundled subset", error);
     return loadFrom(FALLBACK_DB, "fallback");

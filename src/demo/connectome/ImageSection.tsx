@@ -297,9 +297,19 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
     });
   }
 
+  const credit = image?.credit ? (
+    <>
+      Image:{" "}
+      <a className="connectome-link" href={image.credit.page_url} target="_blank" rel="noreferrer">
+        {image.credit.creator}
+      </a>{" "}
+      ({image.credit.license}).
+    </>
+  ) : null;
+
   return (
     <div className="connectome-panel">
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div className="flex flex-col gap-3">
           <label
             onDragOver={(e) => {
@@ -323,22 +333,45 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
               <span className="px-6 text-sm text-white/60">Drop an image here, click to upload, or pick one below. It stays on your device.</span>
             )}
           </label>
-          <RetinaView samples={retina} lattice={lattice} />
-          <p className="text-xs text-white/45">
-            {image?.credit ? (
-              <>
-                Image:{" "}
-                <a className="underline decoration-white/30 underline-offset-2 hover:text-white" href={image.credit.page_url} target="_blank" rel="noreferrer">
-                  {image.credit.creator}
-                </a>{" "}
-                ({image.credit.license}).{" "}
-              </>
-            ) : null}
-            Bottom: the image on the 721 columns of the fly retina (centre-cropped to 16:9, contrast-normalized).
-          </p>
+          <div className="grid grid-cols-4 gap-2" role="list" aria-label="Preset images">
+            {presets.map((preset) => (
+              <button
+                key={preset.id}
+                type="button"
+                role="listitem"
+                disabled={!sim.ready || busy}
+                onClick={() => run(`${ASSET_BASE}/images/${preset.file}`, preset.title, preset)}
+                className="overflow-hidden rounded-md border border-white/10 bg-white/[0.03] transition-colors hover:border-white/30 disabled:opacity-50"
+                title={preset.title}
+              >
+                <img src={`${ASSET_BASE}/images/${preset.file}`} alt={preset.title} loading="lazy" className="aspect-video w-full object-cover" />
+              </button>
+            ))}
+          </div>
+          {credit && <p className="text-xs text-white/50">{credit}</p>}
         </div>
-        <div className="flex flex-col gap-2">
-          <div className="flex gap-1 self-end rounded-md bg-white/5 p-0.5 text-xs" role="tablist" aria-label="3D view">
+        <div className="flex flex-col gap-3">
+          <RetinaView samples={retina} lattice={lattice} />
+          <p className="text-xs text-white/50">What the fly sees: the image on the 721 columns of its retina, centre-cropped to 16:9 and contrast-normalized.</p>
+          <div aria-live="polite">
+            {error && <p className="text-sm text-[#ff8f8f]">{error}</p>}
+            {busy && (
+              <div className="flex items-center gap-3 text-sm text-white/70">
+                <div className="h-1 w-40 overflow-hidden rounded-full bg-white/10">
+                  <div className="h-full bg-[#8f7cf0] transition-[width]" style={{ width: `${fraction * 100}%` }} />
+                </div>
+                {PHASES[phase!] ?? phase}
+                {sim.kind === "cpu" && <span className="text-white/45">(CPU mode can take a few minutes)</span>}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h4 className="text-sm font-semibold text-white/85">{view === "state" ? "Population state during the hold" : "Database images by their settled state"}</h4>
+          <div className="flex gap-1 rounded-md bg-white/5 p-0.5 text-xs" role="tablist" aria-label="3D view">
             {(["state", "map"] as const).map((key) => (
               <button
                 key={key}
@@ -352,75 +385,52 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
               </button>
             ))}
           </div>
-          {view === "state" ? (
-            <StateSpace
-              className="aspect-square w-full rounded-md bg-[#07080d] lg:aspect-auto lg:min-h-[22rem] lg:flex-1"
-              cloud={cloud}
-              path={path}
-              pathLength={pathLength}
-              trail={100}
-              ariaLabel="Three-dimensional UMAP of population states with the trajectory during the image hold"
-            />
-          ) : (
-            <StateSpace
-              className="aspect-square w-full rounded-md bg-[#07080d] lg:aspect-auto lg:min-h-[22rem] lg:flex-1"
-              cloud={mapCloud}
-              markers={mapMarkers}
-              ariaLabel="Three-dimensional UMAP of database images coloured by category, with the current image and its nearest neighbours"
-            />
-          )}
-          {view === "map" && db && (
-            <div className="flex flex-wrap gap-x-3 gap-y-1 text-[0.7rem] text-white/55">
-              <span className="text-white/80">● this image</span>
-              <span className="text-[#ffcf66]">● nearest five</span>
-              {db.categories.map((c, i) => (
-                <span key={c} style={{ color: CATEGORY_COLORS[i % CATEGORY_COLORS.length] }}>
-                  ● {c}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
-      </div>
-
-      <div className="mt-4 grid grid-cols-4 gap-2 sm:grid-cols-8" role="list" aria-label="Preset images">
-        {presets.map((preset) => (
-          <button
-            key={preset.id}
-            type="button"
-            role="listitem"
-            disabled={!sim.ready || busy}
-            onClick={() => run(`${ASSET_BASE}/images/${preset.file}`, preset.title, preset)}
-            className="overflow-hidden rounded-md border border-white/10 bg-white/[0.03] transition-colors hover:border-white/30 disabled:opacity-50"
-            title={preset.title}
-          >
-            <img src={`${ASSET_BASE}/images/${preset.file}`} alt={preset.title} loading="lazy" className="aspect-video w-full object-cover" />
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-5" aria-live="polite">
-        {error && <p className="text-sm text-[#ff8f8f]">{error}</p>}
-        {busy && (
-          <div className="flex items-center gap-3 text-sm text-white/70">
-            <div className="h-1 w-40 overflow-hidden rounded-full bg-white/10">
-              <div className="h-full bg-[#8f7cf0] transition-[width]" style={{ width: `${fraction * 100}%` }} />
-            </div>
-            {PHASES[phase!] ?? phase}
-            {sim.kind === "cpu" && <span className="text-white/45">(CPU mode can take a few minutes)</span>}
+        <StateSpace
+          className="h-[24rem] w-full rounded-md bg-[#07080d] sm:h-[36rem]"
+          distance={2.7}
+          cloud={view === "state" ? cloud : mapCloud}
+          path={view === "state" ? path : null}
+          pathLength={view === "state" ? pathLength : 0}
+          trail={100}
+          markers={view === "state" ? [] : mapMarkers}
+          ariaLabel={
+            view === "state"
+              ? "Three-dimensional UMAP of population states with the trajectory during the image hold"
+              : "Three-dimensional UMAP of database images coloured by category, with the current image and its nearest neighbours"
+          }
+        />
+        {view === "map" && db && (
+          <div className="flex flex-wrap gap-x-3 gap-y-1 text-[0.7rem] text-white/55">
+            <span className="text-white/80">● this image</span>
+            <span className="text-[#ffcf66]">● nearest five</span>
+            {db.categories.map((c, i) => (
+              <span key={c} style={{ color: CATEGORY_COLORS[i % CATEGORY_COLORS.length] }}>
+                ● {c}
+              </span>
+            ))}
           </div>
         )}
       </div>
 
       {stats && (
-        <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+        <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           <section aria-label="Nearest images">
-            <h4 className="mb-2 text-sm font-semibold text-white/85">
+            <h4 className="mb-3 text-sm font-semibold text-white/85">
               Five nearest images {db ? `of ${db.ids.length.toLocaleString()}` : ""}
               {db?.source === "fallback" && <span className="font-normal text-white/45"> (bundled subset)</span>}
             </h4>
             {!db && <p className="text-sm text-white/50">{dbError ?? "Loading image database…"}</p>}
-            <ol className="grid grid-cols-5 gap-2">
+            <ol className="grid grid-cols-3 gap-3">
+              {image && (
+                <li className="min-w-0">
+                  <div className="overflow-hidden rounded-md bg-black ring-1 ring-white/40">
+                    <img src={image.url} alt={image.title} className="aspect-square w-full object-cover" />
+                  </div>
+                  <p className="mt-1 truncate text-[0.72rem] text-white/85">Your image</p>
+                  <p className="truncate text-[0.66rem] text-white/45">{image.title}</p>
+                </li>
+              )}
               {retrieval?.neighbors.map((n, i) => {
                 const meta = metas[n.id];
                 return (
@@ -428,10 +438,10 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
                     <a href={meta?.page_url} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-md bg-black">
                       <img src={imageUrl(db!, n.id, "thumb")} alt={meta?.title ?? n.category} loading="lazy" className="aspect-square w-full object-cover" />
                     </a>
-                    <p className="mt-1 truncate text-[0.7rem] text-white/75" title={meta?.title}>
+                    <p className="mt-1 truncate text-[0.72rem] text-white/75" title={meta?.title}>
                       {i + 1}. {meta?.title ?? n.category}
                     </p>
-                    <p className="truncate text-[0.65rem] text-white/45" title={meta ? `${meta.author ?? ""} · ${meta.license ?? ""}` : undefined}>
+                    <p className="truncate text-[0.66rem] text-white/45" title={meta ? `${meta.author ?? ""} · ${meta.license ?? ""}` : undefined}>
                       {meta?.author ? `${meta.author} · ` : ""}
                       {meta?.license ?? ""}
                     </p>
@@ -441,7 +451,7 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
             </ol>
           </section>
           <section aria-label="Trajectory statistics">
-            <h4 className="mb-2 text-sm font-semibold text-white/85">Trajectory statistics</h4>
+            <h4 className="mb-3 text-sm font-semibold text-white/85">Trajectory statistics</h4>
             <dl className="divide-y divide-white/10 text-sm">
               {rows.map((row) => (
                 <div key={row.label} className="flex items-center justify-between gap-3 py-1.5" title={row.hint}>

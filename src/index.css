@@ -178,3 +178,15 @@ All colors MUST be HSL.
     font-size: 0.875rem;
   }
 }
+
+/* Interactive connectome demo panels */
+.connectome-panel {
+  @apply rounded-lg p-3 text-white sm:p-5;
+  background: #0d0e14;
+  box-shadow: 0 1.25rem 3rem rgb(18 15 35 / 18%);
+}
+
+.publication-canvas .latex-publication .publication-loop {
+  background: transparent;
+  box-shadow: none;
+}

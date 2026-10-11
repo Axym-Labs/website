@@ -3,13 +3,15 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import WorkDetail from "./pages/WorkDetail";
 import Work from "./pages/Work";
 import NotFound from "./pages/NotFound";
 import Disclosure from "./pages/Disclosure";
+
+const ConnectomeDemo = lazy(() => import("./pages/ConnectomeDemo"));
 
 const queryClient = new QueryClient();
 
@@ -33,6 +35,14 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/work/" element={<Work />} />
+          <Route
+            path="/work/axosim-connectome-demo/"
+            element={
+              <Suspense fallback={<div className="min-h-screen bg-background" />}>
+                <ConnectomeDemo />
+              </Suspense>
+            }
+          />
           <Route path="/work/:slug/" element={<WorkDetail />} />
           <Route path="disclosure" element={<Disclosure/>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

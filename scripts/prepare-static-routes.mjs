@@ -6,6 +6,7 @@ const origin = "https://axym.org";
 const workDescription = "Papers, project pages, articles, and code from Axym Labs.";
 const dist = path.resolve("dist");
 const generated = path.resolve("src/generated/work");
+const markdown = path.resolve("src/content/work");
 const baseHtml = fs.readFileSync(path.join(dist, "index.html"), "utf8");
 
 const escapeHtml = (value) => String(value)
@@ -41,9 +42,13 @@ const setHead = (html, item, route) => {
     .replace("</head>", `<script type="application/ld+json">${schema}</script>\n  </head>`);
 };
 
-const items = fs.readdirSync(generated)
-  .filter((name) => name.endsWith(".html"))
-  .map((name) => fm(fs.readFileSync(path.join(generated, name), "utf8")))
+const read = (dir, extension) => fs.existsSync(dir)
+  ? fs.readdirSync(dir)
+    .filter((name) => name.endsWith(extension))
+    .map((name) => fm(fs.readFileSync(path.join(dir, name), "utf8")))
+  : [];
+
+const items = [...read(generated, ".html"), ...read(markdown, ".md")]
   .filter(({ attributes }) => !attributes.draft)
   .sort((a, b) => (a.attributes.rank ?? 999) - (b.attributes.rank ?? 999));
 

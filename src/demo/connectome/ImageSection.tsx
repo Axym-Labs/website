@@ -388,7 +388,7 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
         </div>
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6" role="list" aria-label="Preset images">
+      <div className="mt-4 grid grid-cols-4 gap-2 sm:grid-cols-8" role="list" aria-label="Preset images">
         {presets.map((preset) => (
           <button
             key={preset.id}

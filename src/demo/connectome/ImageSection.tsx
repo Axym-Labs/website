@@ -67,23 +67,18 @@ function RetinaView({ samples, lattice }: { samples: Float32Array | null; lattic
     ctx.fillStyle = "#07080d";
     ctx.fillRect(0, 0, width, height);
     if (!samples) return;
-    // Columns sit on a hexagonal lattice; draw each as a hexagon at the sampled position.
+    // Columns sit on a hexagonal lattice; draw each ommatidium as a disc sized by the nearest-neighbour spacing.
     const scale = 0.47;
-    const radius = width / 62;
-    for (let i = 0; i < lattice.x.length; i++) {
-      const cx = (0.5 + scale * lattice.x[i]) * width;
-      const cy = (0.5 + scale * lattice.y[i]) * height;
+    const xs = lattice.x.map((x) => (0.5 + scale * x) * width);
+    const ys = lattice.y.map((y) => (0.5 + scale * y) * height);
+    let spacing = Infinity;
+    for (let j = 1; j < xs.length; j++) spacing = Math.min(spacing, Math.hypot(xs[j] - xs[0], ys[j] - ys[0]));
+    const radius = spacing * 0.5;
+    for (let i = 0; i < xs.length; i++) {
       const value = Math.round(samples[i] * 255);
       ctx.fillStyle = `rgb(${value},${value},${value})`;
       ctx.beginPath();
-      for (let k = 0; k < 6; k++) {
-        const angle = (Math.PI / 3) * k + Math.PI / 6;
-        const px = cx + radius * Math.cos(angle);
-        const py = cy + radius * Math.sin(angle) * (height / width) * (16 / 9);
-        if (k === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.closePath();
+      ctx.arc(xs[i], ys[i], radius, 0, 2 * Math.PI);
       ctx.fill();
     }
   }, [samples, lattice]);
@@ -235,7 +230,7 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
     }
     (coords as Float32Array & { centre?: number[]; extent?: number }).centre = centre;
     (coords as Float32Array & { extent?: number }).extent = extent;
-    return { coords, colors, size: n > 20000 ? 0.012 : 0.022, opacity: 0.5 };
+    return { coords, colors, size: n > 5000 ? 0.02 : 0.026, opacity: 0.75 };
   }, [db]);
 
   const mapMarkers = useMemo<Marker[]>(() => {
@@ -261,7 +256,7 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
     });
     rows.push({
       label: "Latent density along the path",
-      value: `${stats.pathDensityPercentile.toFixed(0)}`,
+      value: `${stats.pathDensityPercentile.toFixed(0)}%`,
       pct: percentile(reference, "path_density_percentile", stats.pathDensityPercentile),
       pctLabel: "denser path than this share of database images",
       hint: "Average share of reference states that lie in sparser regions (10-nearest-neighbour radius).",
@@ -295,7 +290,7 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
     }
     orbitRows.push({
       label: "Latent density of the orbit",
-      value: `${stats.orbitDensityPercentile.toFixed(0)}`,
+      value: `${stats.orbitDensityPercentile.toFixed(0)}%`,
       pct: percentile(reference, "orbit_density_percentile", stats.orbitDensityPercentile),
       pctLabel: "denser than this share of stable database orbits",
       hint: "Average density percentile of the states between 3.5 and 5 s.",

@@ -1,6 +1,7 @@
 import { dequantize, knnTransform, loadPacked, percentileOf, type ReferenceStats } from "./assets";
 
-export const PRIMARY_DB = "https://data.axym.org/axosim-demo";
+// Image database served from the Axym data host; override with VITE_CONNECTOME_DB for testing.
+export const PRIMARY_DB: string = import.meta.env.VITE_CONNECTOME_DB ?? "https://data.axym.org/axosim-demo";
 export const FALLBACK_DB = "/demo/connectome/fallback-db";
 const TRANSFORM_NEIGHBORS = 15;
 

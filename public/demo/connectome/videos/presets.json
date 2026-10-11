@@ -1,0 +1,62 @@
+[
+  {
+    "id": "coast-waves",
+    "title": "Rocky coast",
+    "theme": "Nature",
+    "creator": "Vi Ulloa",
+    "license": "Pexels license",
+    "page_url": "https://www.pexels.com/video/waves-crushing-on-rocks-on-sea-shore-12465390/",
+    "frames": 1200,
+    "fps": 30.0
+  },
+  {
+    "id": "city-intersection-night",
+    "title": "City at night",
+    "theme": "City",
+    "creator": "Francisco Rodr\u00edguez",
+    "license": "Pexels license",
+    "page_url": "https://www.pexels.com/video/macedonio-alcala-oaxaca-19468974/",
+    "frames": 1200,
+    "fps": 30.0
+  },
+  {
+    "id": "earth-from-iss",
+    "title": "Earth from the ISS",
+    "theme": "Orbit",
+    "creator": "NASA Johnson Space Center",
+    "license": "Public domain",
+    "page_url": "https://images.nasa.gov/details/jsc2022m000172_Earth_in_4K_Expedition_65_Edition",
+    "frames": 1200,
+    "fps": 30.0
+  },
+  {
+    "id": "coral-reef",
+    "title": "Coral reef",
+    "theme": "Underwater",
+    "creator": "Magda Ehlers",
+    "license": "Pexels license",
+    "page_url": "https://www.pexels.com/video/marine-life-of-fishes-and-corals-underwater-3765078/",
+    "frames": 750,
+    "fps": 30.0
+  },
+  {
+    "id": "bee-on-flowers",
+    "title": "Bee on flowers",
+    "theme": "Insects",
+    "creator": "Michael Herren",
+    "license": "Pexels license",
+    "page_url": "https://www.pexels.com/video/bee-on-yellow-flowers-5423853/",
+    "frames": 750,
+    "fps": 30.0
+  },
+  {
+    "id": "fireworks",
+    "title": "Fireworks",
+    "theme": "Light",
+    "creator": "Justin Stretch",
+    "license": "Pexels license",
+    "page_url": "https://www.pexels.com/video/fireworks-exploding-in-sky-at-night-10974178/",
+    "frames": 720,
+    "fps": 30.0
+  }
+]

@@ -1,0 +1,66 @@
+%---
+% slug: kpsa
+% title: Kernelized Parameter Sensitivity Atlases
+% category: research
+% eyebrow: INTERPRETABILITY
+% summary: We derive KPSA (Kernelized Parameter Sensitivity Atlas) from a block decomposition of the empirical neural tangent kernel. It measures normalized parameter-group sensitivity on a fixed source set and uses a lightweight kernel to estimate sensitivities for unseen inputs, amortizing repeated gradient attribution.
+% author: Davide Wiest
+% draft: false
+% date: 2026-10-08
+% rank: 1.75
+%---
+\documentclass[11pt]{article}
+\usepackage{publication-web}
+\begin{document}
+
+\publicationtitle{Kernelized Parameter Sensitivity Atlases for Amortized Conditional Interpretability}
+\publicationauthors{Davide Wiest\textsuperscript{1}, Ahanaf Hasan Ariq\textsuperscript{2}, Abdul Monaf Chowdhury\textsuperscript{3}}
+\publicationaffiliations{\textsuperscript{1}Technische Universit\"at Darmstadt; \textsuperscript{2}Daffodil International School; \textsuperscript{3}University of Dhaka}
+
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
+
+\publicationfigure[\linewidth]
+  {figures/kpsa-overview.png}{/work/kpsa-overview.png}
+  {KPSA is built once from source samples and a parameter decomposition, then queried for unseen samples to identify sensitivity circuits and localize neurons.}
+  {KPSA builds a compact atlas once by pairing source representations with normalized parameter-group sensitivities, then estimates input-conditioned sensitivity profiles for circuit discovery and attribution without per-query backpropagation.}
+
+\publicationabstract{Gradient-based attribution provides input-specific information about model parameters, but computing it via backpropagation for many samples is expensive, while static importance scores discard input dependence. We derive KPSA (Kernelized Parameter Sensitivity Atlas) from a block decomposition of the empirical neural tangent kernel. It measures normalized parameter-group sensitivity on a fixed source set and functional, embeds those sources in an explicit query space, and uses a lightweight kernel to estimate sensitivities for unseen inputs. We characterize query-space fit through target stability and derive bounds that separate finite-source from irreducible representation error and give margin-based top-$k$ recovery. This paper studies two interpretability applications. Firstly, KPSA identifies parameter groups with high susceptibility to perturbations across vision, forecasting, and protein-modeling setups. Across a fivefold range of parameter budgets (0.02--0.1\%), its selected groups attain 39--85\% of the perturbation susceptibility of a first-order backpropagation oracle. In vision and forecasting, these parameter groups form sparse sensitivity circuits that extend across depth and vary systematically with the input. Secondly, we use KPSA on an activation-attribution problem for MLP features in transformers. It retains 81\% of the gap between a backpropagation oracle and a constant-sensitivity baseline on vision while increasing batched query-time throughput from 551 to 2,041 images/s and reducing peak GPU memory from 4.55 to 0.44~GB. On the protein-modeling task, it recovers 68\% of this gap. An ablation of KPSA's kernel aggregation shows that nearest-neighbor retrieval in KPSA space can remain competitive. The empirics show that compact kernel atlases can store useful input-dependent parameter sensitivity while amortizing repeated gradient attribution, a step toward scalable conditional interpretability.}
+
+\publicationactions{%
+  \publicationaction{https://arxiv.org/abs/2610.12737}{Read paper}
+  \publicationaction{https://github.com/Axym-Labs/kpsa}{View code}%
+}
+
+\section{From the empirical NTK to an atlas}
+
+Gradient-based attribution answers an intrinsically conditional question: which parameters or internal features matter for this input and this model functional? A fresh backward pass gives a high-resolution answer, but its memory and latency costs recur for every query, while a single global importance vector is cheap but erases input dependence. KPSA poses the repeated-query problem as statistical estimation: from a finite source set with measured gradients, estimate the sensitivity profile of an unseen query using only a compact representation and a forward computation.
+
+For a frozen scalar functional, the empirical neural tangent kernel decomposes exactly into parameter-block kernels. Each diagonal block equals expected squared first-order susceptibility to a random perturbation of that parameter group, so its normalized share is the quantity KPSA estimates. KPSA measures these block-NTK profiles on a fixed source set, embeds the sources in a categorical or learned query space, and transfers their profiles to unseen inputs using a nonnegative retrieval kernel, a vector-valued Nadaraya--Watson estimator of an NTK-derived target.
+
+The analysis characterizes query-space fit through target stability: nearby representations should have similar sensitivity profiles. A finite-source bound separates local instability, effective source count, and irreducible representation error, and a margin condition translates profile error into top-$k$ recovery.
+
+\section{Main results}
+
+KPSA retrieves sparse parameter-influence sets whose exact antithetic perturbations remain input dependent in vision, forecasting, and protein models. At the 0.1\% budget, semantic KPSA recovers 35\%, 47\%, 50\%, and 33\% of the static-to-direct-gradient causal gap on ImageNet, ETTh1, Weather, and Swiss-Prot, respectively. It also localizes MLP features for exact zero-deactivation, recovering 81\% of the vision causal gap at the efficiency operating point and 68\% on protein modeling. The vision query path runs at 2,041 rather than 551 images/s and uses 0.44 rather than 4.55~GB peak GPU memory, because per-query reverse-mode differentiation is replaced with a forward representation and kernel retrieval; construction cost is paid once.
+
+KPSA estimates sensitivity for a fixed model, functional, partition, representation, and source distribution. It cannot recover variation discarded by the representation, and normalized unsigned energy does not encode sign or directed computation.
+
+\section{Citation}
+
+\begin{verbatim}
+@misc{wiest2026kpsa,
+  author        = {Wiest, Davide and Ariq, Ahanaf Hasan
+                   and Chowdhury, Abdul Monaf},
+  title         = {Kernelized Parameter Sensitivity Atlases for
+                   Amortized Conditional Interpretability},
+  year          = {2026},
+  eprint        = {2610.12737},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url           = {https://arxiv.org/abs/2610.12737}
+}
+\end{verbatim}
+
+\end{document}

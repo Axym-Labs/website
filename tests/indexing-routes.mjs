@@ -12,6 +12,7 @@ const routes = [
   "/work/axosim-fly-geometry/",
   "/work/iewc/",
   "/work/axosim-connectome-demo/",
+  "/work/kpsa/",
   "/work/terel/",
   "/work/pptrain/",
   "/work/marey/",

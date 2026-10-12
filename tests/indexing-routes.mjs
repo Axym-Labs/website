@@ -7,6 +7,7 @@ const dist = path.resolve("dist");
 const routes = [
   "/",
   "/work/",
+  "/work/axosim/",
   "/work/axosim-fly-geometry/",
   "/work/iewc/",
   "/work/axosim-connectome-demo/",

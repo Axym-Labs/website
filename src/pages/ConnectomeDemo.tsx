@@ -6,7 +6,7 @@ import { setPageMetadata } from "@/lib/seo";
 import { loadPacked, type ReferenceStats } from "@/demo/connectome/assets";
 import { loadDatabase, loadReferenceStats, type Database } from "@/demo/connectome/database";
 import ImageSection from "@/demo/connectome/ImageSection";
-import type { CloudLayer } from "@/demo/connectome/StateSpace";
+import { stateCloudLayer, type CloudLayer } from "@/demo/connectome/stateSpaceScene";
 import { ASSET_BASE, useSimulator } from "@/demo/connectome/useSimulator";
 import VideoSection from "@/demo/connectome/VideoSection";
 
@@ -25,17 +25,7 @@ const ConnectomeDemo = () => {
 
   useEffect(() => {
     setPageMetadata({ title: `${TITLE} | Axym Labs`, description: SUMMARY, path: `/work/${DEMO_SLUG}/`, type: "article" });
-    loadPacked(ASSET_BASE, "state-cloud").then(({ arrays }) => {
-      const coords = arrays.coords as Float32Array;
-      const labels = arrays.labels as Uint8Array;
-      const colors = new Float32Array(coords.length);
-      for (let i = 0; i < labels.length; i++) {
-        // Image-hold states in pale violet, preset-video states slightly warmer.
-        const video = labels[i] > 0;
-        colors.set(video ? [0.78, 0.7, 0.62] : [0.6, 0.58, 0.8], i * 3);
-      }
-      setCloud({ coords, colors, size: 0.02, opacity: 0.32 });
-    });
+    loadPacked(ASSET_BASE, "state-cloud").then(({ arrays }) => setCloud(stateCloudLayer(arrays.coords as Float32Array, arrays.labels as Uint8Array)));
     fetch(`${ASSET_BASE}/runtime.json`)
       .then((r) => r.json())
       .then((rt) => setLattice({ x: rt.lattice_x, y: rt.lattice_y }));
@@ -82,8 +72,8 @@ const ConnectomeDemo = () => {
               nearest reference states, as in the article's film.
             </p>
             <p>
-              The pale cloud holds reference states from {images} database images and the preset clips. The line shows the path so far and its bright end
-              the last 1.6 seconds. Drag to rotate the view.
+              The pale cloud holds reference states from {images} database images and the preset clips. The line shows the path so far, its bright end
+              the last 1.6 seconds and the glowing red dot the current state. Drag to rotate the view.
             </p>
           </section>
           <div className="mx-auto mt-8 w-full max-w-[72rem]">

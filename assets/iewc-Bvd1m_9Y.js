@@ -1,9 +1,9 @@
-const e=`---
+const n=`---
 slug: iewc
 title: Improved Elastic Weight Consolidation
 category: research
 eyebrow: CONTINUAL LEARNING
-summary: IEWC derives Elastic Weight Consolidation from an explicit solution-preservation constraint and removes unintended gradient-scale weighting from its importance estimate. Its sample-weighted variant improves final average performance across all tested settings.
+summary: IEWC derives Elastic Weight Consolidation from an explicit constraint that preserves previously learned behavior, and separates EWC's implicit loss-gradient weighting from parameter sensitivity. Across five domains, IEWC variants improve on EWC in classification, segmentation, and language, and remain comparable in forecasting and diffusion.
 draft: false
 date: 2026-07-15
 rank: 1
@@ -71,4 +71,4 @@ average performance across all of them.
 <!-- l. 55 --><p class='nopar'>
 </p>
 </div>
-`;export{e as default};
+`;export{n as default};

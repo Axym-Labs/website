@@ -50,17 +50,17 @@ Analysis</a> objective.
                                                                      
 
                                                                      
-</p><!-- l. 41 --><p class='indent'>   For current activation \\(z_t\\), preceding same-sequence activation \\(p_t\\), detached
-running mean \\(\\mu _t\\) and variance \\(v_t\\), and lateral matrix \\(M_t\\), the surrogate gradient is
-proportional to
+</p><!-- l. 41 --><p class='indent'>   For current activation \\(z_t\\), preceding activation \\(p_t\\), detached running mean \\(\\mu _t\\)
+and variance \\(v_t\\), and lateral matrix \\(M_t\\), the surrogate gradient is proportional
+to
 </p><!-- l. 48 --><p class='indent'>   \\[ r_t =I_t(z_t-p_t) -\\frac {\\lambda _V}{\\lambda _T}[\\tau -v_t]_+\\odot (z_t-\\mu _t) +\\frac {\\lambda _C}{2\\lambda _T}\\operatorname {offdiag}(M_t)(z_t-\\mu _t). \\]
-</p><!-- l. 50 --><p class='indent'>   The three terms supply temporal agreement, variance expansion below the
-target \\(\\tau \\), and covariance control. For the detached target \\(\\widehat z_t=\\operatorname {sg}(z_t-r_t)\\), the local loss \\(\\lambda _T\\lVert z_t-\\widehat z_t\\rVert _2^2/D\\) has the
-same derivative with respect to \\(z_t\\) as the weighted surrogate at its construction
-point. This is a causal surrogate of VICReg’s decomposition, not a scalar
-re-expression of the original batch objective: its gradient depends on the current
-observation and fixed-size detached quantities, but not on the history that
-produced them.
+</p><!-- l. 50 --><p class='indent'>   The three terms control temporal slowness, variance expansion below the
+target \\(\\tau \\), and covariance. For the detached target \\(\\widehat z_t=\\operatorname {sg}(z_t-r_t)\\), the local loss \\(\\lambda _T\\lVert z_t-\\widehat z_t\\rVert _2^2/D\\) has the same
+derivative with respect to \\(z_t\\) as the weighted surrogate at its construction point.
+This is a causal surrogate of VICReg’s decomposition, not a scalar re-expression
+of the original batch objective: its gradient depends on the current observation
+and fixed-size detached quantities, but not on the history that produced
+them.
 </p><!-- l. 52 --><p class='noindent'>
 </p>
    <h2 class='sectionHead'><a id='x1-2000'></a>From target residual to neuron-local update</h2>

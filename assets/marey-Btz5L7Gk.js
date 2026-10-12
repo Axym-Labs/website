@@ -40,8 +40,8 @@ Chart.line U.second U.metre t x
 |&gt; Chart.toSvg SvgBackend.render "fall.svg" (Chart.size 800.0 500.0)
 </pre>
 <!-- l. 49 --><p class='nopar'>
-</p><!-- l. 51 --><p class='indent'>   Nothing above configures an axis. The scale, the domain, the SI prefix, the
-tick values, the tick labels and both axis titles are derived from the two unit
+</p><!-- l. 51 --><p class='indent'>   We don’t need to specify axes. The scale, the domain, the SI prefix, the tick
+values, the tick labels and both axis titles are derived from the two unit
 witnesses. <span class='cmtt-10x-x-109'>x </span>is never annotated as a length — <span class='cmtt-10x-x-109'>0.5 * 9.81&lt;m/s^2&gt; * t * t </span>has
 type <span class='cmtt-10x-x-109'>float&lt;m&gt;</span>, which the compiler derives — and plotting seconds against
 seconds on these axes is a compile error.

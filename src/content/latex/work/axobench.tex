@@ -1,0 +1,80 @@
+%---
+% slug: axobench
+% title: AxoBench
+% category: product
+% eyebrow: NEURAL SIMULATION
+% summary: AxoBench provides the datasets, metrics, and evaluation protocol for single-neuron fidelity. It accepts any NumPy prediction function and depends only on NumPy, Matplotlib, and Requests.
+% draft: false
+% date: 2026-10-12
+% rank: 0.75
+%---
+\documentclass[11pt]{article}
+\usepackage{publication-web}
+\begin{document}
+
+\publicationtitle{AxoBench, datasets and metrics for single-neuron fidelity}
+\publicationauthors{Axym Labs}
+\publicationaffiliations{Darmstadt, Germany}
+
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
+
+\publicationfigure[\linewidth]
+  {figures/axobench-error-anatomy.png}{/work/axobench-error-anatomy.svg}
+  {Four panels. A: mean somatic voltage around isolated spikes; the teacher peaks near -10 mV at hit and missed spikes, the model near -47 mV at hits and false spikes and without a peak at misses. B: share of retained steps and of squared subthreshold error by time since the last teacher spike. C: Voltage SERA skill, AP-free ceiling, and subthreshold skill by teacher firing rate. D: subthreshold skill and teacher variance share by frequency band.}
+  {Error anatomy of AxoSim--GRU Medium on the confirmation block of \texttt{val}: 120 traces balanced over the five morphologies, of which 24 calibrate the spike threshold and 96 are scored. \textbf{A}, mean somatic voltage around isolated hit, missed, and false spikes. \textbf{B}, share of retained steps and of squared subthreshold error by time since the last teacher spike. \textbf{C}, skill by teacher firing rate. \textbf{D}, subthreshold skill by frequency band. Written by \texttt{axobench error-anatomy} from the model's evaluation cache.}
+
+\publicationabstract{AxoBench provides the datasets, metrics, and evaluation protocol for single-neuron fidelity. It accepts any NumPy prediction function and depends only on NumPy, Matplotlib, and Requests. AxoBench releases three datasets on Hugging Face. They share one input and target contract: native 1\,ms samples, 1,278 signed event channels (639 excitatory, then 639 inhibitory), and a target of spike indicator and normalized somatic voltage. They differ in where the inputs come from and therefore in the question they answer.}
+
+\publicationactions{%
+  \publicationaction{https://axo.axym.org/axobench/benchmarking/}{Read documentation}
+  \publicationaction{https://axo.axym.org/datasets/}{Choose a dataset}
+  \publicationaction{https://pypi.org/project/axobench/}{Open package}
+  \publicationaction{https://huggingface.co/datasets/Axym-Labs/axobench}{Open dataset}%
+}
+
+AxoBench is the benchmark and dataset-generation workbench for single-neuron surrogate evaluation used by \href{/work/axosim/}{AxoSim}. It evaluates caller-supplied prediction functions or stored predictions; model implementations and training code stay in AxoSim.
+
+\section{Install and evaluate}
+
+\begin{verbatim}
+python -m pip install "axobench>=0.2.1"
+\end{verbatim}
+
+The evaluator accepts any batched NumPy prediction callable and a dataset root. It calibrates the spike threshold on a held-out fraction of the selected validation traces, computes the core metric set, evaluates available paired interventions, and returns a fixed 24-row attention panel:
+
+\begin{verbatim}
+from axobench.benchmark import (
+    EvaluationConfig, evaluate_model, format_evaluation_report,
+)
+
+report = evaluate_model(
+    predict,
+    dataset_root="data/axobench",
+    model_id="candidate-17",
+    config=EvaluationConfig(default_spike_threshold=0.0),
+)
+print(format_evaluation_report(report))
+\end{verbatim}
+
+For iterative comparisons, a saved baseline cache lets each candidate be scored on identical traces, with morphology-stratified 95\% bootstrap intervals for the paired differences.
+
+\section{Datasets}
+
+\begin{itemize}
+\tightlist
+\item \href{https://huggingface.co/datasets/Axym-Labs/axobench}{\texttt{Axym-Labs/axobench}}: CoreNEURON traces from five layer-5 pyramidal morphologies in \texttt{train}, \texttt{val}, and \texttt{test} splits; 125,000 traces of 6,000\,ms. Use them for pretraining, recipe selection, and the ordinary AxoBench evaluation.
+\item \href{https://huggingface.co/datasets/Axym-Labs/axobench-population}{\texttt{Axym-Labs/axobench-population}}: teacher responses to input histories recorded in 100 connected AxoSim networks; 50,000 traces of 1,200\,ms. Use them to fine-tune and evaluate under recurrent input statistics.
+\item \href{https://huggingface.co/datasets/Axym-Labs/axobench-interventions}{\texttt{Axym-Labs/axobench-interventions}}: each input sample simulated twice, unchanged and after one of five defined edits; 12,500 pairs of 6,000\,ms. Use the pairs to measure response fidelity.
+\end{itemize}
+
+\href{https://axo.axym.org/axobench/neuronio/}{NeuronIO} simulations convert to the same format. The released datasets are CC BY-NC 4.0, because every trace is simulated on Allen Cell Types Database reconstructions.
+
+\section{Metrics and diagnostics}
+
+The \href{https://axo.axym.org/axobench/metrics/}{core metrics} are Voltage SERA, spike Mean F1 over 0--5\,ms tolerances, the subthreshold voltage RMSE, and Response SERA. \href{https://axo.axym.org/axobench/skill/}{Skill rows} express SERA against a constant voltage and against the best prediction without action potentials; their ratio and a firing-rate reweighting support comparisons across datasets.
+
+The \href{https://axo.axym.org/axobench/error-anatomy/}{error anatomy} breaks a model's errors down by spike outcome, time from a spike, firing rate, frequency band, and morphology, as in Figure~1. AxoBench defines evaluation and generation contracts; it does not claim that one scalar metric captures every biologically relevant error.
+
+\end{document}

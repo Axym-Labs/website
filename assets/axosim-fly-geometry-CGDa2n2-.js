@@ -14,7 +14,7 @@ content_format: html
 <div class="latex-publication">
 <header class="publication-head"> <div class="publication-title-block"><h1 class="publication-title">Finding Visual Dynamics in a Simulated Fly Brain</h1><p class="publication-authors">Davide Wiest</p><p class="publication-affiliations">Darmstadt,
 Germany</p></div></header>
-   <figure class="publication-figure"><video class="publication-video" controls muted playsinline preload="metadata" poster="/work/axosim/axosim-neural-landscape-poster.png?v=clips-20261011"><source src="/work/axosim/axosim-neural-landscape.mp4?v=clips-20261011" type="video/mp4">Your browser does not support embedded video.</video><figcaption>Neural-state trajectory under three video clips and three held ISS photographs.</figcaption></figure>
+   <figure class="publication-figure"><video class="publication-video" controls muted playsinline preload="metadata" poster="/work/axosim/axosim-neural-landscape-poster.png?v=space-20261012"><source src="/work/axosim/axosim-neural-landscape.mp4?v=space-20261012" type="video/mp4">Your browser does not support embedded video.</video><figcaption>Neural-state trajectory under three video clips and three held ISS photographs.</figcaption></figure>
 <!--l. 34--><p class="indent" >   This research update is part of the  <a 
 href="https://axo.axym.org" >AxoSim line of work</a> on learned neuron
 models. You can run the simulated circuit yourself in the  <a 
@@ -371,14 +371,16 @@ shared across them.
 </p>
    <h2 class="sectionHead"><a 
  id="x1-8000"></a>Testing the oscillatory attractor</h2>
-<!--l. 219--><p class="noindent" >The film at the top provides a temporal view of the same idea. Each pale point
-is one complete 2,884-neuron population state; the bright causal trail
-follows one continuous AxoSim response across three 40-second clips,
-showing a rocky coast, a city intersection at night and Earth seen from
-the International Space Station, followed by three public-domain ISS
-photographs, each held for five seconds <span class="cite">[<a 
-href="#Xnasaiss">10</a>]</span>. Across the three transitions
-into the held photographs, the median distance to the photograph’s
+<!--l. 219--><p class="noindent" >The film at the top provides a temporal view of the same idea. It shows the
+slowly rotating state space of the interactive demo: each pale point is one
+complete 2,884-neuron population state from a database image or a preset clip,
+and the film’s own states, one every 16 ms, are placed among their nearest
+neighbours. The line and its glowing red head follow one continuous AxoSim
+response across three 40-second clips, showing a rocky coast, a city intersection
+at night and Earth seen from the International Space Station, followed by three
+public-domain ISS photographs, each held for five seconds <span class="cite">[<a 
+href="#Xnasaiss">10</a>]</span>. Across the three
+transitions into the held photographs, the median distance to the photograph’s
 late recurrent orbit falls by a factor of 2.36. The dominant frequency
 stays the same between consecutive 1.5-second windows in all three
 held intervals, at 3.33 Hz for two photographs and 62.67 Hz for the
@@ -411,12 +413,12 @@ milliseconds by 2.5 seconds. At \\(0.25\\sigma \\), the median also reaches the 
 floor, the bootstrap upper bound is 0.0395, and 27 of 30 trials meet the same
 sustained-return criterion. The four failures occur on one city trial at the lower
 amplitude and on two apple trials as well as one Voyager Earth trial at the
-higher amplitude.
-<a 
- id="x1-8001r12"></a>
                                                                      
 
                                                                      
+higher amplitude.
+<a 
+ id="x1-8001r12"></a>
 </p>
    <figure class="publication-figure"><img src="/work/axosim/limit-cycle-return.png" alt="Full-state distance to the unperturbed orbit after two perturbation amplitudes, with late return ratios for six constant images." loading="lazy" decoding="async" /><figcaption><span 
 class="pplb7t-x-x-109">Figure 12. </span>Full-state perturbations return toward the unperturbed
@@ -453,10 +455,10 @@ about neural population geometry:
      input-dependent limit cycles across six images, replicating observed
      stable  oscillatory  population  dynamics  with  AxoSim–Lite  models
      trained on mammalian layer-5 pyramidal neurons.</p></li></ul>
-<!--l. 245--><p class="indent" >   Population manifolds appear useful, but methods that treat neural features
                                                                      
 
                                                                      
+<!--l. 245--><p class="indent" >   Population manifolds appear useful, but methods that treat neural features
 as isolated directions do not capture their geometry well <span class="cite">[<a 
 href="#Xmodell2025">8</a>, <a 
 href="#Xgoodfire">3</a>]</span>. Here we use a
@@ -498,13 +500,13 @@ href="https://doi.org/10.1038/s41586-024-07939-3" >Connectome-constrained  netwo
      neural activity across the fly visual system</a>. <span 
 class="pplri7t-x-x-109">Nature</span>, 2024.
      </p>
+                                                                     
+
+                                                                     
      <p class="bibitem" ><span class="biblabel">
   [3]<span class="bibsp">   </span></span><a 
  id="Xgoodfire"></a>M. Pearce et al.  <a 
 href="https://www.goodfire.com/research/phylogeny-manifold" >Finding the Tree of Life in Evo 2</a>. Goodfire, 2025.
-                                                                     
-
-                                                                     
      </p>
      <p class="bibitem" ><span class="biblabel">
   [4]<span class="bibsp">   </span></span><a 
@@ -555,10 +557,10 @@ href="https://eol.jsc.nasa.gov/" >Gateway to Astronaut Photography
 href="https://images.nasa.gov/" >Earth from Space in 4K – Expedition 65</a>. Clips: Vi Ulloa
      and Francisco Rodríguez via  <a 
 href="https://www.pexels.com/" >Pexels</a>.
-     </p>
                                                                      
 
                                                                      
+     </p>
      <p class="bibitem" ><span class="biblabel">
  [11]<span class="bibsp">   </span></span><a 
  id="Xmiller2016"></a>P.  Miller.     <a 

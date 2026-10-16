@@ -15,27 +15,34 @@ content_format: html
 <header class='publication-head'> <div class='publication-title-block'><h1 class='publication-title'>AxoSim: Learned Neuron Models for Population Simulation at Scale</h1><p class='publication-authors'>Davide
 Wiest, Jonathan Schäfer</p><p class='publication-affiliations'>Axym Labs, Darmstadt, Germany</p></div></header>
 <p><a id='x1-2r1'></a>
-   </p><figure class='publication-figure'><img alt='AxoSim-GRU Small and Mamba Medium in color, alongside Branch-ELM models and the CoreNEURON reference in gray, compared on inference and history throughput, voltage and dynamics fidelity, and spike Mean F1.' decoding='async' loading='lazy' src='/work/axosim-central-comparison.svg' /><figcaption><span class='pplb7t-x-x-109'>Figure 1. </span>AxoSim–GRU Small and Mamba Medium compared with three
-released Branch–ELM sizes on the five AxoBench morphologies, which
-Branch–ELM did not see during training; larger radii indicate better
-performance. The axes show inference throughput, voltage fidelity (Voltage
-SERA), dynamics fidelity (Dynamics SERA), spike Mean F1 over 0–5 ms
-matching tolerances, and history throughput. CoreNEURON is the ground-truth
-detailed simulator, and Branch–ELM is the learned-surrogate predecessor of
-AxoSim. Raw measurements, fixed mappings and runtime contracts appear in
-the appendix of the technical report.</figcaption></figure>
+   </p><figure class='publication-figure'><img alt='AxoSim-GRU Small and Mamba Medium in color, alongside Branch-ELM and TCN models and the CoreNEURON reference in gray, compared on inference and history throughput, dataset-relative voltage and subthreshold fidelity, and spike Mean F1.' decoding='async' loading='lazy' src='/work/axosim-central-comparison.svg' /><figcaption><span class='pplb7t-x-x-109'>Figure 1. </span>AxoSim–GRU Small and Mamba Medium compared with three
+released Branch–ELM sizes and the smallest and largest released TCN; larger
+radii indicate better performance. The axes show inference throughput, voltage
+fidelity (voltage SERA skill as a fraction of the skill of the teacher voltage
+clipped below action potentials), subthreshold fidelity (RMSE skill outside
+action-potential windows), spike Mean F1 over 0–5 ms matching tolerances, and
+history throughput. The fidelity axes are dataset-relative: each model is scored
+on held-out traces of its own training data, AxoBench for AxoSim and NeuronIO
+for Branch–ELM and TCN, with firing rates matched between the datasets.
+CoreNEURON is the ground-truth detailed simulator, and Branch–ELM is the
+learned-surrogate predecessor of AxoSim. Raw measurements, fixed
+mappings and runtime contracts appear in the appendix of the technical
+report.</figcaption></figure>
    <section class='publication-abstract'><h2 class='publication-abstract-heading'>Abstract</h2><div class='publication-abstract-body'>Detailed neuron simulators resolve morphology and ion-channel
 mechanisms, but repeated numerical integration is costly at population
 scale. Learned surrogates reduce this cost; in recurrent circuits, however,
 each prediction also affects the model’s future inputs. AxoSim combines
 morphology-conditioned GRU and Mamba neuron models with delayed
 synaptic routing, mutable efficacies, and differentiable population state.
-AxoSim–GRU Medium processes 16.8 million neuron-steps per second in the
-matched inference benchmark. On an RTX 5090, the runtime simulates 65,536
-neurons with 4,000 synaptic contacts per neuron at 3.38\\(\\times \\) real-time speed. On the
-same consumer-grade GPU, populations of 20,000 neurons are trained in real
-time with full backpropagation through time (BPTT) at 2,000 synaptic contacts
-per neuron. In a temporal-shift experiment on Spiking Heidelberg Digits
+AxoSim–GRU Medium reaches a spike Mean F1 of 0.61 compared with up to
+0.45 for released Branch-ELM and TCN models on their respective own training
+datasets, while processing 16.8 million neuron-steps per second in the matched
+inference benchmark, more than 20 times Branch-ELM’s throughput. On an
+RTX 5090, the runtime simulates 65,536 neurons with 4,000 synaptic
+contacts per neuron at 3.38\\(\\times \\) real-time speed. On the same consumer-grade
+GPU, populations of 20,000 neurons are trained in real time with full
+backpropagation through time (BPTT) at 2,000 synaptic contacts per
+neuron. In a temporal-shift experiment on Spiking Heidelberg Digits
 (SHD), morphology and synaptic adaptation raise target accuracy by \\(6.46\\pm 1.20\\)
 percentage points across six independently trained models. A separate corpus
 provides 50,000 validated population traces from 100 recurrent connectomes
@@ -43,29 +50,29 @@ with connectome-disjoint splits. Together, these experiments separate
 teacher-forced fidelity from recurrent simulation and inference-time
 adaptation.</div></section>
    <nav aria-label='Project resources' class='publication-actions'><a class='publication-action' href='https://axo.axym.org/report/main.pdf'>Read report</a> <a class='publication-action' href='https://axo.axym.org'>Read documentation</a> <a class='publication-action' href='https://pypi.org/project/axosim/'>Open package</a> <a class='publication-action' href='/work/axosim-connectome-demo/'>Try the demo</a></nav>
-<!-- l. 38 --><p class='indent'>   You can run a simulated fly visual system built from AxoSim–Lite neurons in
+<!-- l. 40 --><p class='indent'>   You can run a simulated fly visual system built from AxoSim–Lite neurons in
+                                                                     
+
+                                                                     
 the  <a href='/work/axosim-connectome-demo/'>interactive connectome demo</a>, and read how its population states
 represent visual motion in the  <a href='/work/axosim-fly-geometry/'>research update</a>. Models are evaluated with
 <a href='/work/axobench/'>AxoBench</a>.
 </p>
-                                                                     
-
-                                                                     
    <h2 class='sectionHead'><a id='x1-1000'></a>From single neurons to populations</h2>
-<!-- l. 42 --><p class='noindent'>Learned neuron models fit responses generated by a detailed teacher and
+<!-- l. 44 --><p class='noindent'>Learned neuron models fit responses generated by a detailed teacher and
 approximate the map from synaptic input histories to somatic voltage and
 spikes. In a recurrent population, a predicted spike is delayed, delivered to
 downstream dendrites, and incorporated into the input for later predictions, so
 an error can change both the current output and the distribution of future inputs.
 AxoSim is designed around that distinction.
-</p><!-- l. 44 --><p class='indent'>   Each AxoSim model receives events that preserve their sign and
+</p><!-- l. 46 --><p class='indent'>   Each AxoSim model receives events that preserve their sign and
 dendritic destination, combines them through a morphology-conditioned
 front end, and predicts a somatic-voltage coordinate and spike logit at
 every native millisecond. GRU and Mamba temporal cores share this
 contract. The compact AxoSim–Lite specialization preserves the same event
 semantics while reducing state and computation for persistent connected
 populations.
-</p><!-- l. 46 --><p class='indent'>   The population runtime maintains recurrent neuron state and a directed
+</p><!-- l. 48 --><p class='indent'>   The population runtime maintains recurrent neuron state and a directed
 graph of synaptic contacts, each with a source, sign, branch destination, delay,
 and mutable efficacy. Behavior parameters belong to individual neurons,
 morphology parameters are shared by a structural class, and synaptic
@@ -73,7 +80,7 @@ parameters belong to individual contacts. Any selected group can receive
 gradients through a complete supplied sequence, which is how AxoSim
 expresses morphology transfer, changes in synaptic efficacy, and task
 adaptation.
-</p><!-- l. 48 --><p class='noindent'>
+</p><!-- l. 50 --><p class='noindent'>
 </p>
    <h2 class='sectionHead'><a id='x1-2000'></a>Install</h2>
                                                                      
@@ -82,8 +89,8 @@ adaptation.
    <pre class='verbatim' id='verbatim-1'>
 python -m pip install axosim
 </pre>
-<!-- l. 52 --><p class='nopar'>
-</p><!-- l. 54 --><p class='indent'>   The base installation covers GRU models, Lite populations, and data
+<!-- l. 54 --><p class='nopar'>
+</p><!-- l. 56 --><p class='indent'>   The base installation covers GRU models, Lite populations, and data
 conversion. Two extras add the fused Mamba backend and AxoBench:
                                                                      
 
@@ -92,13 +99,13 @@ conversion. Two extras add the fused Mamba backend and AxoBench:
    <pre class='verbatim' id='verbatim-2'>
 python -m pip install ’axosim[mamba,bench]’
 </pre>
-<!-- l. 58 --><p class='nopar'>
-</p><!-- l. 60 --><p class='indent'>   The  <a href='https://axo.axym.org'>documentation</a> covers model selection, inference, training, populations,
+<!-- l. 60 --><p class='nopar'>
+</p><!-- l. 62 --><p class='indent'>   The  <a href='https://axo.axym.org'>documentation</a> covers model selection, inference, training, populations,
 sparse contact events, inference-time adaptation, and the API reference.
-</p><!-- l. 62 --><p class='noindent'>
+</p><!-- l. 64 --><p class='noindent'>
 </p>
    <h2 class='sectionHead'><a id='x1-3000'></a>Main results</h2>
-<!-- l. 64 --><p class='noindent'>The strongest accuracy result in the report is spike timing, accompanied by
+<!-- l. 66 --><p class='noindent'>The strongest accuracy result in the report is spike timing, accompanied by
 lower Voltage and Dynamics SERA than released Branch–ELM references on the
 AxoBench morphologies; paired synaptic interventions also yield lower
 teacher-response error across all compared model sizes. At population scale, a
@@ -106,16 +113,16 @@ complete million-neuron step runs in real time at 362 contacts per neuron. A
 65,536-neuron population remains 3.38 times faster than real time at 4,000
 contacts, while complete full-BPTT updates remain real time for 20,000 neurons
 with 2,000 contacts per neuron.
-</p><!-- l. 66 --><p class='indent'>   Held-out trace gains and connected-population validity form two distinct
+</p><!-- l. 68 --><p class='indent'>   Held-out trace gains and connected-population validity form two distinct
 levels of evidence, because recurrent predictions change their own future inputs.
 AxoSim makes that distinction measurable by preserving contact semantics,
 exposing the ownership of adaptive state, and attaching each result to its
 measurement conditions.
-</p><!-- l. 68 --><p class='indent'>   The report evaluates single-neuron fidelity with spike Mean F1, Voltage
+</p><!-- l. 70 --><p class='indent'>   The report evaluates single-neuron fidelity with spike Mean F1, Voltage
 SERA, and Dynamics SERA under the SERA definition stated in the report.
 AxoBench 0.2.0 and later redefine SERA, so their values are not comparable
 with the report’s.
-</p><!-- l. 70 --><p class='noindent'>
+</p><!-- l. 72 --><p class='noindent'>
 </p>
    <h2 class='sectionHead'><a id='x1-4000'></a>Citation</h2>
                                                                      
@@ -131,7 +138,7 @@ with the report’s.
   url         = {https://axo.axym.org/report/main.pdf}
 }
 </pre>
-<!-- l. 81 --><p class='nopar'>
+<!-- l. 83 --><p class='nopar'>
 </p>
 </div>
 `;export{e as default};

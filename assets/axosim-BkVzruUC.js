@@ -15,7 +15,7 @@ content_format: html
 <header class='publication-head'> <div class='publication-title-block'><h1 class='publication-title'>AxoSim: Learned Neuron Models for Population Simulation at Scale</h1><p class='publication-authors'>Davide
 Wiest, Jonathan Schäfer</p><p class='publication-affiliations'>Axym Labs, Darmstadt, Germany</p></div></header>
 <p><a id='x1-2r1'></a>
-   </p><figure class='publication-figure'><img alt='AxoSim-GRU Small and Mamba Medium in color, alongside Branch-ELM and TCN models and the CoreNEURON reference in gray, compared on inference and history throughput, dataset-relative voltage and subthreshold fidelity, and spike Mean F1.' decoding='async' loading='lazy' src='/work/axosim-central-comparison.svg' /><figcaption><span class='pplb7t-x-x-109'>Figure 1. </span>AxoSim–GRU Small and Mamba Medium compared with three
+   </p><figure class='publication-figure'><img alt='AxoSim-GRU Medium and Mamba Medium in color, alongside Branch-ELM and TCN models and the CoreNEURON reference in gray, compared on inference and history throughput, dataset-relative voltage and subthreshold fidelity, and spike Mean F1.' decoding='async' loading='lazy' src='/work/axosim-central-comparison.svg' /><figcaption><span class='pplb7t-x-x-109'>Figure 1. </span>AxoSim–GRU Medium and Mamba Medium compared with three
 released Branch–ELM sizes and the smallest and largest released TCN; larger
 radii indicate better performance. The axes show inference throughput, voltage
 fidelity (voltage SERA skill as a fraction of the skill of the teacher voltage

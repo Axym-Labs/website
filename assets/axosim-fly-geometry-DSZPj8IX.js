@@ -14,7 +14,7 @@ content_format: html
 <div class="latex-publication">
 <header class="publication-head"> <div class="publication-title-block"><h1 class="publication-title">Finding Visual Dynamics in a Simulated Fly Brain</h1><p class="publication-authors">Davide Wiest</p><p class="publication-affiliations">Darmstadt,
 Germany</p></div></header>
-   <figure class="publication-figure"><video class="publication-video" controls muted playsinline preload="metadata" poster="/work/axosim/axosim-neural-landscape-poster.png?v=space-20261012"><source src="/work/axosim/axosim-neural-landscape.mp4?v=space-20261012" type="video/mp4">Your browser does not support embedded video.</video><figcaption>Neural-state trajectory under three video clips and three held ISS photographs.</figcaption></figure>
+   <figure class="publication-figure"><video class="publication-video" controls muted playsinline preload="metadata" poster="/work/axosim/axosim-neural-landscape-poster.png?v=space-20261019"><source src="/work/axosim/axosim-neural-landscape.mp4?v=space-20261019" type="video/mp4">Your browser does not support embedded video.</video><figcaption>Neural-state trajectory under three video clips and three held ISS photographs.</figcaption></figure>
 <!--l. 34--><p class="indent" >   This research update is part of the  <a 
 href="https://axo.axym.org" >AxoSim line of work</a> on learned neuron
 models. You can run the simulated circuit yourself in the  <a 
@@ -376,15 +376,16 @@ slowly rotating state space of the interactive demo: each pale point is one
 complete 2,884-neuron population state from a database image or a preset clip,
 and the film’s own states, one every 16 ms, are placed among their nearest
 neighbours. The line and its glowing red head follow one continuous AxoSim
-response across three 40-second clips, showing a rocky coast, a city intersection
-at night and Earth seen from the International Space Station, followed by three
-public-domain ISS photographs, each held for five seconds <span class="cite">[<a 
-href="#Xnasaiss">10</a>]</span>. Across the three
-transitions into the held photographs, the median distance to the photograph’s
-late recurrent orbit falls by a factor of 2.36. The dominant frequency
+response across three 40-second clips, showing a first-person drone flight
+along a forest road, a walk down a graffiti-covered lane and koi turning
+just beneath the water surface, followed by three public-domain ISS
+photographs, each held for five seconds <span class="cite">[<a 
+href="#Xnasaiss">10</a>]</span>. Across the three transitions
+into the held photographs, the median distance to the photograph’s
+late recurrent orbit falls by a factor of 2.52. The dominant frequency
 stays the same between consecutive 1.5-second windows in all three
 held intervals, at 3.33 Hz for two photographs and 62.67 Hz for the
-third. Oscillation amplitudes range from \\(1.004\\times \\) to \\(1.113\\times \\). The population descends
+third. Oscillation amplitudes range from \\(0.984\\times \\) to \\(1.106\\times \\). The population descends
 towards a point in activation space, then oscillates stably around it at the
 very end. This connects to observed limit-cycle attractors from work on
 recurrent neural population dynamics, such as those reviewed by Miller,
@@ -412,10 +413,10 @@ bootstrap upper bound of 0.0133, and 29 of 30 trials return for at least 500
 milliseconds by 2.5 seconds. At \\(0.25\\sigma \\), the median also reaches the matched-control
 floor, the bootstrap upper bound is 0.0395, and 27 of 30 trials meet the same
 sustained-return criterion. The four failures occur on one city trial at the lower
-amplitude and on two apple trials as well as one Voyager Earth trial at the
                                                                      
 
                                                                      
+amplitude and on two apple trials as well as one Voyager Earth trial at the
 higher amplitude.
 <a 
  id="x1-8001r12"></a>
@@ -453,11 +454,11 @@ about neural population geometry:
      <li class="itemize">
      <!--l. 242--><p class="noindent" >Full-state    perturbation-and-return    tests    establish    evidence    for
      input-dependent limit cycles across six images, replicating observed
-     stable  oscillatory  population  dynamics  with  AxoSim–Lite  models
-     trained on mammalian layer-5 pyramidal neurons.</p></li></ul>
                                                                      
 
                                                                      
+     stable  oscillatory  population  dynamics  with  AxoSim–Lite  models
+     trained on mammalian layer-5 pyramidal neurons.</p></li></ul>
 <!--l. 245--><p class="indent" >   Population manifolds appear useful, but methods that treat neural features
 as isolated directions do not capture their geometry well <span class="cite">[<a 
 href="#Xmodell2025">8</a>, <a 
@@ -469,10 +470,10 @@ would make the approach more scalable. Manifolds and attractors should not be
 inferred from a clean visualization alone: complete-image holdouts, a
 label-preserving permutation test, and uncertainty over images support the
 motion claim, while a continuous mean-gray control tests the film’s temporal
-separation (all three clips and photographs are separated; five-second windows
-within a clip partly are not). Here, the full-state perturbation test establishes
-evidence for attraction to input-dependent oscillatory orbits in the recurrent
-state.
+separation (the three clips and photographs are almost fully separated;
+five-second windows within a clip partly are not). Here, the full-state
+perturbation test establishes evidence for attraction to input-dependent
+oscillatory orbits in the recurrent state.
 </p><!--l. 247--><p class="indent" >   These results suggest a practical path for interpreting scientific neural
 models: choose a variable with an external metric, isolate it from obvious input
 confounds, test generalization across the confounding unit, and only then
@@ -499,10 +500,10 @@ href="https://github.com/Axym-Labs/AxoSim-paper" >AxoSim: Learned Neuron Models 
 href="https://doi.org/10.1038/s41586-024-07939-3" >Connectome-constrained  networks  predict
      neural activity across the fly visual system</a>. <span 
 class="pplri7t-x-x-109">Nature</span>, 2024.
-     </p>
                                                                      
 
                                                                      
+     </p>
      <p class="bibitem" ><span class="biblabel">
   [3]<span class="bibsp">   </span></span><a 
  id="Xgoodfire"></a>M. Pearce et al.  <a 
@@ -553,9 +554,7 @@ href="https://arxiv.org/abs/2502.00873" >Language   Models   Use
  [10]<span class="bibsp">   </span></span><a 
  id="Xnasaiss"></a>NASA Johnson Space Center.  <a 
 href="https://eol.jsc.nasa.gov/" >Gateway to Astronaut Photography
-     of Earth</a> and  <a 
-href="https://images.nasa.gov/" >Earth from Space in 4K – Expedition 65</a>. Clips: Vi Ulloa
-     and Francisco Rodríguez via  <a 
+     of Earth</a>. Clips: Lukáš Vaňátko, Pat Whelen and Brixiv via  <a 
 href="https://www.pexels.com/" >Pexels</a>.
                                                                      
 

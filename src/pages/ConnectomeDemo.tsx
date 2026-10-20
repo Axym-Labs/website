@@ -66,7 +66,8 @@ const ConnectomeDemo = () => {
           <section className="latex-publication mx-auto mt-16 w-full min-w-0 max-w-[46rem]" aria-labelledby="video-heading">
             <h2 id="video-heading">Follow the circuit through a video</h2>
             <p>
-              Pick a clip. Every frame is converted to luminance, sampled at the 721 columns of the fly's hexagonal retina and contrast-normalized, then fed
+              Pick a clip. Its trajectory was computed in advance with the same simulation that runs for images below, so it plays with the video. Every
+              frame is converted to luminance, sampled at the 721 columns of the fly's hexagonal retina and contrast-normalized, then fed
               to the photoreceptors every 4 milliseconds after one second of uniform gray. Each trajectory point is the state of 2,884 recorded neurons
               (cell types L1, Mi1, T4c and T5c in every column), projected onto 50 principal components and placed into a three-dimensional UMAP by its
               nearest reference states, as in the article's film.

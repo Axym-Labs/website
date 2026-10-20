@@ -7,7 +7,8 @@
     "license": "Pexels license",
     "page_url": "https://www.pexels.com/video/dynamic-drone-footage-of-forest-path-at-high-speed-30324643/",
     "frames": 1200,
-    "fps": 30.0
+    "fps": 30.0,
+    "path_blocks": 2500
   },
   {
     "id": "graffiti-lane",
@@ -17,7 +18,8 @@
     "license": "Pexels license",
     "page_url": "https://www.pexels.com/video/an-alleyway-full-of-graffiti-art-on-wall-5658058/",
     "frames": 1200,
-    "fps": 30.0
+    "fps": 30.0,
+    "path_blocks": 2500
   },
   {
     "id": "koi",
@@ -27,7 +29,8 @@
     "license": "Pexels license",
     "page_url": "https://www.pexels.com/video/close-up-of-koi-fish-swimming-9106684/",
     "frames": 1200,
-    "fps": 30.0
+    "fps": 30.0,
+    "path_blocks": 2500
   },
   {
     "id": "sea-turtle",
@@ -37,7 +40,8 @@
     "license": "Pexels license",
     "page_url": "https://www.pexels.com/video/turtle-underwater-1456996/",
     "frames": 750,
-    "fps": 30.0
+    "fps": 30.0,
+    "path_blocks": 1562
   },
   {
     "id": "bumblebee-landing",
@@ -47,7 +51,8 @@
     "license": "Pexels license",
     "page_url": "https://www.pexels.com/video/close-up-video-of-a-bumblebee-7409559/",
     "frames": 750,
-    "fps": 30.0
+    "fps": 30.0,
+    "path_blocks": 1562
   },
   {
     "id": "liquid-swirl",
@@ -57,6 +62,7 @@
     "license": "Pexels license",
     "page_url": "https://www.pexels.com/video/multicolor-liquid-mix-swirling-in-slow-motion-11272512/",
     "frames": 750,
-    "fps": 30.0
+    "fps": 30.0,
+    "path_blocks": 1562
   }
 ]

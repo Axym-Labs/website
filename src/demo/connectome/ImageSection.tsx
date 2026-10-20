@@ -124,7 +124,6 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
   const [metas, setMetas] = useState<Record<string, ImageMeta>>({});
   const [view, setView] = useState<"state" | "map">("state");
   const [error, setError] = useState<string | null>(null);
-  const [seconds, setSeconds] = useState<number | null>(null);
   const [dragging, setDragging] = useState(false);
   const runId = useRef(1000);
   const pathBuffer = useRef<Float32Array>(new Float32Array(0));
@@ -155,7 +154,6 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
         if (message.type === "imageResult") {
           setStats(message.stats as Stats);
           setStability(message.stability as Stability);
-          setSeconds(message.seconds as number);
           setPhase("done");
         }
         if (message.type === "error") {
@@ -187,7 +185,6 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
         setStability(null);
         setRetrieval(null);
         setMetas({});
-        setSeconds(null);
         setPhase("hold");
         setFraction(0);
         pathBuffer.current = new Float32Array(400 * 3).fill(NaN);
@@ -302,8 +299,9 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
       Image:{" "}
       <a className="connectome-link" href={image.credit.page_url} target="_blank" rel="noreferrer">
         {image.credit.creator}
-      </a>{" "}
-      ({image.credit.license}).
+      </a>
+      {/* A linked Pexels page states its licence; other sources keep their licence label. */}
+      {image.credit.license.startsWith("Pexels") ? "." : ` (${image.credit.license}).`}
     </>
   ) : null;
 
@@ -486,7 +484,7 @@ export default function ImageSection({ sim, cloud, db, dbError, reference, latti
               <p className="mt-3 text-xs leading-relaxed text-white/45">
                 Bars give the percentile among {reference.images.toLocaleString()} database images
                 {stable ? ` (orbit rows: among the ${reference.stableImages.toLocaleString()} that reached a stable orbit)` : ""}. Seed-to-seed reliability of
-                τ: {reference.reliability.return_time_spearman_brown.toFixed(2)}.{seconds ? ` Computed in ${seconds.toFixed(1)} s on your ${sim.kind === "webgpu" ? "GPU" : "CPU"}.` : ""}
+                τ: {reference.reliability.return_time_spearman_brown.toFixed(2)}.
               </p>
             )}
           </section>

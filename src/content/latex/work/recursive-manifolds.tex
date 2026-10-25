@@ -1,0 +1,67 @@
+%---
+% slug: recursive-manifolds
+% title: The Recursive Manifold Hypothesis
+% category: research
+% eyebrow: DATA GEOMETRY
+% summary: The recursive manifold hypothesis states that real-world data laws admit coarse-to-fine organizations in which parent laws capture shared structure and successive refinements add variation that remains organized within each parent. An energy-distance decomposition tests this per relation, and 13 of 14 image, text, and spiking-speech relation-representation pairs satisfy the criterion.
+% author: Davide Wiest
+% draft: false
+% date: 2026-09-02
+% rank: 2.5
+%---
+\documentclass[11pt]{article}
+\usepackage{publication-web}
+\begin{document}
+
+\publicationtitle{The Recursive Manifold Hypothesis for Hierarchical Data Laws}
+\publicationauthors{Davide Wiest}
+\publicationaffiliations{Department of Computer Science, TU Darmstadt; Darmstadt, Germany}
+
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
+
+\publicationfigure[\linewidth]
+  {figures/recursive-manifolds-lead.png}{/work/recursive-manifolds-lead.png}
+  {Three panels contrast one geometric support, several local supports, and parent laws that organize successive refinements.}
+  {Three hypotheses about the organization of high-dimensional data. The manifold hypothesis posits one geometric support; the union-of-manifolds hypothesis allows several local supports. The recursive manifold hypothesis adds coarse-to-fine relations among their conditional laws. We formalize and test this relational claim; local manifold geometry remains an independent companion condition.}
+
+\publicationabstract{Many real-world distributions are organized at more than one resolution. A coarse conditional law captures structure shared by its descendants; conditioning more finely reveals additional variation, while the resulting laws remain related through their common parent. We call this the \emph{recursive manifold hypothesis}. We formalize the hypothesis as multiscale conditional refinement of probability laws across successive coarse-to-fine relations. The energy distance metric between probability distributions compares the laws model-independently and allows us to decompose their variation exactly. Each parent--child relation has three coordinates: absolute law variation $V$, the fraction $F$ revealed by the children, and parent organization $A$ relative to the expected organization of a random parent map with the same group sizes. The product $R=FA$ yields a sufficient population criterion for one specified parent--child relation. We estimate this profile from pooled energy-distance U-statistics and quantify uncertainty in $R$ by an observation jackknife. Experiments center on ImageNet-1k and Amazon Reviews 2023 and include pushforward laws from DINOv2-L and Qwen3-Embedding-4B. Across image, text, and spiking-speech datasets, 13 of 14 relation--representation pairs reveal additional variation that the supplied parent organizes better than a random map with the same group sizes. ImageNet-1k, Amazon Reviews, FGVC-Aircraft, and ImageNet-R satisfy the criterion on two successive relations. Spiking Heidelberg Digits distinguishes structural strength across attributes: speakers are strongly organized within words, whereas the language attribute provides little organization of word laws. Excluding singleton branches preserves these empirical findings. These results suggest objectives and models that respect the hierarchical organization in data laws.}
+
+\publicationactions{%
+  \publicationaction{/files/recursive-manifolds.pdf}{Read paper}%
+}
+
+\section{From manifolds to relations among conditional laws}
+
+Real-world variation is resolved in stages. Aircraft from one manufacturer share properties that distinguish them from those of another manufacturer; within a manufacturer, families retain common structure while their variants differ in finer ways. A spoken word constrains its acoustic distribution, within which individual speakers introduce further variation. Refinement in these examples does more than partition a population: it exposes variation hidden at a coarser level, and the refined laws remain related through structure shared within their parent.
+
+The hypothesis concerns these relations rather than the shape of a single support. Multiscale effects may reorganize probability mass on the same support, so the formulation covers manifold-supported, full-dimensional, and discrete laws, and treats local manifold geometry as a separate question.
+
+\section{Measuring refinement}
+
+Energy distance embeds each conditional law as a vector in a Hilbert space and yields an exact variance decomposition. At parent--child relation $j$, this gives the profile $(V_j,F_j,A_j)$: $V_j$ is the absolute variation among child laws, $F_j$ the fraction revealed at that refinement, and $A_j$ how much better the specified parent organizes that variation than a size-matched random parent map. Newly revealed variation and better-than-random organization hold together at the population level exactly when
+\[
+R_j=F_jA_j>0 .
+\]
+The profile describes the kind and scale of organization; $R_j$ provides the criterion and its uncertainty interval.
+
+\section{Main results}
+
+ImageNet-R in DINOv2-L features satisfies the criterion at both WordNet relations, with $R_2=0.0540$ $[0.0477,0.0603]$ and $R_3=0.0584$ $[0.0541,0.0626]$. FGVC-Aircraft does so at both relations but allocates variation differently: manufacturer strongly organizes families that add substantial variation ($F_2=0.255$, $A_2=0.561$), while families organize their variants even more strongly although the variants add little ($F_3=0.038$, $A_3=0.874$). ImageNet-1k and Amazon Reviews also satisfy the criterion at two successive relations, the latter in both hashed counts and Qwen3-Embedding-4B.
+
+Spiking Heidelberg Digits separates innovation from organization. Speakers introduce substantial variation that is organized within words ($R_3=0.1976$ $[0.1953,0.1999]$). Words account for nearly all variation visible under the language attribute ($F_2=0.984$), but language organizes the word laws less effectively than an average size-matched grouping ($R_2=-0.0383$ $[-0.0410,-0.0357]$). Excluding singleton branches preserves every conclusion across the 14 relation--representation pairs.
+
+\section{Citation}
+
+\begin{verbatim}
+@misc{wiest2026recursive,
+  author = {Wiest, Davide},
+  title  = {The Recursive Manifold Hypothesis for
+            Hierarchical Data Laws},
+  year   = {2026},
+  url    = {https://axym.org/work/recursive-manifolds/}
+}
+\end{verbatim}
+
+\end{document}

@@ -14,7 +14,7 @@
 
 \publicationtitle{Improved Elastic Weight Consolidation as an Optimization Constraint for Continual Learning}
 \publicationauthors{Davide Wiest}
-\publicationaffiliations{Department of Computer Science, TU Darmstadt; Independent Researcher; Darmstadt, Germany}
+\publicationaffiliations{Department of Computer Science, TU Darmstadt; Darmstadt, Germany}
 
 \begin{publicationhead}
 \makepublicationtitle
@@ -22,10 +22,10 @@
 
 \publicationfigure[0.9\linewidth]
   {figures/iewc-overview.png}{/work/iewc-overview.png}
-  {Penalty surfaces comparing empirical-Fisher EWC, uniform IEWC, and sample-weighted IEWC.}
-  {Each surface shows the continual-learning penalty over normalized directions. EF-EWC induces anisotropy through gradient-scale weighting; uniform IEWC removes this scaling, while GSS-IEWC weights samples by diversity.}
+  {Penalty surfaces comparing EWC with the outer product of loss gradients, uniform IEWC, and weighted IEWC.}
+  {Each panel shows the continual-learning penalty over normalized directions for two representative samples. EWC (OPG) inherits sample weighting from output-loss-gradient scale; uniform IEWC removes this scale away from the damping regime, while residual-diversity weighting changes the aggregation measure as a separate design choice.}
 
-\publicationabstract{Elastic Weight Consolidation (EWC) is widely used in continual learning, and standard implementations use the empirical Fisher matrix, whose justification beyond probabilistic classification remains incomplete. We derive EWC from first principles by expressing old-task solution preservation as a constrained optimization problem. Preserving the old scalar loss recovers the empirical Fisher used in EWC. Preserving outputs up to motion along the old-task loss level set recovers the improved empirical Fisher and leads to IEWC, a generalized and normalized sibling of EWC. This separates the outer EWC mechanism from output geometry and enables geometry-aware continual learning within the same regularization template. Across image classification, continual LLM/NLP, segmentation, forecasting, and diffusion, IEWC improves final average performance in two settings and, with sample weighting, improves performance across all tested settings.}
+\publicationabstract{Elastic Weight Consolidation (EWC) controls forgetting with a quadratic penalty, yet its empirical Fisher is usually justified through probabilistic curvature. We formulate \emph{Continual Learning as an Optimization Constraint} (CLOC), preserving chosen functionals of previously learned behavior. First-order preservation of any differentiable scalar functional yields a gradient outer product; for per-sample negative log likelihood, it is exactly EWC's empirical Fisher, without a model-Fisher interpretation. Our central method, Improved Elastic Weight Consolidation (IEWC), instead preserves outputs modulo motions tangent to old loss level sets, separating EWC's implicit loss-gradient weighting from parameter sensitivity. IEWC is specified by $(\lambda,\kappa,\Gamma,h,\Pi)$: preservation strength, relative damping, output geometry, sample weights, and matrix approximation. A contamination experiment confirms that normalization prevents corrupt samples from dominating the full matrix. Across five domains, IEWC variants improve EWC's selected means in classification, segmentation, and language, while remaining comparable in forecasting and diffusion. In a validation-selected locked study, uniform IEWC improves ImageNet-R final average accuracy over matched EWC by 2.00 percentage points (95\% CI 0.93--3.07) and gives no material mean difference on TRACE ($-0.11$; 95\% CI $-1.48$--$1.27$).}
 
 \publicationactions{%
   \publicationaction{/files/iewc.pdf}{Read paper}
@@ -35,11 +35,11 @@
 
 \section{From preservation constraints to IEWC}
 
-The derivation starts from a direct continual-learning requirement: preserve an old-task solution while learning the new task. A population, low-order form of this constraint makes the mechanism scalable. Preserving scalar loss produces empirical-Fisher EWC; preserving outputs modulo the old loss level set removes unintended gradient-scale weighting and produces IEWC.
+Continual Learning as an Optimization Constraint (CLOC) starts from a direct requirement: preserve chosen functionals of previously learned behavior while learning a new task. First-order preservation of any differentiable scalar functional yields a gradient outer product; for per-sample negative log likelihood this is exactly EWC's empirical Fisher, without a model-Fisher interpretation. IEWC instead preserves outputs modulo motions tangent to the old loss level sets, which separates EWC's implicit loss-gradient weighting from parameter sensitivity. It is specified by preservation strength, relative damping, output geometry, sample weights, and matrix approximation.
 
 \section{Main results}
 
-The analysis identifies EWC-DR's vanishing-importance pathology as one instance of a broader gradient-scale effect. The experiments cover classification, continual language modeling, segmentation, forecasting, and diffusion. Uniform IEWC improves two tested settings; diversity-weighted IEWC improves final average performance across all of them.
+A contamination experiment confirms that normalization prevents corrupt samples from dominating the full importance matrix. Across five domains, IEWC variants improve EWC's selected means in classification, segmentation, and language, while remaining comparable in forecasting and diffusion. In a validation-selected locked study, uniform IEWC improves ImageNet-R final average accuracy over matched EWC by 2.00 percentage points (95\% CI 0.93--3.07) and gives no material mean difference on TRACE ($-0.11$; 95\% CI $-1.48$--$1.27$).
 
 \section{Citation}
 

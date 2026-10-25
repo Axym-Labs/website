@@ -14,6 +14,7 @@ const routes = [
   "/work/axosim-connectome-demo/",
   "/work/kpsa/",
   "/work/terel/",
+  "/work/recursive-manifolds/",
   "/work/pptrain/",
   "/work/marey/",
 ];

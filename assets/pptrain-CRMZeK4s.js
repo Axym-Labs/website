@@ -30,9 +30,10 @@ transformations, and mathematical primitives all fit this pattern. One hurdle to
 production use is that most of the work lives in paper-specific code, hidden data
 generators, and one-off training scripts. A second is verifying that the
 prepretrainer matches the intended method and improves subsequent training.
-The package  <a href='https://github.com/Axym-Labs/pptrain'><span class='cmtt-10x-x-109'>pptrain</span></a> addresses both:
+The package <a href='https://github.com/Axym-Labs/pptrain'><span class='cmtt-10x-x-109'>pptrain</span></a> addresses both:
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-1000'></a>Ready to use</h2>
+   <h2 class='sectionHead' id='ready-to-use'>  <a id='x1-1000'></a>Ready to use</h2>
 <!-- l. 39 --><p class='noindent'>Install it via:
                                                                      
 
@@ -99,9 +100,9 @@ implementation, but can be heavily customized: for example, <span class='cmtt-10
 size, number of states, patch size, perception and hidden dimensions, rollout
 stride and initial rollout steps, train/eval rule counts, sequence counts,
 maximum length, gzip-complexity band, and per-epoch regeneration.
-</p><!-- l. 84 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-2000'></a>Reference parity</h2>
+   <h2 class='sectionHead' id='reference-parity'>  <a id='x1-2000'></a>Reference parity</h2>
 <!-- l. 86 --><p class='noindent'>Production use also requires a correctness check. A changed generator, tokenizer,
 or serialization no longer tests the mechanism from the paper, so <span class='cmtt-10x-x-109'>pptrain</span>
 includes reference-parity utilities that compare local outputs against
@@ -109,9 +110,9 @@ original-source fixtures for LIME, synthetic summarization, procedural
 pretraining, and NCA pre-pretraining.
 </p><!-- l. 88 --><p class='indent'>   These checks are exact where they should be exact: normalized examples or
 token sequences must match the reference output.
-</p><!-- l. 90 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-3000'></a>Empirical testing</h2>
+   <h2 class='sectionHead' id='empirical-testing'>  <a id='x1-3000'></a>Empirical testing</h2>
                                                                      
 
                                                                      
@@ -120,9 +121,9 @@ training setup, users can run the evaluation and replication utilities through t
 same interface used for training. The library supports downstream transfer
 evaluation, compute-matched natural warmups, diagnostic metrics, plots, CSVs,
 and Markdown reports.
-</p><!-- l. 94 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-4000'></a>Extensibility</h2>
+   <h2 class='sectionHead' id='extensibility'>  <a id='x1-4000'></a>Extensibility</h2>
 <!-- l. 96 --><p class='noindent'>Users can write their own pre-pretraining logic by implementing
 <span class='cmtt-10x-x-109'>SymbolicTaskFamily</span>: define how examples are sampled, executed, serialized,
 and tokenized. If the task needs a custom dataset or loss path, implement <span class='cmtt-10x-x-109'>Task</span>

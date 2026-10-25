@@ -45,8 +45,9 @@ values, the tick labels and both axis titles are derived from the two unit
 witnesses. <span class='cmtt-10x-x-109'>x </span>is never annotated as a length — <span class='cmtt-10x-x-109'>0.5 * 9.81&lt;m/s^2&gt; * t * t </span>has
 type <span class='cmtt-10x-x-109'>float&lt;m&gt;</span>, which the compiler derives — and plotting seconds against
 seconds on these axes is a compile error.
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-1000'></a>Install</h2>
+   <h2 class='sectionHead' id='install'>  <a id='x1-1000'></a>Install</h2>
                                                                      
 
                                                                      
@@ -57,10 +58,10 @@ dotnet add package Marey.Backend.Svg
 <!-- l. 58 --><p class='nopar'>
 </p><!-- l. 60 --><p class='indent'>   For PNG and PDF, add <span class='cmtt-10x-x-109'>Marey.Backend.Skia</span>, the one package with
 third-party dependencies.
-</p><!-- l. 62 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-2000'></a>Units, end to end</h2>
-<!-- l. 64 --><p class='noindent'>Data spanning \\(10^{-9}\\) to \\(5 \\cdot 10^{-9}\\) metres produces an axis reading <span class='cmtt-10x-x-109'>nm </span>with ticks 1, 2, 3, 4, 5.
+   <h2 class='sectionHead' id='units-end-to-end'>  <a id='x1-2000'></a>Units, end to end</h2>
+<!-- l. 64 --><p class='noindent'>Data spanning <span class='mathjax-inline'>\\(10^{-9}\\)</span> to <span class='mathjax-inline'>\\(5 \\cdot 10^{-9}\\)</span> metres produces an axis reading <span class='cmtt-10x-x-109'>nm </span>with ticks 1, 2, 3, 4, 5.
 Kilopascals are labelled as kilopascals:
 <a id='x1-2001r2'></a>
 </p>
@@ -70,13 +71,13 @@ than on strings, so anything that composes to a newton prints <span class='cmtt-
 name are covered as long as the composition is stated: volts divided by metres
 render as volts per metre, and as megavolts per metre when prefixed. Nothing is
 inferred: a bare dimension is never factorised, because the same vector is both
-<span class='cmtt-10x-x-109'>J/K </span>and <span class='cmtt-10x-x-109'>N</span>\\(\\cdot \\)<span class='cmtt-10x-x-109'>m/K</span>.
+<span class='cmtt-10x-x-109'>J/K </span>and <span class='cmtt-10x-x-109'>N</span><span class='mathjax-inline'>\\(\\cdot \\)</span><span class='cmtt-10x-x-109'>m/K</span>.
 </p><!-- l. 73 --><p class='indent'>   Affine units carry their offset: degrees Celsius converts by shift as well as
-factor, an electronvolt axis reads <span class='cmtt-10x-x-109'>keV </span>rather than <span class='cmtt-10x-x-109'>kJ</span>, and a mass rescaled by \\(10^{-6}\\)
+factor, an electronvolt axis reads <span class='cmtt-10x-x-109'>keV </span>rather than <span class='cmtt-10x-x-109'>kJ</span>, and a mass rescaled by <span class='mathjax-inline'>\\(10^{-6}\\)</span>
 prints milligrams rather than micro-kilograms.
-</p><!-- l. 75 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-3000'></a>Figures that belong in a LaTeX document</h2>
+   <h2 class='sectionHead' id='figures-that-belong-in-a-latex-document'>  <a id='x1-3000'></a>Figures that belong in a LaTeX document</h2>
 <!-- l. 77 --><p class='noindent'>Swapping the theme turns the same figure into <span class='cmtt-10x-x-109'>tikzpicture </span>source. It is typeset
 by the same engine as the rest of the document, so <span class='pplb7t-x-x-109'>the figure inherits the
 document’s fonts</span>, and the axis titles are set by <span class='cmtt-10x-x-109'>siunitx </span>from the unit
@@ -91,18 +92,17 @@ figure
 |&gt; Chart.toFile TikzBackend.render "fall.tex" (Chart.size 320.0 200.0)
 </pre>
 <!-- l. 83 --><p class='nopar'>
-</p><!-- l. 85 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-4000'></a>The usual scientific figure</h2>
+   <h2 class='sectionHead' id='the-usual-scientific-figure'> <a id='x1-4000'></a>The usual scientific figure</h2>
 <!-- l. 87 --><p class='noindent'>A model curve, measured points, error bars, and a legend naming only the
 layers that were named:
 <a id='x1-4001r3'></a>
 </p>
    <figure class='publication-figure'><img alt='A damped oscillator: model against measurement with error bars' decoding='async' loading='lazy' src='/work/marey-oscillator.svg' /><figcaption><span class='pplb7t-x-x-109'>Figure 3. </span>A damped oscillator: model against measurement with error
 bars.</figcaption></figure>
-<!-- l. 94 --><p class='noindent'>
-</p>
-   <h2 class='sectionHead'><a id='x1-5000'></a>When the data is a table</h2>
+   
+   <h2 class='sectionHead' id='when-the-data-is-a-table'>  <a id='x1-5000'></a>When the data is a table</h2>
 <!-- l. 96 --><p class='noindent'>When the data is a table and the figure has more than two things in it, <span class='cmtt-10x-x-109'>plot </span>says
 what each column means in one place:
                                                                      
@@ -141,9 +141,9 @@ let speed: float&lt;m/s&gt; = fitted.Slope
 <!-- l. 120 --><p class='nopar'>
 </p><!-- l. 122 --><p class='indent'>   <span class='cmtt-10x-x-109'>facetWrap </span>draws one panel per level of a key over shared axes, so a
 difference between panels is a difference in the data.
-</p><!-- l. 124 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-6000'></a>Real data, and where the units story stops</h2>
+   <h2 class='sectionHead' id='real-data-and-where-the-units-story-stops'>  <a id='x1-6000'></a>Real data, and where the units story stops</h2>
 <!-- l. 126 --><p class='noindent'>Units are transformative for physical measurements and irrelevant for a mole
 fraction in ppm, which is dimensionless. A dimensionless axis is rendered with
 no unit brackets, values with no unit to carry a prefix are not rescaled, and the
@@ -153,9 +153,9 @@ label is left to the caller:
    <figure class='publication-figure'><img alt='Atmospheric CO2 at Mauna Loa, annual means with uncertainties' decoding='async' loading='lazy' src='/work/marey-co2-record.svg' /><figcaption><span class='pplb7t-x-x-109'>Figure 5. </span>Atmospheric CO<sub class='textsubscript'><span class='pplr7t-'>2</span></sub> at Mauna Loa, annual means with uncertainties.</figcaption></figure>
 <!-- l. 133 --><p class='indent'>   The repository’s <span class='cmtt-10x-x-109'>examples/ </span>directory has twelve worked scripts, three of
 them on real committed datasets.
-</p><!-- l. 135 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-7000'></a>A figure that moves</h2>
+   <h2 class='sectionHead' id='a-figure-that-moves'>  <a id='x1-7000'></a>A figure that moves</h2>
 <!-- l. 137 --><p class='noindent'>An animation is a <span class='pplb7t-x-x-109'>pure function of time</span>, so seeking is evaluation: <span class='cmtt-10x-x-109'>anim.At
 2.7&lt;s&gt; </span>is a direct call, frames come out in any order, and a render is
 <span class='cmtt-10x-x-109'>Array.Parallel.map </span>with no scheduler. The storyboard block writes the
@@ -190,9 +190,9 @@ crawling sideways as the tick labels gain a digit.
 </p><!-- l. 161 --><p class='indent'>   Rendering is a map over the frame times, on as many threads as there are.
 The sequential and concurrent passes produce the same bytes in the same order,
 and a gate checks this frame for frame on both backends.
-</p><!-- l. 163 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-8000'></a>What is in the box</h2>
+   <h2 class='sectionHead' id='what-is-in-the-box'>  <a id='x1-8000'></a>What is in the box</h2>
      <ul class='itemize1'>
      <li class='itemize'><span class='cmtt-10x-x-109'>Marey.Core</span>:   dimension   vectors,   unit   witnesses,   scales,   and   the
      ten-case scene IR. Zero dependencies.
@@ -219,9 +219,8 @@ and a gate checks this frame for frame on both backends.
      </li>
      <li class='itemize'><span class='cmtt-10x-x-109'>Marey.Html</span>, <span class='cmtt-10x-x-109'>Marey.Verso</span>: notebook display, so a bare <span class='cmtt-10x-x-109'>Figure </span>shows
      as a figure and a <span class='cmtt-10x-x-109'>Film </span>plays as a looping flipbook.</li></ul>
-<!-- l. 176 --><p class='noindent'>
-</p>
-   <h2 class='sectionHead'><a id='x1-9000'></a>Tests</h2>
+   
+   <h2 class='sectionHead' id='tests'>  <a id='x1-9000'></a>Tests</h2>
 <!-- l. 178 --><p class='noindent'>The suite combines FsCheck property suites for the dimension group laws, all
 seven scale kinds, ticks, interpolation, colour and the scene IR; golden baselines
 in SVG and <span class='cmtt-10x-x-109'>tikzpicture </span>source; a real <span class='cmtt-10x-x-109'>pdflatex </span>compile gate; rasterised
@@ -230,14 +229,14 @@ PDF; and executable checks over every example in the guide and in
 <span class='cmtt-10x-x-109'>examples/</span>.
 </p><!-- l. 180 --><p class='indent'>   Several of those gates shell out, and each passes when the program it needs is
 absent. So each run prints a census of all nine external dependencies and what
+became of them, and <span class='cmtt-10x-x-109'>MAREY_REQUIRE_TOOLCHAIN=1 </span>turns an absent one into a
                                                                      
 
                                                                      
-became of them, and <span class='cmtt-10x-x-109'>MAREY_REQUIRE_TOOLCHAIN=1 </span>turns an absent one into a
 failure. CI sets it.
-</p><!-- l. 182 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-10000'></a>Status</h2>
+   <h2 class='sectionHead' id='status'>  <a id='x1-10000'></a>Status</h2>
 <!-- l. 184 --><p class='noindent'>Pre-1.0, and versioned accordingly. The API is still free to move; breaking
 changes are listed in the changelog with the reason and the replacement. MIT
 licensed.

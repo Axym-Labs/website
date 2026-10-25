@@ -31,11 +31,12 @@ differ in where the inputs come from and therefore in the question they
 answer.</div></section>
    <nav aria-label='Project resources' class='publication-actions'><a class='publication-action' href='https://axo.axym.org/axobench/benchmarking/'>Read documentation</a> <a class='publication-action' href='https://axo.axym.org/datasets/'>Choose a dataset</a> <a class='publication-action' href='https://pypi.org/project/axobench/'>Open package</a> <a class='publication-action' href='https://huggingface.co/datasets/Axym-Labs/axobench'>Open dataset</a></nav>
 <!-- l. 37 --><p class='indent'>   AxoBench is the benchmark and dataset-generation workbench for
-single-neuron surrogate evaluation used by  <a href='/work/axosim/'>AxoSim</a>. It evaluates caller-supplied
+single-neuron surrogate evaluation used by <a href='/work/axosim/'>AxoSim</a>. It evaluates caller-supplied
 prediction functions or stored predictions; model implementations and training
 code stay in AxoSim.
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-1000'></a>Install and evaluate</h2>
+   <h2 class='sectionHead' id='install-and-evaluate'>  <a id='x1-1000'></a>Install and evaluate</h2>
                                                                      
 
                                                                      
@@ -68,16 +69,16 @@ print(format_evaluation_report(report))
 </p><!-- l. 61 --><p class='indent'>   For iterative comparisons, a saved baseline cache lets each candidate be
 scored on identical traces, with morphology-stratified 95% bootstrap intervals
 for the paired differences.
-</p><!-- l. 63 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-2000'></a>Datasets</h2>
+   <h2 class='sectionHead' id='datasets'>  <a id='x1-2000'></a>Datasets</h2>
      <ul class='itemize1'>
-     <li class='itemize'>   <a href='https://huggingface.co/datasets/Axym-Labs/axobench'><span class='cmtt-10x-x-109'>Axym-Labs/axobench</span></a>:   CoreNEURON   traces   from   five   layer-5
-     pyramidal  morphologies  in  <span class='cmtt-10x-x-109'>train</span>,  <span class='cmtt-10x-x-109'>val</span>,  and  <span class='cmtt-10x-x-109'>test </span>splits;  125,000
-     traces of 6,000 ms. Use them for pretraining, recipe selection, and the
-     ordinary AxoBench evaluation.
+     <li class='itemize'><a href='https://huggingface.co/datasets/Axym-Labs/axobench'><span class='cmtt-10x-x-109'>Axym-Labs/axobench</span></a>:            CoreNEURON            traces            from
+     five layer-5 pyramidal morphologies in <span class='cmtt-10x-x-109'>train</span>, <span class='cmtt-10x-x-109'>val</span>, and <span class='cmtt-10x-x-109'>test </span>splits;
+     125,000 traces of 6,000 ms. Use them for pretraining, recipe selection,
+     and the ordinary AxoBench evaluation.
      </li>
-     <li class='itemize'>   <a href='https://huggingface.co/datasets/Axym-Labs/axobench-population'><span class='cmtt-10x-x-109'>Axym-Labs/axobench-population</span></a>:   teacher   responses   to   input
+     <li class='itemize'><a href='https://huggingface.co/datasets/Axym-Labs/axobench-population'><span class='cmtt-10x-x-109'>Axym-Labs/axobench-population</span></a>:    teacher    responses    to    input
      histories recorded in 100 connected AxoSim networks; 50,000 traces
      of 1,200 ms. Use them to fine-tune and evaluate under recurrent input
      statistics.
@@ -85,21 +86,21 @@ for the paired differences.
 
                                                                      
      </li>
-     <li class='itemize'> <a href='https://huggingface.co/datasets/Axym-Labs/axobench-interventions'><span class='cmtt-10x-x-109'>Axym-Labs/axobench-interventions</span></a>: each input sample simulated
+     <li class='itemize'><a href='https://huggingface.co/datasets/Axym-Labs/axobench-interventions'><span class='cmtt-10x-x-109'>Axym-Labs/axobench-interventions</span></a>: each input sample simulated
      twice, unchanged and after one of five defined edits; 12,500 pairs of
      6,000 ms. Use the pairs to measure response fidelity.</li></ul>
-<!-- l. 72 --><p class='noindent'> <a href='https://axo.axym.org/axobench/neuronio/'>NeuronIO</a> simulations convert to the same format. The released datasets are CC
+<!-- l. 72 --><p class='noindent'><a href='https://axo.axym.org/axobench/neuronio/'>NeuronIO</a> simulations convert to the same format. The released datasets are CC
 BY-NC 4.0, because every trace is simulated on Allen Cell Types Database
 reconstructions.
-</p><!-- l. 74 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-3000'></a>Metrics and diagnostics</h2>
-<!-- l. 76 --><p class='noindent'>The  <a href='https://axo.axym.org/axobench/metrics/'>core metrics</a> are Voltage SERA, spike Mean F1 over 0–5 ms tolerances, the
-subthreshold voltage RMSE, and Response SERA.  <a href='https://axo.axym.org/axobench/skill/'>Skill rows</a> express SERA
+   <h2 class='sectionHead' id='metrics-and-diagnostics'>  <a id='x1-3000'></a>Metrics and diagnostics</h2>
+<!-- l. 76 --><p class='noindent'>The <a href='https://axo.axym.org/axobench/metrics/'>core metrics</a> are Voltage SERA, spike Mean F1 over 0–5 ms tolerances, the
+subthreshold voltage RMSE, and Response SERA. <a href='https://axo.axym.org/axobench/skill/'>Skill rows</a> express SERA
 against a constant voltage and against the best prediction without action
 potentials; their ratio and a firing-rate reweighting support comparisons across
 datasets.
-</p><!-- l. 78 --><p class='indent'>   The  <a href='https://axo.axym.org/axobench/error-anatomy/'>error anatomy</a> breaks a model’s errors down by spike outcome, time
+</p><!-- l. 78 --><p class='indent'>   The <a href='https://axo.axym.org/axobench/error-anatomy/'>error anatomy</a> breaks a model’s errors down by spike outcome, time
 from a spike, firing rate, frequency band, and morphology, as in Figure 1.
 AxoBench defines evaluation and generation contracts; it does not claim that one
 scalar metric captures every biologically relevant error.

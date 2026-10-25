@@ -30,7 +30,7 @@ sensitivity on a fixed source set and functional, embeds those sources
 in an explicit query space, and uses a lightweight kernel to estimate
 sensitivities for unseen inputs. We characterize query-space fit through target
 stability and derive bounds that separate finite-source from irreducible
-representation error and give margin-based top-\\(k\\) recovery. This paper studies
+representation error and give margin-based top-<span class='mathjax-inline'>\\(k\\)</span> recovery. This paper studies
 two interpretability applications. Firstly, KPSA identifies parameter groups
 with high susceptibility to perturbations across vision, forecasting, and
 protein-modeling setups. Across a fivefold range of parameter budgets
@@ -49,10 +49,11 @@ atlases can store useful input-dependent parameter sensitivity while
 amortizing repeated gradient attribution, a step toward scalable conditional
 interpretability.</div></section>
    <nav aria-label='Project resources' class='publication-actions'><a class='publication-action' href='https://arxiv.org/abs/2610.12737'>Read paper</a> <a class='publication-action' href='https://github.com/Axym-Labs/kpsa'>View code</a></nav>
+   
                                                                      
 
                                                                      
-   <h2 class='sectionHead'><a id='x1-1000'></a>From the empirical NTK to an atlas</h2>
+   <h2 class='sectionHead' id='from-the-empirical-ntk-to-an-atlas'>  <a id='x1-1000'></a>From the empirical NTK to an atlas</h2>
 <!-- l. 38 --><p class='noindent'>Gradient-based attribution answers an intrinsically conditional question: which
 parameters or internal features matter for this input and this model functional?
 A fresh backward pass gives a high-resolution answer, but its memory and
@@ -72,11 +73,11 @@ estimator of an NTK-derived target.
 </p><!-- l. 42 --><p class='indent'>   The analysis characterizes query-space fit through target stability: nearby
 representations should have similar sensitivity profiles. A finite-source
 bound separates local instability, effective source count, and irreducible
-representation error, and a margin condition translates profile error into top-\\(k\\)
+representation error, and a margin condition translates profile error into top-<span class='mathjax-inline'>\\(k\\)</span>
 recovery.
-</p><!-- l. 44 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-2000'></a>Main results</h2>
+   <h2 class='sectionHead' id='main-results'>  <a id='x1-2000'></a>Main results</h2>
 <!-- l. 46 --><p class='noindent'>KPSA retrieves sparse parameter-influence sets whose exact antithetic
 perturbations remain input dependent in vision, forecasting, and protein
 models. At the 0.1% budget, semantic KPSA recovers 35%, 47%, 50%, and
@@ -95,9 +96,9 @@ once.
 representation, and source distribution. It cannot recover variation discarded by
 the representation, and normalized unsigned energy does not encode sign or
 directed computation.
-</p><!-- l. 50 --><p class='noindent'>
+   
 </p>
-   <h2 class='sectionHead'><a id='x1-3000'></a>Citation</h2>
+   <h2 class='sectionHead' id='citation'>  <a id='x1-3000'></a>Citation</h2>
                                                                      
 
                                                                      

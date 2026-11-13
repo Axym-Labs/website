@@ -32,69 +32,91 @@
   \publicationaction{https://pypi.org/project/pptrain/}{Open package}%
 }
 
-Pre-pretraining is a good idea trapped in an awkward workflow. The basic recipe is to train a language model on synthetic tasks before natural text, using tasks that may teach useful structure. Cellular automata, symbolic transformations, and mathematical primitives all fit this pattern. One hurdle to production use is that most of the work lives in paper-specific code, hidden data generators, and one-off training scripts. A second is verifying that the prepretrainer matches the intended method and improves subsequent training. The package \href{https://github.com/Axym-Labs/pptrain}{\texttt{pptrain}} addresses both:
+\section{Citation}
 
-\section{Ready to use}
+\begin{verbatim}
+@misc{axym2026pptrain,
+  author = {{Axym Labs}},
+  title  = {pptrain: A Library for Prepretraining},
+  year   = {2026},
+  url    = {https://github.com/Axym-Labs/pptrain}
+}
+\end{verbatim}
 
-Install it via:
+\section{Overview}
+
+Prepretraining initializes a language model on synthetic or abstract sequences before continuing training on natural text. \href{https://github.com/Axym-Labs/pptrain}{\texttt{pptrain}} exposes paper-derived task generators through common interfaces for upstream training, weight transfer, and evaluation. It installs with
 
 \begin{verbatim}
 pip install pptrain
 \end{verbatim}
 
-and start pre-pretraining with:
+The built-in families generate neural cellular automata rollouts (\texttt{nca}), balanced-bracket sequences (\texttt{dyck}), short programs (\texttt{procedural}), copy, set, and query transformations (\texttt{simpler\_tasks}), induction, deduction, and abduction problems (\texttt{lime}), and synthetic document transformations (\texttt{summarization}). Paper-derived presets expose configurable generation and dataset fields.
+
+\section{Example: prepretrain a Hugging Face model}
+
+The first example prepretrains a small GPT-2 on neural cellular automata rollouts and transfers the weights into a fresh downstream model. The embedding layer is reinitialized because the synthetic vocabulary differs from the natural-text one.
 
 \begin{verbatim}
 from pptrain import PrePreTrainer, RunConfig, create_task
 from pptrain.integrations import HFCausalLMAdapter, HFModelConfig
+from pptrain.transfer import ReinitializeEmbeddingTransferPolicy
 
 trainer = PrePreTrainer(
-    task=create_task(
-        "simpler_tasks",
-        {
-            "preset": "paper_binary_1m",
-            "sequence_count": 256,
-            "eval_sequence_count": 64,
-            "max_length": 128,
-        },
-    ),
+    task=create_task("nca", {"preset": "smoke"}),
     model_adapter=HFCausalLMAdapter(
         HFModelConfig(model_name_or_path="sshleifer/tiny-gpt2")
     ),
-    run_config=RunConfig(output_dir="runs/initial", max_steps=20),
+    run_config=RunConfig(output_dir="runs/nca", max_steps=20),
 )
-
 bundle = trainer.fit().load_transfer_bundle()
+
+target_model = trainer.model_adapter.load_downstream_model()
+policy = ReinitializeEmbeddingTransferPolicy()
+report = policy.apply_bundle(bundle, target_model)
+print(report.loaded_parameter_count)
 \end{verbatim}
 
-\texttt{pptrain} packages several task families from the literature as reusable presets:
+\section{Example: bring your own architecture}
 
-\begin{itemize}
-\tightlist
-\item \texttt{nca}: cellular-automata rollouts; tests whether simple dynamical systems can provide useful upstream structure.
-\item \texttt{dyck}: balanced-bracket languages; isolates nested and stack-like structure.
-\item \texttt{procedural}: abstract programs such as reverse, sort, set, union, and delete; tests algorithmic text transformations.
-\item \texttt{simpler\_tasks}: copy, search, set operations, and related symbolic transformations; breaks pretraining into small controlled operations.
-\item \texttt{lime}: induction, deduction, and abduction tasks; targets primitives of mathematical reasoning.
-\item \texttt{summarization}: synthetic document transformations; separates compression and selection from factual knowledge transfer.
-\end{itemize}
+The second example builds the upstream model from the synthetic vocabulary size, prepretrains it on balanced-bracket sequences, and copies every parameter except the token embedding and output head into the downstream model.
 
-The presets are based on suggestions from the original papers and implementation, but can be heavily customized: for example, \texttt{nca} exposes grid size, number of states, patch size, perception and hidden dimensions, rollout stride and initial rollout steps, train/eval rule counts, sequence counts, maximum length, gzip-complexity band, and per-epoch regeneration.
+\begin{verbatim}
+from transformers import GPT2Config, GPT2LMHeadModel
+from pptrain import PrePreTrainer, RunConfig, create_task
+from pptrain.integrations import VocabSizeCausalLMAdapter
+from pptrain.transfer import SkipParametersTransferPolicy
 
-\section{Reference parity}
 
-Production use also requires a correctness check. A changed generator, tokenizer, or serialization no longer tests the mechanism from the paper, so \texttt{pptrain} includes reference-parity utilities that compare local outputs against original-source fixtures for LIME, synthetic summarization, procedural pretraining, and NCA pre-pretraining.
+def gpt2(vocab_size: int) -> GPT2LMHeadModel:
+    return GPT2LMHeadModel(GPT2Config(
+        n_layer=2, n_head=2, n_embd=64,
+        n_positions=128, vocab_size=vocab_size,
+    ))
 
-These checks are exact where they should be exact: normalized examples or token sequences must match the reference output.
 
-\section{Empirical testing}
+trainer = PrePreTrainer(
+    task=create_task("dyck", {"preset": "smoke"}),
+    model_adapter=VocabSizeCausalLMAdapter(
+        create_prepretrain_model=gpt2,
+        load_downstream_model=lambda: gpt2(vocab_size=50257),
+    ),
+    run_config=RunConfig(output_dir="runs/dyck", max_steps=20),
+)
+bundle = trainer.fit().load_transfer_bundle()
 
-To determine whether a synthetic task transfers in a particular model and training setup, users can run the evaluation and replication utilities through the same interface used for training. The library supports downstream transfer evaluation, compute-matched natural warmups, diagnostic metrics, plots, CSVs, and Markdown reports.
+target_model = gpt2(vocab_size=50257)
+policy = SkipParametersTransferPolicy(
+    skip_parameter_prefixes=("transformer.wte", "lm_head"),
+)
+report = policy.apply_bundle(bundle, target_model)
+print(report.loaded_parameter_count)
+\end{verbatim}
 
-\section{Extensibility}
+\section{Verify and evaluate}
 
-Users can write their own pre-pretraining logic by implementing \texttt{SymbolicTaskFamily}: define how examples are sampled, executed, serialized, and tokenized. If the task needs a custom dataset or loss path, implement \texttt{Task} directly.
+Reference-parity tests compare normalized examples or token sequences with fixtures produced by the original LIME, synthetic-summarization, procedural-pretraining, and NCA implementations. The replication interface compares downstream training after synthetic initialization with both random initialization and a natural-text warmup, then exports the resulting metrics, plots, tables, and reports.
 
-The core abstraction is a task family. It samples an example, executes it if needed, serializes it into tokens, and exposes a tokenizer specification. The remaining path is ordinary model training: build a dataset, train a Hugging Face causal language model, save the checkpoint, and export a transfer bundle.
+A custom symbolic generator implements \texttt{SymbolicTaskFamily} by defining how an example is sampled, executed, serialized, and tokenized. A method that requires a different dataset construction or loss implements \texttt{Task} directly.
 
 \end{document}

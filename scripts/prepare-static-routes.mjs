@@ -48,9 +48,28 @@ const read = (dir, extension) => fs.existsSync(dir)
     .map((name) => fm(fs.readFileSync(path.join(dir, name), "utf8")))
   : [];
 
-const items = [...read(generated, ".html"), ...read(markdown, ".md")]
-  .filter(({ attributes }) => !attributes.draft && !attributes.external_url)
+const allItems = [...read(generated, ".html"), ...read(markdown, ".md")]
+  .filter(({ attributes }) => !attributes.draft)
   .sort((a, b) => (a.attributes.rank ?? 999) - (b.attributes.rank ?? 999));
+const items = allItems.filter(({ attributes }) => !attributes.external_url);
+
+// Static JSON endpoint listing the work shown on /work/, in display order.
+const apiDir = path.join(dist, "api");
+fs.mkdirSync(apiDir, { recursive: true });
+fs.writeFileSync(path.join(apiDir, "work.json"), `${JSON.stringify({
+  source: `${origin}/work/`,
+  items: allItems
+    .filter(({ attributes }) => attributes.listed !== false)
+    .map(({ attributes: a }) => ({
+      slug: a.slug,
+      title: a.title,
+      eyebrow: a.eyebrow ?? null,
+      category: a.category,
+      summary: a.summary,
+      date: a.date instanceof Date ? a.date.toISOString().slice(0, 10) : String(a.date),
+      url: a.external_url ?? `${origin}/work/${a.slug}/`,
+    })),
+}, null, 2)}\n`);
 
 for (const { attributes } of items) {
   const route = `/work/${attributes.slug}/`;
@@ -73,4 +92,4 @@ const urls = ["/", "/work/", ...items.map(({ attributes }) => `/work/${attribute
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((route) => `  <url><loc>${origin}${route}</loc></url>`).join("\n")}\n</urlset>\n`;
 fs.writeFileSync(path.join(dist, "sitemap.xml"), sitemap);
 
-console.log(`Prepared ${items.length + 1} static work routes and sitemap.xml`);
+console.log(`Prepared ${items.length + 1} static work routes, sitemap.xml, and api/work.json`);

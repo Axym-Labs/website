@@ -47,4 +47,10 @@ for (const route of routes) {
   );
 }
 
+const workApi = JSON.parse(fs.readFileSync(path.join(dist, "api", "work.json"), "utf8"));
+assert.ok(workApi.items.length > 0, "api/work.json must list the work items");
+for (const item of workApi.items) {
+  assert.ok(item.title && item.summary && /^https:\/\//.test(item.url), `api/work.json entry ${item.slug} is incomplete`);
+}
+
 console.log("Axym indexing route test: PASS");

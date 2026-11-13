@@ -15,6 +15,7 @@ export interface WorkItem {
   external_url_label?: string;
   main_points?: [string, string][];
   draft: boolean;
+  listed?: boolean;
   date: string;
   rank?: number;
   content: string;
@@ -41,6 +42,7 @@ const parseWorkItem = (markdownContent: string): WorkItem => {
     external_url_label: attributes.external_url_label,
     main_points: attributes.main_points,
     draft: attributes.draft,
+    listed: attributes.listed,
     date: attributes.date,
     rank: attributes.rank,
     content: body,

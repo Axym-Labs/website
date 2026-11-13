@@ -49,7 +49,7 @@ const read = (dir, extension) => fs.existsSync(dir)
   : [];
 
 const items = [...read(generated, ".html"), ...read(markdown, ".md")]
-  .filter(({ attributes }) => !attributes.draft)
+  .filter(({ attributes }) => !attributes.draft && !attributes.external_url)
   .sort((a, b) => (a.attributes.rank ?? 999) - (b.attributes.rank ?? 999));
 
 for (const { attributes } of items) {

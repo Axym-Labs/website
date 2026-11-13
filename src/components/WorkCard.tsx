@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 
@@ -6,10 +7,22 @@ interface WorkItem {
   title: string;
   summary: string;
   eyebrow?: string;
+  external_url?: string;
 }
 
+const CardLink = ({ item, children }: { item: WorkItem; children: ReactNode }) =>
+  item.external_url ? (
+    <a href={item.external_url} className="group block">
+      {children}
+    </a>
+  ) : (
+    <Link to={`/work/${item.slug}/`} className="group block">
+      {children}
+    </Link>
+  );
+
 const WorkCard = ({ item }: { item: WorkItem }) => (
-  <Link to={`/work/${item.slug}/`} className="group block">
+  <CardLink item={item}>
     <article className="grid gap-5 py-10 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center md:py-14">
       <div className="max-w-4xl">
         {item.eyebrow && (
@@ -26,7 +39,7 @@ const WorkCard = ({ item }: { item: WorkItem }) => (
       </div>
       <ArrowUpRight className="h-7 w-7 text-foreground/40 transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-accent" />
     </article>
-  </Link>
+  </CardLink>
 );
 
 export default WorkCard;

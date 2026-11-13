@@ -17,6 +17,17 @@ describe("canonical internal navigation", () => {
     expect(html).toContain('href="/work/iewc/"');
   });
 
+  it("links external work entries to their own site", () => {
+    const html = renderToStaticMarkup(
+      <StaticRouter location="/">
+        <WorkCard item={{ slug: "axo", title: "AxoSim and AxoBench", summary: "Summary", external_url: "https://axo.axym.org" }} />
+      </StaticRouter>,
+    );
+
+    expect(html).toContain('href="https://axo.axym.org"');
+    expect(html).not.toContain('href="/work/axo/"');
+  });
+
   it("renders the Axym wordmark without a graphic mark", () => {
     const html = renderToStaticMarkup(
       <StaticRouter location="/">

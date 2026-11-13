@@ -9,7 +9,7 @@ interface WorkListProps {
 
 const WorkList = ({ items, title, sectionId = "work" }: WorkListProps) => {
   const sortedItems = items
-    .filter((item) => !item.draft)
+    .filter((item) => !item.draft && item.listed !== false)
     .sort((a, b) => {
       if (a.rank !== undefined && b.rank !== undefined) return a.rank - b.rank;
       if (a.rank !== undefined) return -1;

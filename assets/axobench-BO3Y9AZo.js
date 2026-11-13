@@ -5,6 +5,7 @@ category: product
 eyebrow: BENCHMARK
 summary: AxoBench provides the datasets, metrics, and evaluation protocol for single-neuron fidelity. It accepts any NumPy prediction function and depends only on NumPy, Matplotlib, and Requests.
 draft: false
+listed: false
 date: 2026-10-12
 rank: 0.75
 content_format: html
@@ -30,7 +31,7 @@ and a target of spike indicator and normalized somatic voltage. They
 differ in where the inputs come from and therefore in the question they
 answer.</div></section>
    <nav aria-label='Project resources' class='publication-actions'><a class='publication-action' href='https://axo.axym.org/axobench/benchmarking/'>Read documentation</a> <a class='publication-action' href='https://axo.axym.org/datasets/'>Choose a dataset</a> <a class='publication-action' href='https://pypi.org/project/axobench/'>Open package</a> <a class='publication-action' href='https://huggingface.co/datasets/Axym-Labs/axobench'>Open dataset</a></nav>
-<!-- l. 37 --><p class='indent'>   AxoBench is the benchmark and dataset-generation workbench for
+<!-- l. 38 --><p class='indent'>   AxoBench is the benchmark and dataset-generation workbench for
 single-neuron surrogate evaluation used by <a href='/work/axosim/'>AxoSim</a>. It evaluates caller-supplied
 prediction functions or stored predictions; model implementations and training
 code stay in AxoSim.
@@ -43,8 +44,8 @@ code stay in AxoSim.
    <pre class='verbatim' id='verbatim-1'>
 python -m pip install "axobench&gt;=0.2.1"
 </pre>
-<!-- l. 43 --><p class='nopar'>
-</p><!-- l. 45 --><p class='indent'>   The evaluator accepts any batched NumPy prediction callable and a dataset
+<!-- l. 44 --><p class='nopar'>
+</p><!-- l. 46 --><p class='indent'>   The evaluator accepts any batched NumPy prediction callable and a dataset
 root. It calibrates the spike threshold on a held-out fraction of the selected
 validation traces, computes the core metric set, evaluates available paired
 interventions, and returns a fixed 24-row attention panel:
@@ -65,8 +66,8 @@ report = evaluate_model(
 )
 print(format_evaluation_report(report))
 </pre>
-<!-- l. 59 --><p class='nopar'>
-</p><!-- l. 61 --><p class='indent'>   For iterative comparisons, a saved baseline cache lets each candidate be
+<!-- l. 60 --><p class='nopar'>
+</p><!-- l. 62 --><p class='indent'>   For iterative comparisons, a saved baseline cache lets each candidate be
 scored on identical traces, with morphology-stratified 95% bootstrap intervals
 for the paired differences.
    
@@ -89,18 +90,18 @@ for the paired differences.
      <li class='itemize'><a href='https://huggingface.co/datasets/Axym-Labs/axobench-interventions'><span class='cmtt-10x-x-109'>Axym-Labs/axobench-interventions</span></a>: each input sample simulated
      twice, unchanged and after one of five defined edits; 12,500 pairs of
      6,000 ms. Use the pairs to measure response fidelity.</li></ul>
-<!-- l. 72 --><p class='noindent'><a href='https://axo.axym.org/axobench/neuronio/'>NeuronIO</a> simulations convert to the same format. The released datasets are CC
+<!-- l. 73 --><p class='noindent'><a href='https://axo.axym.org/axobench/neuronio/'>NeuronIO</a> simulations convert to the same format. The released datasets are CC
 BY-NC 4.0, because every trace is simulated on Allen Cell Types Database
 reconstructions.
    
 </p>
    <h2 class='sectionHead' id='metrics-and-diagnostics'>  <a id='x1-3000'></a>Metrics and diagnostics</h2>
-<!-- l. 76 --><p class='noindent'>The <a href='https://axo.axym.org/axobench/metrics/'>core metrics</a> are Voltage SERA, spike Mean F1 over 0–5 ms tolerances, the
+<!-- l. 77 --><p class='noindent'>The <a href='https://axo.axym.org/axobench/metrics/'>core metrics</a> are Voltage SERA, spike Mean F1 over 0–5 ms tolerances, the
 subthreshold voltage RMSE, and Response SERA. <a href='https://axo.axym.org/axobench/skill/'>Skill rows</a> express SERA
 against a constant voltage and against the best prediction without action
 potentials; their ratio and a firing-rate reweighting support comparisons across
 datasets.
-</p><!-- l. 78 --><p class='indent'>   The <a href='https://axo.axym.org/axobench/error-anatomy/'>error anatomy</a> breaks a model’s errors down by spike outcome, time
+</p><!-- l. 79 --><p class='indent'>   The <a href='https://axo.axym.org/axobench/error-anatomy/'>error anatomy</a> breaks a model’s errors down by spike outcome, time
 from a spike, firing rate, frequency band, and morphology, as in Figure 1.
 AxoBench defines evaluation and generation contracts; it does not claim that one
 scalar metric captures every biologically relevant error.

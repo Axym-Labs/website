@@ -47,13 +47,12 @@ language attribute provides little organization of word laws. Excluding
 singleton branches preserves these empirical findings. These results suggest
 objectives and models that respect the hierarchical organization in data
 laws.</div></section>
-   <nav aria-label='Project resources' class='publication-actions'><a class='publication-action' href='/files/recursive-manifolds.pdf'>Read paper</a></nav>
    
                                                                      
 
                                                                      
    <h2 class='sectionHead' id='from-manifolds-to-relations-among-conditional-laws'>  <a id='x1-1000'></a>From manifolds to relations among conditional laws</h2>
-<!-- l. 37 --><p class='noindent'>Real-world variation is resolved in stages. Aircraft from one manufacturer share
+<!-- l. 33 --><p class='noindent'>Real-world variation is resolved in stages. Aircraft from one manufacturer share
 properties that distinguish them from those of another manufacturer; within a
 manufacturer, families retain common structure while their variants differ in
 finer ways. A spoken word constrains its acoustic distribution, within which
@@ -61,14 +60,14 @@ individual speakers introduce further variation. Refinement in these examples
 does more than partition a population: it exposes variation hidden at a coarser
 level, and the refined laws remain related through structure shared within their
 parent.
-</p><!-- l. 39 --><p class='indent'>   The hypothesis concerns these relations rather than the shape of a single
+</p><!-- l. 35 --><p class='indent'>   The hypothesis concerns these relations rather than the shape of a single
 support. Multiscale effects may reorganize probability mass on the same
 support, so the formulation covers manifold-supported, full-dimensional, and
 discrete laws, and treats local manifold geometry as a separate question.
    
 </p>
    <h2 class='sectionHead' id='measuring-refinement'>  <a id='x1-2000'></a>Measuring refinement</h2>
-<!-- l. 43 --><p class='noindent'>Energy distance embeds each conditional law as a vector in a Hilbert space
+<!-- l. 39 --><p class='noindent'>Energy distance embeds each conditional law as a vector in a Hilbert space
 and yields an exact variance decomposition. At parent–child relation <span class='mathjax-inline'>\\(j\\)</span>,
 this gives the profile <span class='mathjax-inline'>\\((V_j,F_j,A_j)\\)</span>: <span class='mathjax-inline'>\\(V_j\\)</span> is the absolute variation among child laws, <span class='mathjax-inline'>\\(F_j\\)</span> the
 fraction revealed at that refinement, and <span class='mathjax-inline'>\\(A_j\\)</span> how much better the specified
@@ -79,17 +78,17 @@ and scale of organization; <span class='mathjax-inline'>\\(R_j\\)</span> provide
 interval.
    
    </p><h2 class='sectionHead' id='main-results'>  <a id='x1-3000'></a>Main results</h2>
-<!-- l. 51 --><p class='noindent'>ImageNet-R in DINOv2-L features satisfies the criterion at both WordNet
+<!-- l. 47 --><p class='noindent'>ImageNet-R in DINOv2-L features satisfies the criterion at both WordNet
 relations, with <span class='mathjax-inline'>\\(R_2=0.0540\\) \\([0.0477,0.0603]\\)</span> and <span class='mathjax-inline'>\\(R_3=0.0584\\) \\([0.0541,0.0626]\\)</span>. FGVC-Aircraft does so at both relations but allocates
 variation differently: manufacturer strongly organizes families that add
 substantial variation (<span class='mathjax-inline'>\\(F_2=0.255\\)</span>, <span class='mathjax-inline'>\\(A_2=0.561\\)</span>), while families organize their variants even more
 strongly although the variants add little (<span class='mathjax-inline'>\\(F_3=0.038\\)</span>, <span class='mathjax-inline'>\\(A_3=0.874\\)</span>). ImageNet-1k and Amazon Reviews
 also satisfy the criterion at two successive relations, the latter in both hashed
+counts and Qwen3-Embedding-4B.
                                                                      
 
                                                                      
-counts and Qwen3-Embedding-4B.
-</p><!-- l. 53 --><p class='indent'>   Spiking Heidelberg Digits separates innovation from organization. Speakers
+</p><!-- l. 49 --><p class='indent'>   Spiking Heidelberg Digits separates innovation from organization. Speakers
 introduce substantial variation that is organized within words (<span class='mathjax-inline'>\\(R_3=0.1976\\) \\([0.1953,0.1999]\\)</span>). Words account
 for nearly all variation visible under the language attribute (<span class='mathjax-inline'>\\(F_2=0.984\\)</span>), but language
 organizes the word laws less effectively than an average size-matched grouping
@@ -110,7 +109,7 @@ relation–representation pairs.
   url    = {https://axym.org/work/recursive-manifolds/}
 }
 </pre>
-<!-- l. 65 --><p class='nopar'>
+<!-- l. 61 --><p class='nopar'>
 </p>
 </div>
 `;export{a as default};

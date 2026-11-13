@@ -6,6 +6,7 @@ eyebrow: NEURAL SIMULATION
 summary: AxoSim combines morphology-conditioned GRU and Mamba neuron models with delayed synaptic routing, mutable efficacies, and differentiable population state. On an RTX 5090, the runtime simulates 65,536 neurons with 4,000 synaptic contacts per neuron at 3.38× real-time speed.
 author: Davide Wiest
 draft: false
+listed: false
 date: 2026-10-02
 rank: 0.5
 content_format: html
@@ -49,7 +50,7 @@ provides 50,000 validated population traces from 100 recurrent connectomes
 with connectome-disjoint splits. Together, these experiments separate
 teacher-forced fidelity from recurrent simulation and inference-time
 adaptation.</div></section>
-   <nav aria-label='Project resources' class='publication-actions'><a class='publication-action' href='https://axo.axym.org/report/main.pdf'>Read report</a> <a class='publication-action' href='https://axo.axym.org'>Read documentation</a> <a class='publication-action' href='https://pypi.org/project/axosim/'>Open package</a> <a class='publication-action' href='/work/axosim-connectome-demo/'>Try the demo</a></nav>
+   <nav aria-label='Project resources' class='publication-actions'><a class='publication-action' href='https://axo.axym.org'>Read documentation</a> <a class='publication-action' href='https://pypi.org/project/axosim/'>Open package</a> <a class='publication-action' href='/work/axosim-connectome-demo/'>Try the demo</a></nav>
 <!-- l. 40 --><p class='indent'>   You can run a simulated fly visual system built from AxoSim–Lite neurons in
                                                                      
 
@@ -135,11 +136,10 @@ with the report’s.
                  Population Simulation at Scale},
   author      = {Wiest, Davide and Sch{\\"a}fer, Jonathan},
   institution = {Axym Labs},
-  year        = {2026},
-  url         = {https://axo.axym.org/report/main.pdf}
+  year        = {2026}
 }
 </pre>
-<!-- l. 83 --><p class='nopar'>
+<!-- l. 82 --><p class='nopar'>
 </p>
 </div>
 `;export{e as default};

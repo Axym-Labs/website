@@ -1,0 +1,68 @@
+{
+  "source": "https://axym.org/work/",
+  "items": [
+    {
+      "slug": "axo",
+      "title": "AxoSim and AxoBench",
+      "eyebrow": "NEURAL SIMULATION",
+      "category": "product",
+      "summary": "AxoSim combines morphology-conditioned GRU and Mamba neuron models with delayed synaptic routing and differentiable population state, simulating 65,536 neurons with 4,000 synaptic contacts each at 3.38× real-time speed on one RTX 5090. AxoBench provides the datasets, metrics, and evaluation protocol for single-neuron fidelity.",
+      "date": "2026-10-12",
+      "url": "https://axo.axym.org"
+    },
+    {
+      "slug": "iewc",
+      "title": "Improved Elastic Weight Consolidation",
+      "eyebrow": "CONTINUAL LEARNING",
+      "category": "research",
+      "summary": "IEWC derives Elastic Weight Consolidation from an explicit constraint that preserves previously learned behavior, and separates EWC's implicit loss-gradient weighting from parameter sensitivity. Across five domains, IEWC variants improve on EWC in classification, segmentation, and language, and remain comparable in forecasting and diffusion.",
+      "date": "2026-07-15",
+      "url": "https://axym.org/work/iewc/"
+    },
+    {
+      "slug": "kpsa",
+      "title": "Kernelized Parameter Sensitivity Atlases",
+      "eyebrow": "INTERPRETABILITY",
+      "category": "research",
+      "summary": "We derive KPSA (Kernelized Parameter Sensitivity Atlas) from a block decomposition of the empirical neural tangent kernel. It measures normalized parameter-group sensitivity on a fixed source set and uses a lightweight kernel to estimate sensitivities for unseen inputs, amortizing repeated gradient attribution.",
+      "date": "2026-10-08",
+      "url": "https://axym.org/work/kpsa/"
+    },
+    {
+      "slug": "terel",
+      "title": "Temporal Regularized Learning",
+      "eyebrow": "LOCAL LEARNING",
+      "category": "research",
+      "summary": "TeReL turns VICReg's invariance, variance, and covariance decomposition into a causal neuron-local surrogate by pairing adjacent observations, replacing batch statistics with detached running moments, and obtaining covariance control from a lagged same-layer operator.",
+      "date": "2026-09-01",
+      "url": "https://axym.org/work/terel/"
+    },
+    {
+      "slug": "recursive-manifolds",
+      "title": "The Recursive Manifold Hypothesis",
+      "eyebrow": "DATA GEOMETRY",
+      "category": "research",
+      "summary": "The recursive manifold hypothesis states that real-world data laws admit coarse-to-fine organizations in which parent laws capture shared structure and successive refinements add variation that remains organized within each parent. An energy-distance decomposition tests this per relation, and 13 of 14 image, text, and spiking-speech relation-representation pairs satisfy the criterion.",
+      "date": "2026-09-02",
+      "url": "https://axym.org/work/recursive-manifolds/"
+    },
+    {
+      "slug": "pptrain",
+      "title": "pptrain",
+      "eyebrow": "TASK-AGNOSTIC LEARNING",
+      "category": "product",
+      "summary": "pptrain makes task-agnostic pretraining on synthetic tasks available through one installable workflow. It packages six paper-derived task families, exact reference-parity checks, and downstream transfer evaluation.",
+      "date": "2026-06-18",
+      "url": "https://axym.org/work/pptrain/"
+    },
+    {
+      "slug": "marey",
+      "title": "Marey",
+      "eyebrow": "SCIENTIFIC VISUALIZATION",
+      "category": "product",
+      "summary": "A plotting library for F# where the compiler checks your units, and the axes label themselves. Scales, SI prefixes, ticks, and axis titles are derived from unit witnesses, and the same figure renders to SVG, PNG, PDF, or LaTeX source.",
+      "date": "2026-08-21",
+      "url": "https://axym.org/work/marey/"
+    }
+  ]
+}

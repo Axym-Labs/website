@@ -31,25 +31,28 @@ yielding a per-neuron online loss with bounded state. The objective is a soft
 form of Slow Feature Analysis, and its gradient is a Hebbian update
 of the feedforward weights and an anti-Hebbian update of one lateral
 matrix per layer. The aim of the experiments is to show that the rule
-works in a small network, not to compete with backpropagation. On
-a class-chunked MNIST stream, a two-layer fully connected network
-trained with batch size one outperforms random features (96.48% versus
-95.09% linear-probe accuracy) and classical SFA, and a variant that relaxes
-both locality constraints is comparable to supervised backpropagation.
-Because training and inference use the same computation, the network
-can keep learning from unlabeled data during inference without loss of
-accuracy.</div></section>
+works in a small network, not to compete with backpropagation. On a
+class-chunked MNIST stream, a two-layer fully connected network trained
+with batch size one outperforms random features (96.48% versus 95.09%
+linear-probe accuracy) and classical SFA, and a variant that relaxes both
+locality constraints is comparable to supervised backpropagation. Because
+training and inference use the same computation, the network can keep
+learning from unlabeled data during inference without loss of accuracy.
+More broadly, TeReL shows that a modern self-supervised objective can
+be learned one sample at a time with purely local updates, bringing
+representation learning closer to what brains and neuromorphic hardware can
+implement.</div></section>
    <nav aria-label='Project resources' class='publication-actions'><a class='publication-action' href='https://arxiv.org/abs/2611.17019'>Read paper</a> <a class='publication-action' href='https://github.com/Axym-Labs/TeReL'>View code</a></nav>
    
    <h2 class='sectionHead' id='a-causal-vicreg-construction'>  <a id='x1-1000'></a>A causal VICReg construction</h2>
 <!-- l. 38 --><p class='noindent'><a href='https://arxiv.org/abs/2105.04906'>VICReg</a> separates representation learning into invariance between paired views,
 marginal variance, and cross-coordinate decorrelation. TeReL preserves these
-three roles while replacing the second view by the preceding observation,
-batch moments by detached running moments, and the differentiated
-batch-covariance signal by a lagged same-layer operator. Because the positive
                                                                      
 
                                                                      
+three roles while replacing the second view by the preceding observation,
+batch moments by detached running moments, and the differentiated
+batch-covariance signal by a lagged same-layer operator. Because the positive
 pair consists of adjacent observations, its invariance term is a soft <a href='https://doi.org/10.1162/089976602317318938'>Slow Feature
 Analysis</a> objective.
 </p><!-- l. 40 --><p class='indent'>   For current activation <span class='mathjax-inline'>\\(z_t\\)</span>, preceding activation <span class='mathjax-inline'>\\(p_t\\)</span>, detached running mean <span class='mathjax-inline'>\\(\\mu _t\\)</span>
@@ -83,10 +86,10 @@ boundary-validity bit, and <span class='mathjax-inline'>\\(D^2\\)</span> auxilia
 online rule uses plain stochastic gradient descent without optimizer
 moments.
    
-</p>
                                                                      
 
                                                                      
+</p>
    <h2 class='sectionHead' id='results'>  <a id='x1-3000'></a>Results</h2>
 <!-- l. 70 --><p class='noindent'>On a class-chunked MNIST stream, TeReL reaches <span class='mathjax-inline'>\\(96.48\\pm 0.15\\%\\)</span> held-out linear-probe
 accuracy, a paired gain of 1.39 percentage points over random features (<span class='mathjax-inline'>\\(95.09\\pm 0.23\\%\\)</span>). Batch
@@ -98,8 +101,8 @@ supervised offline learning at <span class='mathjax-inline'>\\(98.44\\pm 0.09\\%
 and removing the temporal term reduces it by <span class='mathjax-inline'>\\(1.50\\)</span>. Removing the variance term
 collapses the representation to <span class='mathjax-inline'>\\(15.36\\pm 0.27\\%\\)</span> accuracy; removing the covariance term makes
 training diverge for all five initializations. With a validation-selected step size,
-unlabeled online updates during evaluation reach <span class='mathjax-inline'>\\(96.50\\pm 0.15\\%\\)</span>, compared with <span class='mathjax-inline'>\\(96.48\\pm 0.15\\%\\)</span> for the fixed
-encoder.
+unlabeled online updates during evaluation reach <span class='mathjax-inline'>\\(96.50\\pm 0.15\\%\\)</span>, matching the fixed encoder
+(<span class='mathjax-inline'>\\(96.48\\pm 0.15\\%\\)</span>).
    
 </p>
    <h2 class='sectionHead' id='citation'>  <a id='x1-4000'></a>Citation</h2>

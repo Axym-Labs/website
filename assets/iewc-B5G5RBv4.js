@@ -1,4 +1,4 @@
-const a=`---
+const e=`---
 slug: iewc
 title: Improved Elastic Weight Consolidation
 category: research
@@ -26,30 +26,33 @@ quadratic penalty whose empirical Fisher is usually justified through
 probabilistic curvature. We instead introduce <span class='pplri7t-x-x-109'>Continual Learning as an
 Optimization Constraint </span>(CLOC): new training must preserve chosen functionals
 of learned behavior. EWC’s empirical Fisher is exactly the first-order form of this
-constraint when the preserved functional is each sample’s loss. This derivation
-exposes a flaw: EWC implicitly weights each sample by the scale of its loss
-gradient, so well-fitted samples lose importance. EWC-DR observed this failure
-in classification; CLOC identifies its general cause. Improved Elastic Weight
-Consolidation (IEWC) penalizes output changes according to the first-order
-approximation of each old sample’s loss level set, removing the weighting
-for any differentiable loss and output geometry, and prevents corrupt
-samples from dominating the importance matrix. Across classification,
-segmentation, language, forecasting, and diffusion, IEWC variants match or
-improve on EWC and outperform EWC-DR. In a held-out evaluation
-with validation-selected hyperparameters, uniform IEWC improves
-ImageNet-R accuracy over matched EWC by 2.00 percentage points (95% CI
-0.93–3.07).</div></section>
+constraint when the preserved functional is each sample’s loss. This
+derivation exposes a flaw: EWC implicitly weights each sample by the scale
+of its loss gradient, so well-fitted samples lose importance. EWC-DR
+observed this failure in classification; CLOC identifies its general cause.
+Improved Elastic Weight Consolidation (IEWC) penalizes output changes
+according to the first-order approximation of each old sample’s loss level set,
+removing the weighting for any differentiable loss and output geometry, and
+prevents corrupt samples from dominating the importance matrix. Across
+classification, segmentation, language, forecasting, and diffusion, IEWC
+variants match or improve on EWC and outperform EWC-DR. In a held-out
+evaluation with validation-selected hyperparameters, uniform IEWC
+improves ImageNet-R accuracy over matched EWC by 2.00 percentage
+points (95% CI 0.93–3.07). More broadly, deriving a regularizer from
+what a model should preserve, rather than from an approximation of
+curvature, gives a principled recipe for designing continual-learning
+penalties.</div></section>
    <nav aria-label='Project resources' class='publication-actions'><a class='publication-action' href='https://arxiv.org/abs/2611.16039'>Read paper</a> <a class='publication-action' href='https://github.com/Axym-Labs/iewc'>View code</a></nav>
    
    <h2 class='sectionHead' id='from-preservation-constraints-to-iewc'>  <a id='x1-1000'></a>From preservation constraints to IEWC</h2>
 <!-- l. 37 --><p class='noindent'>Continual Learning as an Optimization Constraint (CLOC) starts from a direct
 requirement: new training must preserve chosen functionals of previously
-learned behavior. First-order preservation of any differentiable scalar functional
-yields a gradient outer product; for per-sample negative log likelihood this is
-exactly EWC’s empirical Fisher, without a model-Fisher interpretation. The
                                                                      
 
                                                                      
+learned behavior. First-order preservation of any differentiable scalar functional
+yields a gradient outer product; for per-sample negative log likelihood this is
+exactly EWC’s empirical Fisher, without a model-Fisher interpretation. The
 same derivation shows that EWC weights each sample by the scale of its
 loss gradient, so well-fitted samples lose importance, the failure that
 EWC-DR observed in classification. IEWC instead penalizes output changes
@@ -63,10 +66,9 @@ geometry.
 samples from dominating the full importance matrix. Across classification,
 segmentation, language, forecasting, and diffusion, IEWC variants match or
 improve on EWC and outperform EWC-DR. In a held-out evaluation with
-validation-selected hyperparameters, uniform IEWC improves ImageNet-R
-final average accuracy over matched EWC by 2.00 percentage points
-(95% CI 0.93–3.07) and gives no material difference on TRACE (<span class='mathjax-inline'>\\(-0.11\\)</span>; 95% CI
-<span class='mathjax-inline'>\\(-1.48\\)</span>–<span class='mathjax-inline'>\\(1.27\\)</span>).
+validation-selected hyperparameters, uniform IEWC improves ImageNet-R final
+average accuracy over matched EWC by 2.00 percentage points (95% CI
+0.93–3.07) and performs comparably on TRACE.
    
 </p>
    <h2 class='sectionHead' id='citation'>  <a id='x1-3000'></a>Citation</h2>
@@ -86,4 +88,4 @@ final average accuracy over matched EWC by 2.00 percentage points
 <!-- l. 54 --><p class='nopar'>
 </p>
 </div>
-`;export{a as default};
+`;export{e as default};

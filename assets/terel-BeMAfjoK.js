@@ -24,14 +24,13 @@ anti-Hebbian lateral update.</figcaption></figure>
 layers, but almost all still compute their loss over a batch of samples
 and are therefore local in space but not in time. We introduce Temporal
 Regularized Learning (TeReL), a spatially and temporally local learning rule for
-self-supervised representation learning from sequential input streams.
-The key idea is to instantiate a VICReg-style objective with temporally
-adjacent positives and non-differentiated running population statistics,
-yielding a per-neuron online loss with bounded state. The objective is a soft
-form of Slow Feature Analysis, and its gradient is a Hebbian update
-of the feedforward weights and an anti-Hebbian update of one lateral
-matrix per layer. The aim of the experiments is to show that the rule
-works in a small network, not to compete with backpropagation. On a
+self-supervised representation learning from sequential input streams. The key
+idea is to instantiate a VICReg-style objective with temporally adjacent
+positives and non-differentiated running population statistics, yielding a
+per-neuron online loss with bounded state. The objective is a soft form
+of Slow Feature Analysis, and its gradient is a Hebbian update of the
+feedforward weights and an anti-Hebbian update of one lateral matrix per layer.
+The experiments show that the rule works in a small network. On a
 class-chunked MNIST stream, a two-layer fully connected network trained
 with batch size one outperforms random features (96.48% versus 95.09%
 linear-probe accuracy) and classical SFA, and a variant that relaxes both
@@ -47,10 +46,10 @@ implement.</div></section>
    <h2 class='sectionHead' id='a-causal-vicreg-construction'>  <a id='x1-1000'></a>A causal VICReg construction</h2>
 <!-- l. 38 --><p class='noindent'><a href='https://arxiv.org/abs/2105.04906'>VICReg</a> separates representation learning into invariance between paired views,
 marginal variance, and cross-coordinate decorrelation. TeReL preserves these
+three roles while replacing the second view by the preceding observation,
                                                                      
 
                                                                      
-three roles while replacing the second view by the preceding observation,
 batch moments by detached running moments, and the differentiated
 batch-covariance signal by a lagged same-layer operator. Because the positive
 pair consists of adjacent observations, its invariance term is a soft <a href='https://doi.org/10.1162/089976602317318938'>Slow Feature

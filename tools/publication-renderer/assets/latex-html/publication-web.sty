@@ -1,0 +1,189 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{publication-web}[2026/07/15 Shared PDF and embedded HTML primitives]
+
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{hyperref}
+\RequirePackage{mathpazo}
+\RequirePackage{longtable}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{calc}
+\RequirePackage{caption}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+
+\definecolor{publicationaccent}{HTML}{3F21B6}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=publicationaccent,
+  citecolor=publicationaccent,
+  urlcolor=publicationaccent
+}
+
+\setcounter{secnumdepth}{-1}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\real}[1]{#1}
+
+\newcommand{\publicationtitle}[1]{\def\PublicationTitleText{#1}}
+\newcommand{\publicationauthors}[1]{\def\PublicationAuthorsText{#1}}
+\newcommand{\publicationaffiliations}[1]{\def\PublicationAffiliationsText{#1}}
+\newcommand{\publicationdate}[1]{\def\PublicationDateText{#1}}
+\publicationdate{}
+
+\newenvironment{publicationhead}{%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{<header class="publication-head">}%
+  \else
+    \par\noindent\rule{\linewidth}{1pt}\par\vspace{1.1em}%
+  \fi
+}{%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{</header>}\ShowPar
+  \fi
+}
+
+\newcommand{\makepublicationtitle}{%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{<div class="publication-title-block"><h1 class="publication-title">}%
+    \PublicationTitleText
+    \HCode{</h1><p class="publication-authors">}%
+    \PublicationAuthorsText
+    \HCode{</p><p class="publication-affiliations">}%
+    \PublicationAffiliationsText
+    \HCode{</p>}%
+    \ifx\PublicationDateText\empty\else
+      \HCode{<p class="publication-date">}\PublicationDateText\HCode{</p>}%
+    \fi
+    \HCode{</div>}\ShowPar
+  \else
+    {\LARGE\bfseries\PublicationTitleText\par}
+    \vspace{0.8em}
+    {\normalsize\bfseries\PublicationAuthorsText\par}
+    {\small\PublicationAffiliationsText\par}
+    \ifx\PublicationDateText\empty\else
+      {\small\PublicationDateText\par}%
+    \fi
+    \vspace{0.5em}\noindent\rule{\linewidth}{1pt}\par
+  \fi
+}
+
+\newcommand{\publicationabstract}[1]{%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{<section class="publication-abstract"><h2 class="publication-abstract-heading">Abstract</h2><div class="publication-abstract-body">}%
+    #1%
+    \HCode{</div></section>}\ShowPar
+  \else
+    \begin{center}\textbf{Abstract}\end{center}
+    {\small #1\par}%
+  \fi
+}
+
+\newcommand{\publicationactions}[1]{%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{<nav class="publication-actions" aria-label="Project resources">}%
+    #1%
+    \HCode{</nav>}\ShowPar
+  \else
+    \par\medskip\noindent #1\par
+  \fi
+}
+
+\newcommand{\publicationaction}[2]{%
+  \ifdefined\HCode
+    \HCode{<a class="publication-action" href="#1">}#2\HCode{</a>}%
+  \else
+    \href{#1}{\textbf{#2}}\quad
+  \fi
+}
+
+% Paper links line (same setters as axym-publication.sty, so a paper preamble
+% can be reused). In HTML the entries render as action buttons whose symbols
+% come from publication-fragment.css; empty entries are omitted.
+\newcommand{\publicationmodels}[2][Models]{%
+  \def\PublicationModelsLabel{#1}\def\PublicationModels{#2}}
+\newcommand{\publicationdata}[2][Data]{%
+  \def\PublicationDataLabel{#1}\def\PublicationData{#2}}
+\newcommand{\publicationcode}[2][Code]{%
+  \def\PublicationCodeLabel{#1}\def\PublicationCode{#2}}
+\newcommand{\publicationprojectpage}[2][Project page]{%
+  \def\PublicationProjectPageLabel{#1}\def\PublicationProjectPage{#2}}
+\newcommand{\publicationcorrespondence}[1]{\def\PublicationCorrespondence{#1}}
+\publicationmodels{}
+\publicationdata{}
+\publicationcode{}
+\publicationprojectpage{}
+\publicationcorrespondence{}
+
+\newcommand{\publicationweb@linkentry}[3]{% kind, url, label
+  \ifdefined\HCode
+    \HCode{<a class="publication-action publication-link publication-link-#1" href="#2">}#3\HCode{</a>}%
+  \else
+    \href{#2}{\textbf{#3}}\quad
+  \fi}
+\newcommand{\publicationweb@hostentry}[5]{% url macro, label, host, kind, fallback
+  \edef\publicationweb@test{\noexpand\in@{\detokenize{#3}}%
+    {\expandafter\detokenize\expandafter{#1}}}%
+  \publicationweb@test
+  \ifin@\def\publicationweb@kind{#4}\else\def\publicationweb@kind{#5}\fi
+  \publicationweb@linkentry{\publicationweb@kind}{#1}{#2}}
+\newif\ifpublicationweb@anylink
+\newcommand{\makepublicationlinks}{%
+  \publicationweb@anylinkfalse
+  \ifx\PublicationModels\empty\else\publicationweb@anylinktrue\fi
+  \ifx\PublicationData\empty\else\publicationweb@anylinktrue\fi
+  \ifx\PublicationCode\empty\else\publicationweb@anylinktrue\fi
+  \ifx\PublicationProjectPage\empty\else\publicationweb@anylinktrue\fi
+  \ifx\PublicationCorrespondence\empty\else\publicationweb@anylinktrue\fi
+  \ifpublicationweb@anylink
+    \publicationactions{%
+      \ifx\PublicationModels\empty\else
+        \publicationweb@hostentry{\PublicationModels}{\PublicationModelsLabel}{huggingface.co}{huggingface}{data}\fi
+      \ifx\PublicationData\empty\else
+        \publicationweb@hostentry{\PublicationData}{\PublicationDataLabel}{huggingface.co}{huggingface}{data}\fi
+      \ifx\PublicationCode\empty\else
+        \publicationweb@hostentry{\PublicationCode}{\PublicationCodeLabel}{github.com}{github}{code}\fi
+      \ifx\PublicationProjectPage\empty\else
+        \publicationweb@linkentry{home}{\PublicationProjectPage}{\PublicationProjectPageLabel}\fi
+      \ifx\PublicationCorrespondence\empty\else
+        \publicationweb@linkentry{email}{mailto:\PublicationCorrespondence}{\PublicationCorrespondence}\fi}%
+  \fi
+}
+
+\newcommand{\publicationfigure}[5][\linewidth]{%
+  \refstepcounter{figure}%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{<figure class="publication-figure"><img src="#3" alt="#4" loading="lazy" decoding="async" /><figcaption>}%
+    \textbf{Figure \thefigure.} #5%
+    \HCode{</figcaption></figure>}\ShowPar
+  \else
+    \begin{figure}[htbp]
+      \centering
+      \includegraphics[width=#1]{#2}
+      \caption{#5}
+    \end{figure}
+  \fi
+}
+
+\newcommand{\publicationbadge}[3]{%
+  \ifdefined\HCode
+    \HCode{<a class="publication-badge" href="#1"><img src="#2" alt="#3" /></a>}%
+  \else
+    \href{#1}{#3}%
+  \fi
+}
+
+\newcommand{\publicationdivider}{%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{<hr class="publication-divider" />}\ShowPar
+  \else
+    \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}%
+  \fi
+}

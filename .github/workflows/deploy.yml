@@ -11,13 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Checkout publication renderer
-        uses: actions/checkout@v4
-        with:
-          repository: Axym-Labs/harness-execution
-          ref: 909091185eb6ef3be9b69cdeaabd9bf0c61537e6
-          path: .publication-tools
-
       - name: Install LaTeX-to-HTML dependencies
         run: |
           # Avoid the Azure archive's slow package transfers on hosted runners.
@@ -29,7 +22,7 @@ jobs:
 
       - name: Render embedded LaTeX work pages
         run: |
-          python .publication-tools/skills/publish-work/scripts/render-latex-publications.py \
+          python tools/publication-renderer/scripts/render-latex-publications.py \
             --source-dir src/content/latex/work \
             --output-dir src/generated/work \
             --site-root . \

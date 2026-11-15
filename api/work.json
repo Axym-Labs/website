@@ -6,7 +6,7 @@
       "title": "AxoSim and AxoBench",
       "eyebrow": "NEURAL SIMULATION",
       "category": "product",
-      "summary": "Detailed neuron simulators resolve morphology and ion-channel mechanisms, but their repeated numerical integration is costly at population scale. AxoSim approximates each detailed neuron with a learned model and connects the models through explicit synaptic contacts, so that one RTX 5090 simulates 65,536 neurons with 4,000 contacts each at 3.38× real-time speed. AxoBench provides the datasets and metrics for evaluating such models, and the evaluation separates fidelity to a single neuron from validity inside a recurrent circuit, where each prediction changes the model's own future input.",
+      "summary": "AxoSim replaces detailed neuron simulations with learned models connected through explicit synapses, so one RTX 5090 simulates 65,536 neurons with 4,000 contacts each at 3.38× real-time speed. AxoBench provides datasets and metrics for such models, on single neurons and in recurrent circuits.",
       "date": "2026-10-12",
       "url": "https://axo.axym.org"
     },
@@ -15,7 +15,7 @@
       "title": "Improved Elastic Weight Consolidation",
       "eyebrow": "CONTINUAL LEARNING",
       "category": "research",
-      "summary": "IEWC derives Elastic Weight Consolidation from an explicit constraint that preserves previously learned behavior, and separates EWC's implicit loss-gradient weighting from parameter sensitivity. Across five domains, IEWC variants improve on EWC in classification, segmentation, and language, and remain comparable in forecasting and diffusion. Deriving a regularizer from what a model should preserve, rather than from an approximation of curvature, thus gives a principled recipe for designing continual-learning penalties.",
+      "summary": "IEWC derives EWC from an explicit constraint that preserves learned behavior, separating EWC's loss-gradient weighting from parameter sensitivity. Its variants improve on EWC in classification, segmentation, and language. Regularizers derived from what a model should preserve thus give principled continual-learning penalties.",
       "date": "2026-07-15",
       "url": "https://axym.org/work/iewc/"
     },
@@ -24,7 +24,7 @@
       "title": "Kernelized Parameter Sensitivity Atlases",
       "eyebrow": "INTERPRETABILITY",
       "category": "research",
-      "summary": "We derive KPSA (Kernelized Parameter Sensitivity Atlas) from a block decomposition of the empirical neural tangent kernel. It measures normalized parameter-group sensitivity on a fixed source set and uses a lightweight kernel to estimate sensitivities for unseen inputs. Such compact kernel atlases can store useful input-dependent parameter sensitivity while amortizing repeated gradient attribution, a step toward scalable conditional interpretability.",
+      "summary": "KPSA derives parameter-group sensitivity from a block decomposition of the empirical neural tangent kernel, measures it on a fixed source set, and estimates it for unseen inputs with a lightweight kernel. Kernel atlases amortize gradient attribution, a step toward scalable conditional interpretability.",
       "date": "2026-10-08",
       "url": "https://axym.org/work/kpsa/"
     },
@@ -33,7 +33,7 @@
       "title": "Temporal Regularized Learning",
       "eyebrow": "LOCAL LEARNING",
       "category": "research",
-      "summary": "Self-supervised objectives such as VICReg compute their loss over a batch of samples, so layer-local variants, too, are typically local in space but not in time. TeReL instead pairs temporally adjacent inputs and replaces batch statistics with running estimates, and a two-layer network trained this way with batch size one reaches 96.48% linear-probe accuracy on an MNIST stream, above random features (95.09%). A modern self-supervised objective can thus be learned one sample at a time with purely local updates, closer to what brains and neuromorphic hardware can implement.",
+      "summary": "TeReL makes VICReg-style self-supervised learning local in space and time by pairing temporally adjacent inputs and replacing batch statistics with running estimates. The objective can thus be learned one sample at a time.",
       "date": "2026-09-01",
       "url": "https://axym.org/work/terel/"
     },
@@ -42,7 +42,7 @@
       "title": "The Recursive Manifold Hypothesis",
       "eyebrow": "DATA GEOMETRY",
       "category": "research",
-      "summary": "Many real-world distributions are organized at more than one resolution, with broad categories capturing what their subcategories share and finer categories adding variation that remains organized within each parent. The recursive manifold hypothesis states this organization, and an energy-distance test that fits no model finds, in 13 of 14 image, text, and spiking-speech relation–representation pairs, that the finer categories add variation which their parents organize better than random groupings of the same sizes. These results suggest objectives and models that respect the hierarchical organization in data.",
+      "summary": "The recursive manifold hypothesis states that real-world distributions are organized coarse-to-fine, with finer categories adding variation that remains organized within each parent. A model-free energy-distance test finds, in 13 of 14 image, text, and spiking-speech relation–representation pairs, finer variation that parent categories organize better than random groupings.",
       "date": "2026-09-02",
       "url": "https://axym.org/work/recursive-manifolds/"
     },
@@ -51,7 +51,7 @@
       "title": "pptrain",
       "eyebrow": "TASK-AGNOSTIC LEARNING",
       "category": "product",
-      "summary": "Task-agnostic pretraining trains a model on synthetic or procedural tasks selected for reusable structure rather than for one downstream objective, seeking patterns such as compositional rules, state transitions, and symbolic operations that transfer across later tasks. pptrain makes this available through one installable workflow, with six paper-derived task families, exact reference-parity checks, and downstream transfer evaluation.",
+      "summary": "pptrain makes task-agnostic pretraining, on synthetic tasks chosen for structure that transfers, available as one installable workflow with six paper-derived task families and transfer evaluation.",
       "date": "2026-06-18",
       "url": "https://axym.org/work/pptrain/"
     },

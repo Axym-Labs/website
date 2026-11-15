@@ -3,7 +3,7 @@ slug: recursive-manifolds
 title: The Recursive Manifold Hypothesis
 category: research
 eyebrow: DATA GEOMETRY
-summary: Many real-world distributions are organized at more than one resolution, with broad categories capturing what their subcategories share and finer categories adding variation that remains organized within each parent. The recursive manifold hypothesis states this organization, and an energy-distance test that fits no model finds, in 13 of 14 image, text, and spiking-speech relation–representation pairs, that the finer categories add variation which their parents organize better than random groupings of the same sizes. These results suggest objectives and models that respect the hierarchical organization in data.
+summary: The recursive manifold hypothesis states that real-world distributions are organized coarse-to-fine, with finer categories adding variation that remains organized within each parent. A model-free energy-distance test finds, in 13 of 14 image, text, and spiking-speech relation–representation pairs, finer variation that parent categories organize better than random groupings.
 author: Davide Wiest
 draft: false
 date: 2026-09-02

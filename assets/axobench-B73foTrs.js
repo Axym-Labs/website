@@ -1,9 +1,9 @@
-const e=`---
+const a=`---
 slug: axobench
 title: AxoBench
 category: product
 eyebrow: BENCHMARK
-summary: Learned neuron models are fit to a detailed simulator, and AxoBench provides the datasets, metrics, and evaluation protocol for measuring how faithfully they reproduce it. Its three datasets share one input and target format but differ in the source of their inputs (isolated neurons, connected networks, or paired edits of one input), and therefore in the question each one answers. The evaluator accepts any NumPy prediction function.
+summary: AxoBench measures how faithfully learned neuron models reproduce detailed simulations, separating isolated neurons, connected networks, and controlled input edits.
 draft: false
 listed: false
 date: 2026-10-12
@@ -107,4 +107,4 @@ AxoBench defines evaluation and generation contracts; it does not claim that one
 scalar metric captures every biologically relevant error.
 </p>
 </div>
-`;export{e as default};
+`;export{a as default};

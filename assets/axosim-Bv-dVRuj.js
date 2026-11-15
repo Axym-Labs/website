@@ -3,7 +3,7 @@ slug: axosim
 title: AxoSim
 category: product
 eyebrow: NEURAL SIMULATION
-summary: Detailed neuron simulators resolve morphology and ion-channel mechanisms, but their repeated numerical integration is costly at population scale. AxoSim approximates each detailed neuron with a learned GRU or Mamba model and connects the models through explicit synaptic contacts, so that one RTX 5090 simulates 65,536 neurons with 4,000 contacts each at 3.38× real-time speed. Its experiments separate fidelity to a single neuron from simulation inside a recurrent circuit, where each prediction changes the model's own future input, and from adaptation at inference time.
+summary: AxoSim replaces detailed neuron simulations with learned models connected through explicit synapses, and one RTX 5090 simulates 65,536 neurons with 4,000 contacts each at 3.38× real-time speed. Learned surrogates thus make detailed neurons practical at population scale.
 author: Davide Wiest
 draft: false
 listed: false

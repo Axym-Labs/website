@@ -271,3 +271,52 @@ All colors MUST be HSL.
 .connectome-link:hover {
   color: #ffffff;
 }
+
+/* Platform icons on project-page action buttons. */
+.publication-canvas .latex-publication .publication-action-icon {
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+
+/* Code and citation blocks: selectable text plus a copy button. */
+.publication-canvas .latex-publication .publication-code {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.publication-canvas .latex-publication .publication-code .verbatim {
+  margin: 0;
+  padding-right: 4.75rem;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.publication-canvas .latex-publication .publication-copy {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid rgb(17 24 39 / 18%);
+  border-radius: 0.25rem;
+  background: #fff;
+  color: #374151;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+
+.publication-canvas .latex-publication .publication-copy:hover,
+.publication-canvas .latex-publication .publication-copy:focus-visible {
+  border-color: #3f21b6;
+  color: #3f21b6;
+}
+
+.publication-canvas .latex-publication .publication-copy:focus-visible {
+  outline: 2px solid #3f21b6;
+  outline-offset: 2px;
+}

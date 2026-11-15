@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, type MouseEvent } from "react";
+import { codeBlockText, preparePublicationHtml } from "@/lib/publication-html";
 
 type MathJaxWindow = Window & {
   MathJax?: {
@@ -50,7 +51,27 @@ const LatexContent = ({ children }: LatexContentProps) => {
     return () => (window as MathJaxWindow).MathJax?.typesetClear?.([element]);
   }, [children]);
 
-  return <div ref={container} dangerouslySetInnerHTML={{ __html: children }} />;
+  const html = useMemo(() => preparePublicationHtml(children), [children]);
+
+  // One delegated handler serves every copy button in the rendered HTML.
+  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-copy-code]");
+    const pre = button?.parentElement?.querySelector("pre");
+    if (!button || !pre) return;
+    navigator.clipboard
+      .writeText(codeBlockText(pre))
+      .then(() => {
+        button.textContent = "Copied";
+        window.setTimeout(() => {
+          button.textContent = "Copy";
+        }, 1600);
+      })
+      .catch(() => {
+        button.textContent = "Select and copy";
+      });
+  };
+
+  return <div ref={container} onClick={handleClick} dangerouslySetInnerHTML={{ __html: html }} />;
 };
 
 export default LatexContent;

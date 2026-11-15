@@ -38,7 +38,7 @@ const App = () => (
           <Route
             path="/work/axosim-connectome-demo/"
             element={
-              <Suspense fallback={<div className="min-h-screen bg-background" />}>
+              <Suspense fallback={<div className="min-h-screen bg-canvas" />}>
                 <ConnectomeDemo />
               </Suspense>
             }

@@ -39,8 +39,8 @@ const ConnectomeDemo = () => {
   const stableShare = useMemo(() => (reference ? `${Math.round(reference.stableFraction * 100)}%` : null), [reference]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
+    <div className="min-h-screen bg-canvas">
+      <Navbar tone="light" />
       <main className="pt-16">
         <article className="publication-canvas connectome-page w-full bg-canvas px-5 py-16 text-canvas-foreground sm:px-8 sm:py-20 md:px-12 lg:px-16">
           <div className="latex-publication mx-auto w-full min-w-0 max-w-[46rem]">
@@ -110,7 +110,7 @@ const ConnectomeDemo = () => {
           </div>
         </article>
       </main>
-      <Footer />
+      <Footer tone="light" />
     </div>
   );
 };

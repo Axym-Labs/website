@@ -32,12 +32,12 @@ const WorkDetail = () => {
     });
   }, [item]);
 
-  if (!loaded) return <div className="min-h-screen bg-background" />;
+  if (!loaded) return <div className="min-h-screen bg-canvas" />;
   if (!item) return <Navigate to="/work/" replace />;
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
+    <div className="min-h-screen bg-canvas">
+      <Navbar tone="light" />
       <main className="pt-16">
         <article className="publication-canvas w-full bg-canvas text-canvas-foreground px-5 py-16 sm:px-8 sm:py-20 md:px-12 lg:px-16">
           <div className="mx-auto w-full min-w-0 max-w-[46rem] text-[1.06rem] sm:text-[1.1rem]">
@@ -49,7 +49,7 @@ const WorkDetail = () => {
           </div>
         </article>
       </main>
-      <Footer />
+      <Footer tone="light" />
     </div>
   );
 };

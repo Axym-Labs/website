@@ -28,6 +28,19 @@ describe("canonical internal navigation", () => {
     expect(html).not.toContain('href="/work/axo/"');
   });
 
+  it("keeps site pages and the AxoSim site in the navbar, platform links out of it", () => {
+    const html = renderToStaticMarkup(
+      <StaticRouter location="/">
+        <Navbar />
+      </StaticRouter>,
+    );
+
+    expect(html).toContain('href="/#about"');
+    expect(html).toContain('href="https://axo.axym.org"');
+    expect(html).not.toContain("github.com");
+    expect(html).not.toContain("huggingface.co");
+  });
+
   it("renders the Axym wordmark without a graphic mark", () => {
     const html = renderToStaticMarkup(
       <StaticRouter location="/">

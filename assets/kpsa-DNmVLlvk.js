@@ -3,7 +3,7 @@ slug: kpsa
 title: Kernelized Parameter Sensitivity Atlases
 category: research
 eyebrow: INTERPRETABILITY
-summary: We derive KPSA (Kernelized Parameter Sensitivity Atlas) from a block decomposition of the empirical neural tangent kernel. It measures normalized parameter-group sensitivity on a fixed source set and uses a lightweight kernel to estimate sensitivities for unseen inputs, amortizing repeated gradient attribution.
+summary: We derive KPSA (Kernelized Parameter Sensitivity Atlas) from a block decomposition of the empirical neural tangent kernel. It measures normalized parameter-group sensitivity on a fixed source set and uses a lightweight kernel to estimate sensitivities for unseen inputs. Such compact kernel atlases can store useful input-dependent parameter sensitivity while amortizing repeated gradient attribution, a step toward scalable conditional interpretability.
 author: Davide Wiest
 draft: false
 date: 2026-10-08

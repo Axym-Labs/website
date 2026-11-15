@@ -3,7 +3,7 @@ slug: iewc
 title: Improved Elastic Weight Consolidation
 category: research
 eyebrow: CONTINUAL LEARNING
-summary: IEWC derives Elastic Weight Consolidation from an explicit constraint that preserves previously learned behavior, and separates EWC's implicit loss-gradient weighting from parameter sensitivity. Across five domains, IEWC variants improve on EWC in classification, segmentation, and language, and remain comparable in forecasting and diffusion.
+summary: IEWC derives Elastic Weight Consolidation from an explicit constraint that preserves previously learned behavior, and separates EWC's implicit loss-gradient weighting from parameter sensitivity. Across five domains, IEWC variants improve on EWC in classification, segmentation, and language, and remain comparable in forecasting and diffusion. Deriving a regularizer from what a model should preserve, rather than from an approximation of curvature, thus gives a principled recipe for designing continual-learning penalties.
 draft: false
 date: 2026-07-15
 rank: 1
@@ -13,7 +13,7 @@ content_format: html
 <div class="latex-publication">
 <header class='publication-head'> <div class='publication-title-block'><h1 class='publication-title'>Improved Elastic Weight Consolidation as an Optimization Constraint for
 Continual Learning</h1><p class='publication-authors'>Davide Wiest</p><p class='publication-affiliations'>Department of Computer Science, TU
-Darmstadt; Darmstadt, Germany</p></div></header>
+Darmstadt</p></div></header>
 <p><a id='x1-2r1'></a>
    </p><figure class='publication-figure'><img alt='Penalty surfaces comparing EWC with the outer product of loss gradients, uniform IEWC, and weighted IEWC.' decoding='async' loading='lazy' src='/work/iewc-overview.png' /><figcaption><span class='pplb7t-x-x-109'>Figure 1. </span>Each panel shows the continual-learning penalty over normalized
 directions for two representative samples. EWC (OPG) inherits sample

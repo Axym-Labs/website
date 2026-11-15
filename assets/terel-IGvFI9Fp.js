@@ -3,7 +3,7 @@ slug: terel
 title: Temporal Regularized Learning
 category: research
 eyebrow: LOCAL LEARNING
-summary: TeReL turns VICReg's invariance, variance, and covariance decomposition into a causal neuron-local surrogate by pairing adjacent observations, replacing batch statistics with detached running moments, and obtaining covariance control from a lagged same-layer operator.
+summary: Self-supervised objectives such as VICReg compute their loss over a batch of samples, so layer-local variants, too, are typically local in space but not in time. TeReL instead pairs temporally adjacent inputs and replaces batch statistics with running estimates, and a two-layer network trained this way with batch size one reaches 96.48% linear-probe accuracy on an MNIST stream, above random features (95.09%). A modern self-supervised objective can thus be learned one sample at a time with purely local updates, closer to what brains and neuromorphic hardware can implement.
 author: Davide Wiest
 draft: false
 date: 2026-09-01
@@ -14,7 +14,7 @@ content_format: html
 <div class="latex-publication">
 <header class='publication-head'> <div class='publication-title-block'><h1 class='publication-title'>Temporal Regularized Learning: Self-Supervised Learning Local
 in Space and Time</h1><p class='publication-authors'>Davide Wiest</p><p class='publication-affiliations'>Department of Computer Science, TU
-Darmstadt<br class='newline' />Darmstadt, Germany</p></div></header>
+Darmstadt</p></div></header>
 <p><a id='x1-2r1'></a>
    </p><figure class='publication-figure'><img alt='Three stages form a causal VICReg target, define the postsynaptic neuron state, and update local feedforward and lateral synapses.' decoding='async' loading='lazy' src='/work/terel-method-overview.png' /><figcaption><span class='pplb7t-x-x-109'>Figure 1. </span>TeReL in one layer. <span class='pplb7t-x-x-109'>a</span>, The temporal, variance, and covariance terms
 form a regularized target. <span class='pplb7t-x-x-109'>b</span>, Its residual and one pass through the lateral matrix
@@ -47,10 +47,10 @@ marginal variance, and cross-coordinate decorrelation. TeReL preserves these
 three roles while replacing the second view by the preceding observation,
 batch moments by detached running moments, and the differentiated
 batch-covariance signal by a lagged same-layer operator. Because the positive
+pair consists of adjacent observations, its invariance term is a soft <a href='https://doi.org/10.1162/089976602317318938'>Slow Feature
                                                                      
 
                                                                      
-pair consists of adjacent observations, its invariance term is a soft <a href='https://doi.org/10.1162/089976602317318938'>Slow Feature
 Analysis</a> objective.
 </p><!-- l. 40 --><p class='indent'>   For current activation <span class='mathjax-inline'>\\(z_t\\)</span>, preceding activation <span class='mathjax-inline'>\\(p_t\\)</span>, detached running mean <span class='mathjax-inline'>\\(\\mu _t\\)</span>
 and variance <span class='mathjax-inline'>\\(v_t\\)</span>, and lateral matrix <span class='mathjax-inline'>\\(M_t\\)</span>, the surrogate gradient is proportional
@@ -84,10 +84,10 @@ online rule uses plain stochastic gradient descent without optimizer
 moments.
    
 </p>
+   <h2 class='sectionHead' id='results'>  <a id='x1-3000'></a>Results</h2>
                                                                      
 
                                                                      
-   <h2 class='sectionHead' id='results'>  <a id='x1-3000'></a>Results</h2>
 <!-- l. 70 --><p class='noindent'>On a class-chunked MNIST stream, TeReL reaches <span class='mathjax-inline'>\\(96.48\\pm 0.15\\%\\)</span> held-out linear-probe
 accuracy, a paired gain of 1.39 percentage points over random features (<span class='mathjax-inline'>\\(95.09\\pm 0.23\\%\\)</span>). Batch
 SFA reaches <span class='mathjax-inline'>\\(90.07\\pm 0.26\\%\\)</span> and incremental SFA <span class='mathjax-inline'>\\(89.98\\pm 0.09\\%\\)</span>. Layer-local supervised contrastive learning

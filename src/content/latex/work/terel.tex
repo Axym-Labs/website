@@ -3,7 +3,7 @@
 % title: Temporal Regularized Learning
 % category: research
 % eyebrow: LOCAL LEARNING
-% summary: TeReL turns VICReg's invariance, variance, and covariance decomposition into a causal neuron-local surrogate by pairing adjacent observations, replacing batch statistics with detached running moments, and obtaining covariance control from a lagged same-layer operator.
+% summary: Self-supervised objectives such as VICReg compute their loss over a batch of samples, so layer-local variants, too, are typically local in space but not in time. TeReL instead pairs temporally adjacent inputs and replaces batch statistics with running estimates, and a two-layer network trained this way with batch size one reaches 96.48% linear-probe accuracy on an MNIST stream, above random features (95.09%). A modern self-supervised objective can thus be learned one sample at a time with purely local updates, closer to what brains and neuromorphic hardware can implement.
 % author: Davide Wiest
 % draft: false
 % date: 2026-09-01

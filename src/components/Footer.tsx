@@ -7,6 +7,7 @@ import type { SiteTone } from "@/components/Navbar";
 const PLATFORM_LINKS: { label: string; href: string; icon: PlatformIconName }[] = [
   { label: "GitHub", href: "https://github.com/Axym-Labs", icon: "github" },
   { label: "Hugging Face", href: "https://huggingface.co/Axym-Labs", icon: "huggingface" },
+  { label: "Discord", href: "https://discord.gg/n3uqR4tnSv", icon: "discord" },
   { label: "contact@axym.org", href: "mailto:contact@axym.org", icon: "mail" },
 ];
 

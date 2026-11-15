@@ -320,3 +320,64 @@ All colors MUST be HSL.
   outline: 2px solid #3f21b6;
   outline-offset: 2px;
 }
+
+/* LaTeX tables and font switches. tex4ht emits rules and fonts as classes
+   whose CSS the renderer does not ship, so tables had no rules or cell
+   padding and \textbf / \emph rendered as plain text. */
+.publication-canvas .latex-publication [class^="pplb"],
+.publication-canvas .latex-publication [class^="cmbx"],
+.publication-canvas .latex-publication [class*="-lmbx"] {
+  font-weight: 700;
+}
+
+.publication-canvas .latex-publication [class^="pplri"],
+.publication-canvas .latex-publication [class^="pplbi"],
+.publication-canvas .latex-publication [class^="cmti"],
+.publication-canvas .latex-publication [class*="-lmri"],
+.publication-canvas .latex-publication [class*="-lmbxi"] {
+  font-style: italic;
+}
+
+.publication-canvas .latex-publication table.tabular {
+  margin: 1rem 0 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.92em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.35;
+}
+
+.publication-canvas .latex-publication table.tabular td {
+  padding: 0.4rem 0.7rem;
+  border: 0;
+  vertical-align: baseline;
+}
+
+.publication-canvas .latex-publication table.tabular td:first-child {
+  padding-left: 0;
+}
+
+.publication-canvas .latex-publication table.tabular td:last-child {
+  padding-right: 0;
+}
+
+/* \hline rows; \cmidrule rows span the wrong columns in tex4ht output. */
+.publication-canvas .latex-publication table.tabular tr.hline td {
+  height: 3px;
+  padding: 0;
+  border-top: 1px solid currentColor;
+}
+
+.publication-canvas .latex-publication table.tabular tr.cmidrule {
+  display: none;
+}
+
+/* booktabs \toprule, \midrule, \bottomrule leave no trace in the HTML, so
+   tables without \hline get booktabs-style rules around the header row. */
+.publication-canvas .latex-publication table.tabular:not(:has(tr.hline)) tr:first-of-type td {
+  border-top: 1.5px solid currentColor;
+  border-bottom: 1px solid currentColor;
+}
+
+.publication-canvas .latex-publication table.tabular:not(:has(tr.hline)) tr:last-of-type td {
+  border-bottom: 1.5px solid currentColor;
+}

@@ -4,11 +4,19 @@ import { preparePublicationHtml } from "./publication-html";
 
 describe("preparePublicationHtml", () => {
   it("restores ordinary spaces in verbatim blocks and adds a copy button", () => {
-    const html = preparePublicationHtml("<pre class='verbatim' id='verbatim-1'>\n@misc{x,\n  year = {2026}\n}\n</pre>");
+    const html = preparePublicationHtml("<pre class='verbatim' id='verbatim-1'>\n@misc{x,\n\u00a0\u00a0year\u00a0=\u00a0{2026}\n}\n</pre>");
 
-    expect(html).not.toContain(" ");
+    expect(html).not.toContain("\u00a0");
     expect(html).toContain("  year = {2026}");
     expect(html).toContain("data-copy-code");
+  });
+
+  it("marks booktabs cmidrule rows and keeps hline rows", () => {
+    const html = preparePublicationHtml(
+      "<table><tr id='TBL-1-4-' style='vertical-align:baseline;'><td class='td11'>   </td><td class='td11' colspan='2'></td><span class='cmidrule'><!-- x --></span>\n</tr><tr class='hline'><td></td></tr></table>",
+    );
+
+    expect(html).toBe("<table><tr class='cmidrule'><td class='td11'>   </td><td class='td11' colspan='2'></td></tr><tr class='hline'><td></td></tr></table>");
   });
 
   it("puts the platform icon on action buttons", () => {

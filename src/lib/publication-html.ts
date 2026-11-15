@@ -10,11 +10,17 @@ const COPY_BUTTON =
  *   shells reject; inside <pre> ordinary spaces already keep the layout.
  * - verbatim blocks get a copy button (handled by LatexContent).
  * - action buttons get the icon of the platform they link to.
+ * - booktabs \cmidrule leaves a stray <span> inside <tr> and a row of empty
+ *   cells, whose column span tex4ht gets wrong; the row is marked and hidden.
  */
 export function preparePublicationHtml(html: string): string {
   return html
     .replace(/<pre class='verbatim'([^>]*)>([\s\S]*?)<\/pre>/g, (_match, attributes: string, body: string) =>
       `<div class="publication-code">${COPY_BUTTON}<pre class='verbatim'${attributes}>${body.replace(/\u00a0|&nbsp;|&#x00A0;|&#160;/g, " ")}</pre></div>`,
+    )
+    .replace(/<span class='cmidrule'>[\s\S]*?<\/span>/g, "")
+    .replace(/<tr id='[^']*'[^>]*>((?:\s*<td\b[^>]*>\s*<\/td>)+)\s*<\/tr>/g, (_match, cells: string) =>
+      `<tr class='cmidrule'>${cells}</tr>`,
     )
     .replace(/<a class='publication-action' href='([^']*)'>/g, (match, href: string) => {
       const icon = iconForHref(href);

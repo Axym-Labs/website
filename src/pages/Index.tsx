@@ -26,7 +26,7 @@ const Index = () => {
       
       <WorkList
         items={workItems}
-        title="New Methods Across Various Settings"
+        title="Our work"
       />
 
       {/* About Section */}

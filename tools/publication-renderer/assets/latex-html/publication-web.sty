@@ -28,6 +28,7 @@
 \newcommand{\publicationtitle}[1]{\def\PublicationTitleText{#1}}
 \newcommand{\publicationauthors}[1]{\def\PublicationAuthorsText{#1}}
 \newcommand{\publicationaffiliations}[1]{\def\PublicationAffiliationsText{#1}}
+\publicationaffiliations{}
 \newcommand{\publicationdate}[1]{\def\PublicationDateText{#1}}
 \publicationdate{}
 
@@ -52,9 +53,10 @@
     \PublicationTitleText
     \HCode{</h1><p class="publication-authors">}%
     \PublicationAuthorsText
-    \HCode{</p><p class="publication-affiliations">}%
-    \PublicationAffiliationsText
     \HCode{</p>}%
+    \ifx\PublicationAffiliationsText\empty\else
+      \HCode{<p class="publication-affiliations">}\PublicationAffiliationsText\HCode{</p>}%
+    \fi
     \ifx\PublicationDateText\empty\else
       \HCode{<p class="publication-date">}\PublicationDateText\HCode{</p>}%
     \fi

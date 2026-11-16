@@ -13,11 +13,14 @@ const COPY_BUTTON =
  * - action buttons get the icon of the platform they link to, and links-line
  *   entries (\makepublicationlinks) the icon of their kind.
  * - section headings get stable ids for the table of contents.
+ * - an affiliation line that only says "Axym Labs" is dropped: the site
+ *   already says where the work comes from, and other affiliations stay.
  * - booktabs \cmidrule leaves a stray <span> inside <tr> and a row of empty
  *   cells, whose column span tex4ht gets wrong; the row is marked and hidden.
  */
 export function preparePublicationHtml(html: string): string {
   return html
+    .replace(/<p class=['"]publication-affiliations['"]>\s*Axym\s+Labs\s*<\/p>/g, "")
     .replace(/<pre class='verbatim'([^>]*)>([\s\S]*?)<\/pre>/g, (_match, attributes: string, body: string) =>
       `<div class="publication-code">${COPY_BUTTON}<pre class='verbatim'${attributes}>${body.replace(/\u00a0|&nbsp;|&#x00A0;|&#160;/g, " ")}</pre></div>`,
     )

@@ -65,3 +65,13 @@ describe("links line and headings", () => {
     ]);
   });
 });
+
+describe("author block", () => {
+  it("drops an affiliation line that only names Axym Labs and keeps others", () => {
+    const html = preparePublicationHtml(
+      "<p class='publication-authors'>A</p><p class='publication-affiliations'>Axym Labs</p><p class='publication-affiliations'>TU Darmstadt</p>",
+    );
+
+    expect(html).toBe("<p class='publication-authors'>A</p><p class='publication-affiliations'>TU Darmstadt</p>");
+  });
+});

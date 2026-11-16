@@ -48,7 +48,6 @@ const ConnectomeDemo = () => {
               <div className="publication-title-block">
                 <h1 className="publication-title">{TITLE}</h1>
                 <p className="publication-authors">Davide Wiest</p>
-                <p className="publication-affiliations">Axym Labs</p>
               </div>
             </header>
             <p>

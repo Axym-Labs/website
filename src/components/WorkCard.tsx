@@ -80,7 +80,7 @@ const WorkCard = ({ item, active = false }: { item: WorkCardItem; active?: boole
     <article
       ref={entry}
       data-active={active || undefined}
-      className="work-entry relative grid gap-6 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:items-center md:gap-12 lg:gap-14"
+      className="work-entry relative grid md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:items-center"
     >
       {boxes && <SheetFrame box={active ? boxes.entry : boxes.cover} cells={cells} />}
       <ItemLink item={item} className="relative z-10 block" tabIndex={-1} ref={cover}>

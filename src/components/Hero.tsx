@@ -10,7 +10,7 @@ const Hero = () => (
       height={900}
       fetchPriority="high"
       src="/backgrounds/hero-landscape.svg"
-      className="hero-landscape pointer-events-none absolute -right-[22rem] top-6 w-[64rem] max-w-none sm:-right-60 md:-right-40 md:top-0 lg:-right-16 xl:right-[calc(50%-46rem)]"
+      className="hero-landscape pointer-events-none absolute -right-[26rem] top-[24rem] w-[64rem] max-w-none sm:-right-60 sm:top-6 md:-right-40 md:top-0 lg:-right-16 xl:right-[calc(50%-46rem)]"
     />
     <div className="relative z-10 mx-auto w-full max-w-6xl">
       <h1 className="max-w-[50rem] font-serif text-[2.6rem] font-normal leading-[1.05] tracking-[-0.02em] text-foreground sm:text-[3.6rem] lg:text-[4.25rem]">

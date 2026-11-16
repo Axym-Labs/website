@@ -302,17 +302,17 @@ All colors MUST be HSL.
 }
 
 /* Project pages: a 46rem reading column in a 60rem frame; the figure uses the frame. */
-.project-page .latex-publication > * {
+.publication-canvas.project-page .latex-publication > * {
   max-width: 46rem;
   margin-inline: auto;
 }
 
-.project-page .latex-publication > .publication-figure {
+.publication-canvas.project-page .latex-publication > .publication-figure {
   max-width: 60rem;
   margin-block: 0 3rem;
 }
 
-.project-page .latex-publication > .publication-figure figcaption {
+.publication-canvas.project-page .latex-publication > .publication-figure figcaption {
   max-width: 46rem;
   margin-inline: auto;
 }
@@ -516,7 +516,13 @@ All colors MUST be HSL.
 
 @media (max-width: 40rem) {
   .hero-landscape {
-    opacity: 0.45;
+    opacity: 0.6;
+  }
+
+  .publication-canvas .latex-publication .publication-code .verbatim {
+    font-size: 0.72rem;
+    padding-right: 1rem;
+    padding-top: 2.6rem;
   }
 }
 

@@ -43,7 +43,7 @@ for i, segs in enumerate(cs.allsegs):
             continue
         accent = i in (4, 7)
         stroke = "#3F21B6" if accent else "#1d1a2b"
-        opacity = 0.55 if accent else 0.16
+        opacity = 0.6 if accent else 0.2
         width = 1.1 if accent else 0.8
         lines.append(f'<path d="{path_d(seg)}" stroke="{stroke}" stroke-opacity="{opacity}" stroke-width="{width}"/>')
 

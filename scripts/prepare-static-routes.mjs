@@ -26,7 +26,7 @@ const authorSchema = (author = "Davide Wiest") => String(author)
 const setHead = (html, item, route) => {
   const title = `${item.title} | Axym Labs`;
   const canonical = `${origin}${route}`;
-  const schemaType = { product: "SoftwareSourceCode", research: "ScholarlyArticle", update: "BlogPosting" }[item.category] ?? "Article";
+  const schemaType = { product: "SoftwareSourceCode", research: "ScholarlyArticle", update: "BlogPosting", demo: "WebApplication" }[item.category] ?? "Article";
   const schema = JSON.stringify({
     "@context": "https://schema.org",
     "@type": schemaType,
@@ -89,7 +89,7 @@ for (const { attributes } of items) {
 // Site pages with their own head (direct 200 on GitHub Pages).
 const sitePages = [
   { route: "/work/", title: "Work | Axym Labs", description: workDescription },
-  { route: "/about/", title: "About | Axym Labs", description: "Axym Labs is a small deep learning research group based in Darmstadt, Germany. It publishes papers, code, models, and data on continual, local, and task-agnostic learning, interpretability, and neuron simulation." },
+  { route: "/about/", title: "About | Axym Labs", description: "Axym Labs is a small deep learning research group based in Darmstadt, Germany. It publishes papers, code, models, and data on learning methods, neuron simulation, and interpretability." },
   { route: "/contact/", title: "Contact | Axym Labs", description: "How to reach Axym Labs: email for questions and collaboration, the correspondence address for papers, and Discord." },
   { route: "/legal/", title: "Legal notice and privacy | Axym Labs", description: "Legal notice (Impressum) and privacy notice (Datenschutzerklärung) for axym.org." },
 ];

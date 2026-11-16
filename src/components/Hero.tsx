@@ -9,7 +9,7 @@ const Hero = () => (
       <h1 className="max-w-[50rem] text-[1.9rem] font-normal leading-[1.2] tracking-[-0.018em] text-foreground sm:text-[2.4rem] lg:text-[2.7rem]">
         <span className="font-semibold">Axym Labs is a small deep learning research group.</span>{" "}
         <span className="font-serif text-[1.05em] text-foreground/75">
-          We work on continual, local, and task-agnostic learning, interpretability, and neuron simulation, and we publish the code, data, and theory behind each result.
+          We work on learning methods, neuron simulation, and interpretability, and we publish the code, data, and theory behind each result.
         </span>
       </h1>
     </div>

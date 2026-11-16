@@ -18,7 +18,7 @@ const Index = () => {
     getWorkItems().then(setWorkItems);
     setPageMetadata({
       title: "Axym Labs",
-      description: "Axym Labs is a small deep learning research group working on continual, local, and task-agnostic learning, interpretability, and neuron simulation.",
+      description: "Axym Labs is a small deep learning research group working on learning methods, neuron simulation, and interpretability.",
       path: "/",
     });
   }, []);
@@ -43,7 +43,7 @@ const Index = () => {
               <p>
                 We publish the resulting papers, project pages, evidence, and code so others can reproduce the results and extend the methods. The core team
                 consists of Davide Wiest and Jonathan Schäfer, both based in Darmstadt, Germany, and we have a mild preference for unconventional ideas when
-                they offer a credible alternative to established approaches.
+                they offer a credible alternative to established approaches. By default, we prioritize conceptual advances over model releases.
               </p>
               <p className="flex flex-wrap gap-x-6 gap-y-2">
                 <Link to="/about/" className="inline-flex items-center gap-1.5 text-foreground transition-colors hover:text-primary">

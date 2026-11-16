@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import SitePage from "@/components/SitePage";
 
 const DESCRIPTION =
-  "Axym Labs is a small deep learning research group based in Darmstadt, Germany. It publishes papers, code, models, and data on continual, local, and task-agnostic learning, interpretability, and neuron simulation.";
+  "Axym Labs is a small deep learning research group based in Darmstadt, Germany. It publishes papers, code, models, and data on learning methods, neuron simulation, and interpretability.";
 
 const About = () => (
   <SitePage

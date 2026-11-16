@@ -79,7 +79,7 @@ const WorkList = ({ items, title, intro, sectionId = "work", moreHref }: WorkLis
         {title}
       </SectionHeading>
       {intro && <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">{intro}</p>}
-      <div ref={list} className="-mx-3 mt-8 space-y-6 sm:-mx-4 md:-mx-5 md:space-y-8">
+      <div ref={list} className="mt-8 space-y-8 md:space-y-10">
         {items.map((item, i) => <WorkCard key={item.slug} item={item} active={i === centered} />)}
       </div>
     </div>

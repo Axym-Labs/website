@@ -665,3 +665,134 @@ All colors MUST be HSL.
   color: #7c2d12;
   font-size: 0.92rem;
 }
+
+/* Drawing-sheet frame of the featured work entries (SheetFrame.tsx).
+   --sheet-m: paper margin, --sheet-band: numbered band, --sheet-gap: space
+   between the inner rule and the content. Entries reserve their sum as
+   padding, so the frame never moves the content. */
+.work-entry {
+  --sheet-m: 8px;
+  --sheet-band: 13px;
+  --sheet-gap: 10px;
+  --sheet-rule: #cbc4b6;
+  --sheet-label: #9c9485;
+  --sheet-reserve: calc(var(--sheet-m) + var(--sheet-band) + var(--sheet-gap));
+  padding: var(--sheet-reserve);
+}
+
+@media (min-width: 48rem) {
+  .work-entry {
+    --sheet-m: 12px;
+    --sheet-band: 17px;
+    --sheet-gap: 16px;
+  }
+}
+
+.sheet {
+  padding: var(--sheet-m);
+  border: 1px solid #e4dfd5;
+  border-radius: 8px;
+  background: #faf8f4;
+  transition: top 600ms cubic-bezier(0.22, 1, 0.36, 1), left 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 600ms cubic-bezier(0.22, 1, 0.36, 1), height 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    transition: none;
+  }
+}
+
+.sheet-frame {
+  border: 1px solid var(--sheet-rule);
+}
+
+.sheet-band {
+  color: var(--sheet-label);
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7.5px;
+  line-height: 1;
+}
+
+@media (min-width: 48rem) {
+  .sheet-band {
+    font-size: 9.5px;
+  }
+}
+
+.sheet-top,
+.sheet-bottom {
+  left: var(--sheet-band);
+  right: var(--sheet-band);
+  height: var(--sheet-band);
+}
+
+.sheet-top {
+  top: 0;
+  border-bottom: 1px solid var(--sheet-rule);
+}
+
+.sheet-bottom {
+  bottom: 0;
+  border-top: 1px solid var(--sheet-rule);
+}
+
+.sheet-left,
+.sheet-right {
+  top: var(--sheet-band);
+  bottom: var(--sheet-band);
+  width: var(--sheet-band);
+}
+
+.sheet-left {
+  left: 0;
+  border-right: 1px solid var(--sheet-rule);
+}
+
+.sheet-right {
+  right: 0;
+  border-left: 1px solid var(--sheet-rule);
+}
+
+.sheet-cell-h + .sheet-cell-h {
+  border-left: 1px solid var(--sheet-rule);
+}
+
+.sheet-cell-v + .sheet-cell-v {
+  border-top: 1px solid var(--sheet-rule);
+}
+
+.sheet-block {
+  right: var(--sheet-band);
+  bottom: var(--sheet-band);
+  height: calc(var(--sheet-band) * 1.5);
+  border-top: 1px solid var(--sheet-rule);
+  border-left: 1px solid var(--sheet-rule);
+  background: #faf8f4;
+  color: #5e5868;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 48rem) {
+  .sheet-block {
+    font-size: 9.5px;
+  }
+}
+
+.sheet-block-cell {
+  display: flex;
+  align-items: center;
+  padding: 0 1.1em;
+  white-space: nowrap;
+}
+
+.sheet-block-cell + .sheet-block-cell {
+  border-left: 1px solid var(--sheet-rule);
+}
+
+.sheet-block-brand {
+  color: #3f21b6;
+}

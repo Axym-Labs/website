@@ -15,6 +15,14 @@ const escapeHtml = (value) => String(value)
   .replaceAll("<", "&lt;")
   .replaceAll(">", "&gt;");
 
+// Front-matter `author` is a comma-separated list, split as in src/lib/citation.ts.
+const authorSchema = (author = "Davide Wiest") => String(author)
+  .split(/\s*(?:,|\band\b)\s*/)
+  .filter(Boolean)
+  .map((name) => (name === "Axym Labs"
+    ? { "@type": "Organization", name, url: origin }
+    : { "@type": "Person", name }));
+
 const setHead = (html, item, route) => {
   const title = `${item.title} | Axym Labs`;
   const canonical = `${origin}${route}`;
@@ -26,7 +34,7 @@ const setHead = (html, item, route) => {
     headline: item.title,
     description: item.summary,
     url: canonical,
-    author: { "@type": "Person", name: item.author ?? "Davide Wiest" },
+    author: authorSchema(item.author),
     publisher: { "@type": "Organization", name: "Axym Labs", url: origin },
     datePublished: item.date,
   }).replaceAll("<", "\\u003c");

@@ -30,7 +30,7 @@ describe("iconForHref", () => {
   it.each([
     ["https://arxiv.org/abs/2611.16039", "arxiv"],
     ["https://github.com/Axym-Labs/iewc", "github"],
-    ["https://github.com/Jonathan-Schaefer-git/marey/blob/main/docs/guide.md", "docs"],
+    ["https://github.com/Axym-Labs/marey/blob/main/docs/guide/README.md", "docs"],
     ["https://huggingface.co/datasets/Axym-Labs/axobench", "huggingface"],
     ["https://pypi.org/project/axosim/", "pypi"],
     ["https://www.nuget.org/packages/Marey.Plot", "nuget"],

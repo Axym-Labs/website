@@ -18,34 +18,38 @@ const ItemLink = ({ item, className, children, tabIndex }: { item: WorkCardItem;
     </Link>
   );
 
-const hasTitledCover = (src?: string) => Boolean(src?.includes("/work/covers/"));
-
 /**
- * A featured entry: the cover (which carries the title) and a text panel with
- * the summary and links. The panel's frame fades in on hover.
+ * A featured entry: a large cover and a text panel with the title, summary,
+ * and links. `active` draws one frame around both, for the entry nearest the
+ * centre of the viewport (set by WorkList); the border space is always
+ * reserved, so framing causes no layout shift.
  */
-const WorkCard = ({ item }: { item: WorkCardItem }) => {
+const WorkCard = ({ item, active = false }: { item: WorkCardItem; active?: boolean }) => {
   const own = resourceLinks({ content: item.content ?? "", links: item.links }).filter((link) => link.kind !== "email");
   const links = item.external_url ? own : [{ kind: "home", label: "Project page", url: itemHref(item) }, ...own];
   const year = item.date ? String(item.date).slice(0, 4) : undefined;
-  const titled = hasTitledCover(item.cover_image);
 
   return (
-    <article className="group grid gap-6 py-10 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] md:items-center md:gap-8 md:py-12 lg:gap-10">
-      <ItemLink item={item} className="block focus-visible:outline-none" tabIndex={titled ? undefined : -1}>
-        <CoverImage src={item.cover_image} fit={item.cover_fit} alt={titled ? item.title : ""} className="aspect-[16/9] w-full" />
+    <article
+      data-active={active || undefined}
+      className={`grid gap-6 rounded-[0.9rem] border p-3 transition-colors duration-500 ease-out motion-reduce:transition-none sm:p-4 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:items-center md:gap-10 md:p-5 lg:gap-12 ${
+        active ? "border-foreground/[0.14]" : "border-transparent"
+      }`}
+    >
+      <ItemLink item={item} className="block" tabIndex={-1}>
+        <CoverImage src={item.cover_image} fit={item.cover_fit} className="mx-auto aspect-[16/9] w-full" />
       </ItemLink>
-      <div className="min-w-0 rounded-[0.7rem] border border-transparent px-0 py-1 transition-colors duration-300 ease-out group-hover:border-foreground/[0.12] group-focus-within:border-foreground/[0.12] md:px-7 md:py-7 motion-reduce:transition-none">
-        <h3 className={titled ? "sr-only" : "mb-4 text-[1.6rem] font-semibold leading-tight tracking-[-0.015em] text-foreground"}>
-          <ItemLink item={item} className="transition-colors hover:text-primary">{item.title}</ItemLink>
-        </h3>
+      <div className="min-w-0 pb-2 md:pb-0 md:pr-4">
         {(item.eyebrow || year) && (
           <p className="flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-primary">
             {item.eyebrow && <span>{item.eyebrow}</span>}
-            {item.eyebrow && year && <span aria-hidden="true" className="h-px w-5 bg-primary/30" />}
+            {item.eyebrow && year && <span aria-hidden="true" className="h-px w-5 bg-foreground/25" />}
             {year && <span className="font-medium text-muted-foreground">{year}</span>}
           </p>
         )}
+        <h3 className="mt-3 font-serif text-[1.7rem] font-normal leading-[1.12] tracking-[-0.01em] text-foreground md:text-[1.95rem]">
+          <ItemLink item={item} className="transition-colors hover:text-primary">{item.title}</ItemLink>
+        </h3>
         <p className="mt-4 max-w-[34rem] text-[0.98rem] leading-relaxed text-foreground/75">{item.summary}</p>
         {links.length > 0 && <ResourceLinks links={links} className="mt-6" />}
       </div>

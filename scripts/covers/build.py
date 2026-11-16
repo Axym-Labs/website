@@ -46,6 +46,7 @@ COVERS = {
     "axosim-fly-geometry": dict(layout="card", figure=F.axosim_fly_geometry_card),
     "prepretraining-not-ready-yet": dict(layout="card", figure=F.prepretraining_card),
     "irregular-parameter-sharing": dict(layout="card", figure=F.irregular_parameter_sharing_card),
+    "axosim-connectome-demo": dict(layout="card", figure=F.axosim_connectome_demo_card),
 }
 
 

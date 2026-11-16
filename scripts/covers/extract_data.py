@@ -297,6 +297,28 @@ def pptrain() -> None:
                       "frames": [np.asarray(f).astype(int).tolist() for f in frames]})
 
 
+def axosim_connectome_demo() -> None:
+    """The interactive demo's own assets (public/demo/connectome): the reference
+    state cloud in the demo's 3-d embedding (every 10th of 26,093 states) and the
+    population trajectory of each preset video, smoothed with a 25-block moving
+    average (the demo also smooths its displayed path) and kept every 5th block."""
+    demo = HERE.parent.parent / "public" / "demo" / "connectome"
+    layout = json.loads((demo / "state-cloud.json").read_text())
+    raw = (demo / "state-cloud.bin").read_bytes()
+    entry = layout["coords"]
+    n = int(np.prod(entry["shape"]))
+    coords = np.frombuffer(raw, dtype=np.float32, count=n, offset=entry["offset"]).reshape(entry["shape"])
+    presets = json.loads((demo / "videos" / "presets.json").read_text())
+    paths = {}
+    for preset in presets:
+        path = np.fromfile(demo / "videos" / f"{preset['id']}.path.bin", dtype=np.float32).reshape(-1, 3)
+        kernel = np.ones(25) / 25
+        smooth = np.stack([np.convolve(np.pad(path[:, k], 12, mode="edge"), kernel, mode="valid") for k in range(3)], 1)
+        paths[preset["id"]] = _r(smooth[::5], 3)
+    _save("axosim-connectome-demo", {"source": "public/demo/connectome state-cloud and videos/*.path.bin",
+                                      "cloud": _r(coords[::10], 3), "paths": paths})
+
+
 JOBS = {
     "prepretraining-not-ready-yet": prepretraining,
     "irregular-parameter-sharing": irregular_parameter_sharing,
@@ -308,6 +330,7 @@ JOBS = {
     "kpsa": kpsa,
     "terel": terel,
     "pptrain": pptrain,
+    "axosim-connectome-demo": axosim_connectome_demo,
 }
 
 if __name__ == "__main__":

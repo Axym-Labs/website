@@ -425,3 +425,26 @@ def axosim_fly_geometry_card(fig):
 
 
 FLY_SPACE = "umap2d"
+
+
+def axosim_connectome_demo_card(fig):
+    """The connectome demo's state space as the demo draws it: the reference
+    cloud of population states as faint points, and the population trajectory
+    under each preset video as a line (violet tints; the first preset in ink).
+    Coordinates are the demo's own 3-d embedding, viewed along its third axis."""
+    d = load("axosim-connectome-demo")
+    ax = _card_axes(fig)
+    cloud = np.array(d["cloud"]).reshape(-1, 3)
+    ax.scatter(cloud[:, 0], cloud[:, 1], s=4, color=GREY_LIGHT, alpha=0.6, linewidths=0)
+    paths = list(d["paths"].values())
+    for i, path in enumerate(paths):
+        p = np.array(path).reshape(-1, 3)
+        q = p[:, :2]
+        if i == 0:
+            continue
+        ax.plot(q[:, 0], q[:, 1], color=_mix(BRAND_LIGHT, BRAND, i / max(1, len(paths) - 1)), lw=1.5, alpha=0.85,
+                solid_joinstyle="round", solid_capstyle="round")
+    p = np.array(paths[0]).reshape(-1, 3)
+    ax.plot(p[:, 0], p[:, 1], color=INK, lw=2.0, alpha=0.9, solid_joinstyle="round")
+    ax.set_aspect("equal", adjustable="datalim")
+    ax.margins(0.03)

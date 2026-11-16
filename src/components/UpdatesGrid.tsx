@@ -9,8 +9,8 @@ interface UpdatesGridProps {
   sectionId?: string;
 }
 
-/** Research updates and articles as a grid of dated cards. */
-const UpdatesGrid = ({ items, title = "Experiments and research updates", sectionId = "updates" }: UpdatesGridProps) => {
+/** Research updates, experiments, and demos as a grid of dated cards. */
+const UpdatesGrid = ({ items, title = "Research updates, experiments and demonstrations", sectionId = "updates" }: UpdatesGridProps) => {
   if (items.length === 0) return null;
   return (
     <section id={sectionId} className="scroll-mt-20 px-5 pb-24 pt-8 sm:px-6 lg:px-8 lg:pb-32">

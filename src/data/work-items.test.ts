@@ -21,6 +21,7 @@ describe("work and update lists", () => {
     item({ slug: "draft", draft: true }),
     item({ slug: "update-old", category: "update", date: "2026-09-01", listed: false }),
     item({ slug: "update-new", category: "update", date: "2026-11-01" }),
+    item({ slug: "demo", category: "demo", date: "2026-10-11", listed: false }),
   ];
 
   it("keeps homepage: false items on /work/ and off the homepage", () => {
@@ -29,7 +30,7 @@ describe("work and update lists", () => {
   });
 
   it("lists updates newest first, separately from work", () => {
-    expect(updateEntries(items, { homepage: true }).map((i) => i.slug)).toEqual(["update-new", "update-old"]);
+    expect(updateEntries(items, { homepage: true }).map((i) => i.slug)).toEqual(["update-new", "demo", "update-old"]);
   });
 });
 

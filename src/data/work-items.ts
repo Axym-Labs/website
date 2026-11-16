@@ -4,7 +4,7 @@ export interface WorkItem {
   slug: string;
   title: string;
   /** "update": research updates and articles, shown as dated cards with a blog layout. */
-  category: "product" | "research" | "idea" | "update";
+  category: "product" | "research" | "idea" | "update" | "demo";
   summary: string;
   eyebrow?: string;
   /** Visual for cards: a cover from public/work/covers/ or the item's first figure. */
@@ -24,6 +24,8 @@ export interface WorkItem {
   /** false hides the item from the axym.org homepage only (default true). */
   homepage?: boolean;
   author?: string;
+  /** Kind in the sheet's title block when the category does not say it, e.g. "library". */
+  kind?: string;
   date: string;
   rank?: number;
   content: string;
@@ -54,6 +56,7 @@ const parseWorkItem = (markdownContent: string): WorkItem => {
     listed: attributes.listed,
     homepage: attributes.homepage,
     author: attributes.author,
+    kind: attributes.kind,
     date: (attributes.date as unknown) instanceof Date ? (attributes.date as unknown as Date).toISOString().slice(0, 10) : attributes.date,
     rank: attributes.rank,
     content: body,
@@ -131,18 +134,24 @@ const byRankThenDate = (a: WorkItem, b: WorkItem) => {
 
 export const isUpdate = (item: WorkItem) => item.category === "update";
 
+/** Items for the updates grid rather than the featured work list: updates and interactive demos. */
+const isGridItem = (item: WorkItem) => item.category === "update" || item.category === "demo";
+
 /** Papers and software: /work/ shows the listed ones, the homepage additionally drops homepage: false. */
 export function workEntries(items: WorkItem[], { homepage = false } = {}): WorkItem[] {
   return items
-    .filter((item) => !item.draft && !isUpdate(item) && item.listed !== false)
+    .filter((item) => !item.draft && !isGridItem(item) && item.listed !== false)
     .filter((item) => !homepage || item.homepage !== false)
     .sort(byRankThenDate);
 }
 
-/** Research updates and articles, newest first. */
+/**
+ * Research updates, articles, and demos, newest first. `listed` is ignored
+ * here: it only governs /work/'s paper list and api/work.json.
+ */
 export function updateEntries(items: WorkItem[], { homepage = false } = {}): WorkItem[] {
   return items
-    .filter((item) => !item.draft && isUpdate(item))
+    .filter((item) => !item.draft && isGridItem(item))
     .filter((item) => !homepage || item.homepage !== false)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }

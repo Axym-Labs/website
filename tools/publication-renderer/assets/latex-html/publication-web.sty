@@ -102,29 +102,44 @@
   \fi
 }
 
-% Paper links line (same setters as axym-publication.sty, so a paper preamble
-% can be reused). In HTML the entries render as action buttons whose symbols
-% come from publication-fragment.css; empty entries are omitted.
+% Links line (same setters as axym-publication.sty, so a paper preamble can be
+% reused, plus arXiv mirrors and software resources). \makepublicationlinks
+% prints one centered row of icon-and-label links; empty entries are omitted.
+% In HTML each entry is <a class="publication-link publication-link-KIND">,
+% and the site draws the icon for KIND.
+\newcommand{\publicationarxiv}[1]{\def\PublicationArxiv{#1}}
+\newcommand{\publicationhfpapers}[1]{\def\PublicationHFPapers{#1}}
 \newcommand{\publicationmodels}[2][Models]{%
   \def\PublicationModelsLabel{#1}\def\PublicationModels{#2}}
 \newcommand{\publicationdata}[2][Data]{%
   \def\PublicationDataLabel{#1}\def\PublicationData{#2}}
 \newcommand{\publicationcode}[2][Code]{%
   \def\PublicationCodeLabel{#1}\def\PublicationCode{#2}}
+\newcommand{\publicationdocs}[2][Documentation]{%
+  \def\PublicationDocsLabel{#1}\def\PublicationDocs{#2}}
+\newcommand{\publicationpackage}[2][Package]{%
+  \def\PublicationPackageLabel{#1}\def\PublicationPackage{#2}}
+\newcommand{\publicationdemo}[2][Demo]{%
+  \def\PublicationDemoLabel{#1}\def\PublicationDemo{#2}}
 \newcommand{\publicationprojectpage}[2][Project page]{%
   \def\PublicationProjectPageLabel{#1}\def\PublicationProjectPage{#2}}
 \newcommand{\publicationcorrespondence}[1]{\def\PublicationCorrespondence{#1}}
+\publicationarxiv{}
+\publicationhfpapers{}
 \publicationmodels{}
 \publicationdata{}
 \publicationcode{}
+\publicationdocs{}
+\publicationpackage{}
+\publicationdemo{}
 \publicationprojectpage{}
 \publicationcorrespondence{}
 
 \newcommand{\publicationweb@linkentry}[3]{% kind, url, label
   \ifdefined\HCode
-    \HCode{<a class="publication-action publication-link publication-link-#1" href="#2">}#3\HCode{</a>}%
+    \HCode{<a class="publication-link publication-link-#1" href="#2">}#3\HCode{</a>}%
   \else
-    \href{#2}{\textbf{#3}}\quad
+    \mbox{\href{#2}{#3}}\hspace{1.5em plus 0.5em}%
   \fi}
 \newcommand{\publicationweb@hostentry}[5]{% url macro, label, host, kind, fallback
   \edef\publicationweb@test{\noexpand\in@{\detokenize{#3}}%
@@ -132,26 +147,81 @@
   \publicationweb@test
   \ifin@\def\publicationweb@kind{#4}\else\def\publicationweb@kind{#5}\fi
   \publicationweb@linkentry{\publicationweb@kind}{#1}{#2}}
-\newif\ifpublicationweb@anylink
+\newcommand{\publicationweb@ifset}[2]{\ifx#1\empty\else#2\fi}
 \newcommand{\makepublicationlinks}{%
-  \publicationweb@anylinkfalse
-  \ifx\PublicationModels\empty\else\publicationweb@anylinktrue\fi
-  \ifx\PublicationData\empty\else\publicationweb@anylinktrue\fi
-  \ifx\PublicationCode\empty\else\publicationweb@anylinktrue\fi
-  \ifx\PublicationProjectPage\empty\else\publicationweb@anylinktrue\fi
-  \ifx\PublicationCorrespondence\empty\else\publicationweb@anylinktrue\fi
-  \ifpublicationweb@anylink
-    \publicationactions{%
-      \ifx\PublicationModels\empty\else
-        \publicationweb@hostentry{\PublicationModels}{\PublicationModelsLabel}{huggingface.co}{huggingface}{data}\fi
-      \ifx\PublicationData\empty\else
-        \publicationweb@hostentry{\PublicationData}{\PublicationDataLabel}{huggingface.co}{huggingface}{data}\fi
-      \ifx\PublicationCode\empty\else
-        \publicationweb@hostentry{\PublicationCode}{\PublicationCodeLabel}{github.com}{github}{code}\fi
-      \ifx\PublicationProjectPage\empty\else
-        \publicationweb@linkentry{home}{\PublicationProjectPage}{\PublicationProjectPageLabel}\fi
-      \ifx\PublicationCorrespondence\empty\else
-        \publicationweb@linkentry{email}{mailto:\PublicationCorrespondence}{\PublicationCorrespondence}\fi}%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{<nav class="publication-links" aria-label="Links">}%
+  \else
+    \par\medskip{\centering
+  \fi
+  \publicationweb@ifset\PublicationArxiv{%
+    \publicationweb@linkentry{arxiv}{https://arxiv.org/abs/\PublicationArxiv}{arXiv}%
+    \publicationweb@linkentry{alphaxiv}{https://www.alphaxiv.org/abs/\PublicationArxiv}{alphaXiv}}%
+  \publicationweb@ifset\PublicationHFPapers{%
+    \publicationweb@linkentry{hfpapers}{https://huggingface.co/papers/\PublicationHFPapers}{Hugging Face Papers}}%
+  \publicationweb@ifset\PublicationCode{%
+    \publicationweb@hostentry{\PublicationCode}{\PublicationCodeLabel}{github.com}{github}{code}}%
+  \publicationweb@ifset\PublicationModels{%
+    \publicationweb@hostentry{\PublicationModels}{\PublicationModelsLabel}{huggingface.co}{huggingface}{data}}%
+  \publicationweb@ifset\PublicationData{%
+    \publicationweb@hostentry{\PublicationData}{\PublicationDataLabel}{huggingface.co}{huggingface}{data}}%
+  \publicationweb@ifset\PublicationDocs{%
+    \publicationweb@linkentry{docs}{\PublicationDocs}{\PublicationDocsLabel}}%
+  \publicationweb@ifset\PublicationPackage{%
+    \publicationweb@linkentry{package}{\PublicationPackage}{\PublicationPackageLabel}}%
+  \publicationweb@ifset\PublicationDemo{%
+    \publicationweb@linkentry{demo}{\PublicationDemo}{\PublicationDemoLabel}}%
+  \publicationweb@ifset\PublicationProjectPage{%
+    \publicationweb@linkentry{home}{\PublicationProjectPage}{\PublicationProjectPageLabel}}%
+  \publicationweb@ifset\PublicationCorrespondence{%
+    \publicationweb@linkentry{email}{mailto:\PublicationCorrespondence}{\PublicationCorrespondence}}%
+  \ifdefined\HCode
+    \HCode{</nav>}\ShowPar
+  \else
+    \par}\medskip
+  \fi
+}
+
+% Abstract split into its parts, each a labeled paragraph:
+%   \begin{publicationsummary}
+%     \publicationsummarypart{Problem}{...}
+%   \end{publicationsummary}
+\newenvironment{publicationsummary}{%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{<dl class="publication-summary">}%
+  \else
+    \par\medskip
+  \fi
+}{%
+  \ifdefined\HCode
+    \HCode{</dl>}\ShowPar
+  \else
+    \par\medskip
+  \fi
+}
+\newcommand{\publicationsummarypart}[2]{%
+  \ifdefined\HCode
+    \HCode{<div class="publication-summary-part"><dt class="publication-summary-label">}#1%
+    \HCode{</dt><dd class="publication-summary-text">}#2\HCode{</dd></div>}%
+  \else
+    \par\noindent\textsc{#1}\quad #2\par\smallskip
+  \fi
+}
+
+% Copyable citation block around a verbatim BibTeX entry.
+\newenvironment{publicationcitation}{%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{<section class="publication-citation" id="citation"><h2 class="publication-citation-heading">Citation</h2>}%
+  \else
+    \section*{Citation}%
+  \fi
+}{%
+  \ifdefined\HCode
+    \ifvmode\IgnorePar\fi\EndP
+    \HCode{</section>}\ShowPar
   \fi
 }
 

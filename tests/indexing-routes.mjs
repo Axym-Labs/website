@@ -18,7 +18,6 @@ const routes = [
   "/work/pptrain/",
   "/work/marey/",
   "/work/irregular-parameter-sharing/",
-  "/work/prepretraining-not-ready-yet/",
   "/about/",
   "/contact/",
   "/legal/",

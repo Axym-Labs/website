@@ -10,8 +10,8 @@ const Navbar = ({ section }: { section?: "work" | "updates" }) => {
   const onUpdates = section === "updates";
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 border-b border-foreground/[0.08] bg-white/85 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-6 lg:px-8">
+    <nav className="fixed inset-x-0 top-0 z-50 border-b border-foreground/[0.08] bg-white/85 px-5 backdrop-blur-md sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between">
         <Link
           to="/"
           aria-label="Axym Labs home"

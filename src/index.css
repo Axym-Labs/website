@@ -656,16 +656,6 @@ All colors MUST be HSL.
   text-decoration-color: currentColor;
 }
 
-.site-prose .todo {
-  display: block;
-  margin: 0.25rem 0 1rem;
-  padding: 0.6rem 0.8rem;
-  border-left: 3px solid #b45309;
-  background: #fff7ed;
-  color: #7c2d12;
-  font-size: 0.92rem;
-}
-
 /* Drawing-sheet frame of the featured work entries (SheetFrame.tsx).
    --sheet-m: paper margin, --sheet-band: numbered band, --sheet-gap: space
    between the inner rule and the content. Entries reserve their sum as

@@ -1,9 +1,8 @@
 import PlatformIcon from "@/components/PlatformIcon";
 import type { PlatformIconName } from "@/lib/platform-icons";
-import type { SiteTone } from "@/components/Navbar";
 
-// External and platform links. Add X, LinkedIn, or Discord here once
-// Axym Labs has accounts; their icons already exist in platform-icons.ts.
+// External and platform links. Add X or LinkedIn here once Axym Labs has
+// accounts; their icons already exist in platform-icons.ts.
 const PLATFORM_LINKS: { label: string; href: string; icon: PlatformIconName }[] = [
   { label: "GitHub", href: "https://github.com/Axym-Labs", icon: "github" },
   { label: "Hugging Face", href: "https://huggingface.co/Axym-Labs", icon: "huggingface" },
@@ -11,58 +10,41 @@ const PLATFORM_LINKS: { label: string; href: string; icon: PlatformIconName }[] 
   { label: "contact@axym.org", href: "mailto:contact@axym.org", icon: "mail" },
 ];
 
-const TONES: Record<SiteTone, { footer: string; wordmark: string; link: string; muted: string }> = {
-  dark: {
-    footer: "mt-32 border-foreground/10",
-    wordmark: "text-foreground",
-    link: "text-foreground/70 hover:text-accent",
-    muted: "text-foreground/45 hover:text-accent",
-  },
-  light: {
-    footer: "border-gray-900/10 bg-white",
-    wordmark: "text-gray-900",
-    link: "text-gray-600 hover:text-primary",
-    muted: "text-gray-500 hover:text-primary",
-  },
-};
-
-const Footer = ({ tone = "dark" }: { tone?: SiteTone }) => {
-  const colors = TONES[tone];
-
-  return (
-    <footer className={`border-t px-6 py-24 md:py-36 lg:px-8 ${colors.footer}`}>
-      <div className="mx-auto max-w-7xl space-y-20">
-        <div className={`break-words text-[4.5rem] font-bold leading-none sm:text-[6rem] md:text-center xl:text-[10rem] ${colors.wordmark}`}>
-          Axym Labs
-        </div>
-
-        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <ul className="flex flex-wrap gap-x-8 gap-y-4 text-base">
-            {PLATFORM_LINKS.map(({ label, href, icon }) => (
-              <li key={href}>
-                <a
-                  href={href}
-                  {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className={`inline-flex items-center gap-2 transition-colors ${colors.link}`}
-                >
-                  <PlatformIcon name={icon} className="h-[1.1rem] w-[1.1rem]" />
-                  {label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <div className="flex gap-8 text-sm">
-            <a href="https://axo.axym.org" className={`transition-colors ${colors.muted}`}>
-              AxoSim documentation
-            </a>
-            <a href="/disclosure" className={`transition-colors ${colors.muted}`}>
-              Disclosure
-            </a>
-          </div>
+const Footer = () => (
+  <footer className="border-t border-foreground/10 bg-paper px-5 pb-12 pt-16 sm:px-6 md:pt-24 lg:px-8">
+    <div className="mx-auto max-w-6xl">
+      <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+        <ul className="flex flex-wrap gap-x-7 gap-y-3 text-[0.95rem]">
+          {PLATFORM_LINKS.map(({ label, href, icon }) => (
+            <li key={href}>
+              <a
+                href={href}
+                {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="inline-flex items-center gap-2 text-foreground/75 transition-colors hover:text-primary"
+              >
+                <PlatformIcon name={icon} className="h-[1.05rem] w-[1.05rem]" />
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="flex gap-7 text-sm">
+          <a href="https://axo.axym.org" className="text-muted-foreground transition-colors hover:text-primary">
+            AxoSim documentation
+          </a>
+          <a href="/disclosure" className="text-muted-foreground transition-colors hover:text-primary">
+            Disclosure
+          </a>
         </div>
       </div>
-    </footer>
-  );
-};
+      <div
+        aria-hidden="true"
+        className="mt-16 select-none break-words font-serif text-[4.6rem] leading-[0.85] tracking-[-0.03em] text-foreground sm:text-[7rem] md:mt-24 md:text-center lg:text-[11.5rem]"
+      >
+        Axym Labs
+      </div>
+    </div>
+  </footer>
+);
 
 export default Footer;

@@ -40,7 +40,7 @@ const ConnectomeDemo = () => {
 
   return (
     <div className="min-h-screen bg-canvas">
-      <Navbar tone="light" />
+      <Navbar />
       <main className="pt-16">
         <article className="publication-canvas connectome-page w-full bg-canvas px-5 py-16 text-canvas-foreground sm:px-8 sm:py-20 md:px-12 lg:px-16">
           <div className="latex-publication mx-auto w-full min-w-0 max-w-[46rem]">
@@ -110,7 +110,7 @@ const ConnectomeDemo = () => {
           </div>
         </article>
       </main>
-      <Footer tone="light" />
+      <Footer />
     </div>
   );
 };

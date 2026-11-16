@@ -1,5 +1,6 @@
 interface CoverImageProps {
   src?: string;
+  alt?: string;
   fit?: "contain" | "cover";
   className?: string;
   eager?: boolean;
@@ -12,12 +13,11 @@ const isCover = (src?: string) => Boolean(src?.includes("/work/covers/"));
  * edge) are shown as they are; other images, such as a paper's first figure,
  * sit on a paper-colored panel like a printed plate.
  */
-const CoverImage = ({ src, fit = "contain", className = "", eager = false }: CoverImageProps) => {
-  const motion = "transition-transform duration-500 ease-out group-hover:scale-[1.015] motion-reduce:transition-none";
+const CoverImage = ({ src, alt = "", fit = "contain", className = "", eager = false }: CoverImageProps) => {
   if (isCover(src)) {
     return (
-      <div className={`rounded-[0.7rem] transition-[transform,box-shadow] duration-300 ease-out group-hover:-translate-y-0.5 group-hover:shadow-[0_14px_32px_-18px_rgba(24,22,31,0.35)] motion-reduce:transition-none ${className}`}>
-        <img src={src} alt="" width={1600} height={900} loading={eager ? "eager" : "lazy"} decoding="async" className="block h-full w-full rounded-[0.7rem] object-cover" />
+      <div className={`rounded-[0.7rem] ${className}`}>
+        <img src={src} alt={alt} width={1600} height={900} loading={eager ? "eager" : "lazy"} decoding="async" className="block h-full w-full rounded-[0.7rem] object-cover" />
       </div>
     );
   }
@@ -26,13 +26,13 @@ const CoverImage = ({ src, fit = "contain", className = "", eager = false }: Cov
       {src && (
         <img
           src={src}
-          alt=""
+          alt={alt}
           loading={eager ? "eager" : "lazy"}
           decoding="async"
           className={
             fit === "cover"
-              ? `absolute inset-0 h-full w-full object-cover ${motion}`
-              : `absolute inset-[7%] h-[86%] w-[86%] object-contain mix-blend-multiply ${motion}`
+              ? "absolute inset-0 h-full w-full object-cover"
+              : "absolute inset-[7%] h-[86%] w-[86%] object-contain mix-blend-multiply"
           }
         />
       )}

@@ -35,7 +35,8 @@ describe("canonical internal navigation", () => {
       </StaticRouter>,
     );
 
-    expect(html).toContain('href="/#about"');
+    expect(html).toContain('href="/about/"');
+    expect(html).toContain('href="/contact/"');
     expect(html).toContain('href="https://axo.axym.org"');
     expect(html).not.toContain("github.com");
     expect(html).not.toContain("huggingface.co");

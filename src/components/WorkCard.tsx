@@ -18,17 +18,27 @@ const ItemLink = ({ item, className, children, tabIndex }: { item: WorkCardItem;
     </Link>
   );
 
-/** A featured entry: visual, title, summary, and the item's links. */
+const hasTitledCover = (src?: string) => Boolean(src?.includes("/work/covers/"));
+
+/**
+ * A featured entry: the cover (which carries the title) and a text panel with
+ * the summary and links. The panel's frame fades in on hover.
+ */
 const WorkCard = ({ item }: { item: WorkCardItem }) => {
-  const links = resourceLinks({ content: item.content ?? "", links: item.links }).filter((link) => link.kind !== "email");
+  const own = resourceLinks({ content: item.content ?? "", links: item.links }).filter((link) => link.kind !== "email");
+  const links = item.external_url ? own : [{ kind: "home", label: "Project page", url: itemHref(item) }, ...own];
   const year = item.date ? String(item.date).slice(0, 4) : undefined;
+  const titled = hasTitledCover(item.cover_image);
 
   return (
-    <article className="group grid gap-7 py-12 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] md:items-center md:gap-12 md:py-14 lg:gap-16">
-      <ItemLink item={item} className="block" tabIndex={-1}>
-        <CoverImage src={item.cover_image} fit={item.cover_fit} className="aspect-[16/9] w-full" />
+    <article className="group grid gap-6 py-10 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] md:items-center md:gap-8 md:py-12 lg:gap-10">
+      <ItemLink item={item} className="block focus-visible:outline-none" tabIndex={titled ? undefined : -1}>
+        <CoverImage src={item.cover_image} fit={item.cover_fit} alt={titled ? item.title : ""} className="aspect-[16/9] w-full" />
       </ItemLink>
-      <div className="min-w-0">
+      <div className="min-w-0 rounded-[0.7rem] border border-transparent px-0 py-1 transition-colors duration-300 ease-out group-hover:border-foreground/[0.12] group-focus-within:border-foreground/[0.12] md:px-7 md:py-7 motion-reduce:transition-none">
+        <h3 className={titled ? "sr-only" : "mb-4 text-[1.6rem] font-semibold leading-tight tracking-[-0.015em] text-foreground"}>
+          <ItemLink item={item} className="transition-colors hover:text-primary">{item.title}</ItemLink>
+        </h3>
         {(item.eyebrow || year) && (
           <p className="flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-primary">
             {item.eyebrow && <span>{item.eyebrow}</span>}
@@ -36,12 +46,7 @@ const WorkCard = ({ item }: { item: WorkCardItem }) => {
             {year && <span className="font-medium text-muted-foreground">{year}</span>}
           </p>
         )}
-        <h3 className="mt-4 font-serif text-[1.85rem] font-normal leading-[1.1] tracking-[-0.01em] text-foreground md:text-[2.15rem]">
-          <ItemLink item={item} className="decoration-primary/40 decoration-1 underline-offset-[0.12em] transition-colors hover:text-primary">
-            {item.title}
-          </ItemLink>
-        </h3>
-        <p className="mt-4 max-w-[34rem] text-[0.98rem] leading-relaxed text-muted-foreground">{item.summary}</p>
+        <p className="mt-4 max-w-[34rem] text-[0.98rem] leading-relaxed text-foreground/75">{item.summary}</p>
         {links.length > 0 && <ResourceLinks links={links} className="mt-6" />}
       </div>
     </article>

@@ -22,8 +22,16 @@ const Work = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-16">
-        <WorkList items={workEntries(workItems)} title="Work" intro="Papers, software, and the project pages behind them." />
+      <div className="px-5 pt-32 sm:px-6 md:pt-40 lg:px-8">
+        <header className="mx-auto max-w-6xl">
+          <h1 className="text-[2.2rem] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground md:text-[2.75rem]">Work</h1>
+          <p className="mt-5 max-w-[40rem] text-[1.15rem] leading-relaxed text-foreground/75">
+            Papers and software, each with a project page that holds its main figure, summary, links, and citation.
+          </p>
+        </header>
+      </div>
+      <div>
+        <WorkList items={workEntries(workItems)} title="Papers and software" />
         <UpdatesGrid items={updateEntries(workItems)} />
       </div>
       <Footer />

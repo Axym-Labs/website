@@ -41,7 +41,7 @@ COVERS = {
                     subtitle="A library for prepretraining"),
     "marey": dict(layout="blueprint", title="Marey", figure="marey", kind="library", date="2026-08",
                   subtitle="A plotting library for F# where the compiler checks your units",
-                  figure_box=(W / 2 - 570, 95, 1140, 700)),
+                  figure_box=(W / 2 - 640, 70, 1280, 760)),
     # research updates: data line-art cards
     "axosim-fly-geometry": dict(layout="card", figure=F.axosim_fly_geometry_card),
     "prepretraining-not-ready-yet": dict(layout="card", figure=F.prepretraining_card),

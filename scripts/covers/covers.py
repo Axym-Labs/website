@@ -264,20 +264,24 @@ class Sheet:
 
 def blueprint(slug: str, title: str, figure: FigureSource, *, subtitle: str = "", kind: str = "", date: str = "",
               figure_box: tuple[float, float, float, float] | None = None, show_title: bool = False,
-              title_size: float = 64, title_width: float = 650, out: Path = OUT) -> Path:
-    """Write <out>/<slug>.svg and .png: drawing-sheet frame, one large figure
-    centred in it, title block in the corner.
+              frame: bool = False, title_size: float = 64, title_width: float = 650, out: Path = OUT) -> Path:
+    """Write <out>/<slug>.svg and .png: one large figure centred on the paper.
 
-    The site prints title and summary beside the cover, so by default the
-    cover carries no title; ``show_title=True`` restores the earlier layout
-    (title left, figure right). figure_box is (x, y, w, h) in canvas pixels.
+    The site draws the drawing-sheet frame (README, "Frame for the site") and
+    prints the title beside the cover, so by default the image has neither.
+    ``frame=True`` draws the frame and corner title block into the image;
+    ``show_title=True`` (implies the frame) restores the title-left,
+    figure-right layout. figure_box is (x, y, w, h) in canvas pixels.
     """
+    frame = frame or show_title
     sheet = Sheet()
     ix0, iy0, ix1, iy1 = sheet.inner()
     if show_title:
         fx, fy, fw, fh = figure_box or (815, 112, 680, 676)
-    else:
+    elif frame:
         fx, fy, fw, fh = figure_box or (W / 2 - 560, 92, 1120, 700)
+    else:
+        fx, fy, fw, fh = figure_box or (W / 2 - 660, 50, 1320, 800)
 
     title_svg = ""
     if show_title:
@@ -309,7 +313,7 @@ def blueprint(slug: str, title: str, figure: FigureSource, *, subtitle: str = ""
         cx += w
 
     fig = _place_svg(resolve_figure(figure, fw, fh), fx, fy, fw, fh, prefix=f"{slug}-")
-    body = sheet.frame() + title_svg + fig + "".join(tb)
+    body = (sheet.frame() + title_svg + fig + "".join(tb)) if frame else fig
     return _write(slug, _document(body), out)
 
 

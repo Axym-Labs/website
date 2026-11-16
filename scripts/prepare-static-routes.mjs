@@ -86,6 +86,38 @@ for (const { attributes } of items) {
   fs.writeFileSync(path.join(routeDir, "index.html"), setHead(baseHtml, attributes, route));
 }
 
+// Old routes of renamed items (front-matter `redirect_from`, one route or a
+// list): a static page that GitHub Pages serves at the old URL, with the new
+// URL as canonical, a meta refresh, and noindex, as jekyll-redirect-from does.
+const redirectPage = (target) => `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting&hellip;</title>
+    <link rel="canonical" href="${target}" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content="0; url=${target}" />
+    <script>location.replace(${JSON.stringify(target)} + location.hash);</script>
+  </head>
+  <body>
+    <p>This page has moved to <a href="${target}">${target}</a>.</p>
+  </body>
+</html>
+`;
+const itemRoutes = new Set(items.map(({ attributes }) => `/work/${attributes.slug}/`));
+let redirects = 0;
+for (const { attributes } of items) {
+  for (const from of [].concat(attributes.redirect_from ?? [])) {
+    if (!/^\/work\/[a-z0-9-]+\/$/.test(from) || itemRoutes.has(from)) {
+      throw new Error(`${attributes.slug}: invalid redirect_from route ${from}`);
+    }
+    const dir = path.join(dist, from.slice(1));
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, "index.html"), redirectPage(`${origin}/work/${attributes.slug}/`));
+    redirects += 1;
+  }
+}
+
 const workDir = path.join(dist, "work");
 fs.mkdirSync(workDir, { recursive: true });
 fs.writeFileSync(path.join(workDir, "index.html"), baseHtml
@@ -100,4 +132,4 @@ const urls = ["/", "/work/", ...items.map(({ attributes }) => `/work/${attribute
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((route) => `  <url><loc>${origin}${route}</loc></url>`).join("\n")}\n</urlset>\n`;
 fs.writeFileSync(path.join(dist, "sitemap.xml"), sitemap);
 
-console.log(`Prepared ${items.length + 1} static work routes, sitemap.xml, and api/work.json`);
+console.log(`Prepared ${items.length + 1} static work routes, ${redirects} redirects, sitemap.xml, and api/work.json`);

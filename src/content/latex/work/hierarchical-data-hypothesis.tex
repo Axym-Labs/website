@@ -1,0 +1,168 @@
+%---
+% slug: hierarchical-data-hypothesis
+% title: The Hierarchical Data Hypothesis
+% category: research
+% eyebrow: DATA DISTRIBUTIONS
+% summary: Many machine-learning methods assume that data are organized coarse-to-fine, yet this has not been tested on the data. The hierarchical data hypothesis states that each finer level adds variation that the broader categories organize. A model-free test finds this in 18 of 22 cases across images, text, speech, and accelerometry.
+% author: Davide Wiest
+% draft: false
+% date: 2026-11-15
+% rank: 1
+% cover_image: /work/covers/hierarchical-data-hypothesis.svg
+% redirect_from: /work/recursive-manifolds/
+%---
+\documentclass[11pt]{article}
+\usepackage{publication-web}
+\newcommand{\minus}{\ifdefined\HCode\HCode{&\#x2212;}\else\textminus\fi}
+% keeps an inline quantity such as "A = 0.874" on one line
+\newcommand{\q}[1]{\ifdefined\HCode\HCode{<span class="publication-nowrap">}#1\HCode{</span>}\else\mbox{#1}\fi}
+\begin{document}
+
+\publicationtitle{The Hierarchical Data Hypothesis: Testing Coarse-to-Fine Organization in Data Distributions}
+\publicationauthors{Davide Wiest}
+\publicationaffiliations{Department of Computer Science, TU Darmstadt; Darmstadt, Germany}
+
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
+
+\publicationfigure[\linewidth]
+  {figures/hierarchical-data-hypothesis-lead.png}{/work/hierarchical-data-hypothesis-lead.png}
+  {Three panels: the manifold hypothesis with one support, the union-of-manifolds hypothesis with several supports, and the hierarchical data hypothesis with two parent distributions that each contain two child distributions.}
+  {Hypotheses about where data lie and about how they are organized. The manifold and union-of-manifolds hypotheses concern the support: one low-dimensional manifold, or several. The hierarchical data hypothesis concerns how the distributions of categories relate. In the right panel, the two children of each parent (small contours) differ from each other, yet lie closer to each other than to the children of the other parent: the parents (large contours) organize the variation of their children, and the root distribution (outer contour) contains both. The hypothesis makes no assumption about the support and complements the geometric hypotheses.}
+
+\begin{publicationsummary}
+\publicationsummarypart{Problem}{Coarse-to-fine organization of data is assumed by many methods, from hierarchical output layers and tree-structured priors to hyperbolic embeddings and hierarchical self-supervised learning, yet it has not been tested on the data distributions themselves.}
+\publicationsummarypart{Hypothesis}{We state it as the \emph{hierarchical data hypothesis}: broad categories capture what their subcategories share, each finer subdivision adds new variation while subcategories of one category remain more alike than those of different categories, and this pattern repeats across scales.}
+\publicationsummarypart{Test}{We test it one parent--child relation at a time: without fitting a model, we compare the distributions of child categories with the energy distance and ask whether the parents group their children better than random regroupings of the same sizes.}
+\publicationsummarypart{Evidence}{The hypothesis holds broadly in images, text, speech, and wrist accelerometry (18 of 22 relation--representation pairs), in raw inputs and pretrained representations, often at two successive scales of one taxonomy. The test can also fail: accelerometer recordings are organized by activity but not by the wearer, and the language of spoken digits groups the digit words no better than a random split.}
+\publicationsummarypart{Learning}{The organization also shows in learning: exactly where the test detects it, classifiers' errors stay substantially within the parent category, hierarchical self-supervised methods can benefit, and a label-free objective built from the energy distance repairs its late-block loss in DINOv2-L.}
+\publicationsummarypart{Significance}{Real-world data are thus structured not only in where they lie, as the manifold hypotheses describe, but also in how their categories relate across scales, and this structure shapes what models learn.}
+\end{publicationsummary}
+
+\publicationarxivpending
+\publicationcode{https://github.com/Axym-Labs/hierarchical-data-hypothesis}
+\publicationcorrespondence{dw@axym.org}
+\makepublicationlinks
+
+\section{Where data lie and how categories relate}
+
+Real-world variation is resolved in stages. Cats share properties that distinguish them from dogs; within cats, big cats and domestic cats retain common structure, while lions differ from tigers, and Persians from Siamese, in finer ways. Refinement in this example does more than partition a population: it exposes variation hidden at a coarser level, and the refined distributions remain related through structure shared within their parent.
+
+Image data have low intrinsic dimension, which varies across classes, consistent with a union of class manifolds. These results concern the supports of the classes, that is, where data lie. The hierarchical data hypothesis concerns how the distributions of categories at successive levels of a taxonomy are organized with respect to one another. Because it concerns probability mass rather than supports, it covers full-dimensional and discrete distributions as well. Existing evidence for hierarchy concerns learned features or fitted models, where it can reflect a training objective or an architecture as much as the data. A test on the data distributions, made without fitting a model, shows before any model is trained whether finer labels reveal new variation that coarser labels organize better than chance, at which scales, and where this fails.
+
+\section{Testing one relation at a time}
+
+A hierarchy is a sequence of nested labels, from a constant root label to the finest labels. Each relation links the classes of one level, the parents, with the classes of the next level, the children. The supplied hierarchies come with the data and are fixed before any distance is measured: the CIFAR-100 superclasses, WordNet paths for ImageNet-1k and ImageNet-R, the Amazon Reviews 2023 Electronics categories, the DBpedia ontology, the manufacturers, families, and variants of FGVC-Aircraft, the languages, digits, and speakers of Spiking Heidelberg Digits (SHD) and its raw recordings (HD audio), and the activities and participants of Capture-24 wrist accelerometry.
+
+The energy distance is a metric on distributions, computed from pairwise sample distances without a density model or tuning, and it is exactly decomposable across the levels of a hierarchy. At each relation, it splits the variation among the child distributions into a part already resolved by the parents and a part that first appears at the children. Table~1 lists the quantities reported for each relation.
+
+\begin{tabular}{@{}ll@{}}
+\toprule
+Quantity & Meaning \\
+\midrule
+$V$ & variation among the child distributions \\
+$F$ & innovation fraction: share of that variation that is new at the children \\
+$A$ & adjusted parent organization: organization beyond the average random hierarchy \\
+acc. & nearest-parent accuracy: fraction of children nearest to their own parent \\
+\bottomrule
+\end{tabular}
+
+A random hierarchy reassigns the children of a relation to parents uniformly at random while keeping the number of children of every parent. Adjusted parent organization is zero for the random expectation and one when siblings have identical distributions; algebraically, it is the degrees-of-freedom-adjusted $R^2$ of a categorical parent factor. The hypothesis requires that the children reveal new variation and that the supplied parents organize it. The first holds whenever the child distributions differ, so its empirical content is the size of $F$. The second is tested: a one-sided permutation test rejects at \q{$p$~\textless{}~0.01} when $A$ of the supplied hierarchy exceeds the 99th percentile of $A$ over 2,000 random hierarchies with the same group sizes. A relation that passes shows \emph{structured refinement}, and a hierarchy with at least two such relations shows \emph{multiscale conditional refinement}, the distributional form of the hypothesis.
+
+All pairwise energy distances are unbiased U-statistics on disjoint, leaf-balanced blocks of observations, averaged over blocks. Every child distribution at a relation receives equal weight, because the object of study is variation among class distributions, not among observations. Approximate 95\% intervals for $A$ come from a stratified delete-one jackknife over observations.
+
+\section{Main results}
+
+Structured refinement holds in 18 of the 22 relation--representation pairs, in raw inputs and in pretrained representations (DINOv2-L, Qwen3-Embedding-4B, HuBERT-base, and harnet10). Five datasets are organized at two successive relations: ImageNet-1k and ImageNet-R in DINOv2-L, FGVC-Aircraft in 32-by-32 RGB, Amazon Reviews in Qwen3-Embedding-4B, and DBpedia in both hashed word counts and Qwen3-Embedding-4B. With 20,000 random hierarchies, every passing $p$-value is at most 0.0008, below the Bonferroni threshold of 0.0018 for the 28 reported relations, so no conclusion depends on the number of tests.
+
+\publicationfigure[\linewidth]
+  {figures/hierarchical-data-hypothesis-profiles.png}{/work/hierarchical-data-hypothesis-profiles.png}
+  {Dot plot of innovation fraction, adjusted parent organization, and absolute variation for 22 relations, next to the supplied organization against the range of random hierarchies.}
+  {Refinement profiles. Left: innovation fraction $F$, adjusted parent organization $A$ with approximate 95\% leaf-stratified observation-jackknife intervals, and absolute distribution variation $V$ for every relation. Right: the atypicality test, $A$ of the supplied hierarchy against 2,000 random hierarchies with the same group sizes (mean, which is zero, to 99th percentile; independent draw).}
+
+Neither nested clusters nor a flat union of classes describes the typical relation: nested clusters would add little new variation ($F$ near zero), and a flat union would leave it unorganized ($A$ near zero). In 15 of the 22 pairs, $F$ is 0.25 to 0.69 with positive $A$: most variation among the children is new, and the parent still organizes it.
+
+\subsection{Each scale adds and organizes variation differently}
+
+ImageNet-R passes at both WordNet relations in DINOv2-L, with $z(A)$ of 3.1 and 6.4 among random hierarchies; at the class/middle relation, the nearest-parent accuracy is 0.46 against a random 99th percentile of 0.08. FGVC-Aircraft also passes at two scales but allocates its variation differently: most new variation appears at the coarser relation \q{($F$~=~0.255} against 0.038), while families organize their variants more strongly than manufacturers organize their families \q{($A$~=~0.874} against 0.561).
+
+\subsection{Where the test fails}
+
+The failures show why innovation and organization are separate concepts. In SHD, speakers introduce substantial variation that is organized within words \q{($F$~=~0.633}, \q{$A$~=~0.312}, \q{$z(A)$~=~37.2}). Words account for nearly all variation visible under the language attribute \q{($F$~=~0.984}), but language provides no more organization than a random split: \q{$A$~=~\minus{}0.039} lies at the 4th percentile of all random splits of the same sizes, and only 4 of 20 words are closer to their own language than to the other (random splits: 49\% on average). The raw recordings of the same corpus, represented by HuBERT, give the same result: speakers are organized within digits \q{($z(A)$~=~106.5}), and language organizes nothing \q{($A$~=~\minus{}0.007}, \q{$z(A)$~=~\minus{}0.3}).
+
+Capture-24 separates two parents of the same distributions, each of which is one participant performing one activity. Activity organizes them \q{($A$~=~0.806}, \q{$z(A)$~=~274.6}), but participant identity organizes them less than a random grouping does \q{($A$~=~\minus{}0.108}, \q{$z(A)$~=~\minus{}8.2}). The coarse Amazon relation in hashed counts also fails \q{($p$~=~0.08}), although its nearest-parent accuracy exceeds that of random hierarchies.
+
+\subsection{Representations}
+
+The profile is a property of the chosen representation, and the test registers organization of any origin. Raw inputs are already organized on CIFAR-100, ImageNet-1k, Aircraft, and Amazon, largely through colour: a 64-bin colour histogram reaches \q{$z(A)$~=~15.8} on CIFAR-100, against 12.8 for RGB. Passing the test therefore does not identify the source of the organization, but its strength separates the sources: at block 20 of DINOv2-L, $z(A)$ exceeds its value in raw pixels, the colour histogram, and a randomly initialized network in all seven image relations. DINOv2 was trained without labels, so this organization arises without supervision by the hierarchy.
+
+\subsection{All relations}
+
+Table~2 gives $F$ and $A$ with its 95\% jackknife interval, and $z(A)$, the position of $A$ among 2,000 random hierarchies. A relation passes when the permutation test on $A$ gives \q{$p$~\textless{}~0.01.}
+
+\begin{tabular}{@{}llrlrl@{}}
+\toprule
+Data and representation & Child / parent & $F$ & $A$ [95\% CI] & $z(A)$ & Pass \\
+\midrule
+CIFAR-100 pixels & class / superclass & .529 & .346 [.324, .368] & 9.6 & yes \\
+CIFAR-100 DINOv2-L & class / superclass & .670 & .171 [.169, .173] & 35.3 & yes \\
+ImageNet-1k DINOv2-L & middle / coarse & .566 & .086 [.079, .092] & 3.9 & yes \\
+ImageNet-1k DINOv2-L & class / middle & .606 & .124 [.121, .127] & 16.9 & yes \\
+Amazon counts & middle / coarse & .690 & .090 [.050, .130] & 1.4 & no \\
+Amazon counts & category / middle & .502 & .323 [.288, .358] & 9.1 & yes \\
+Amazon Qwen3-4B & middle / coarse & .524 & .309 [.301, .318] & 7.8 & yes \\
+Amazon Qwen3-4B & category / middle & .412 & .444 [.436, .453] & 24.6 & yes \\
+DBpedia counts & middle / coarse & .739 & .164 [.152, .176] & 8.1 & yes \\
+DBpedia counts & class / middle & .478 & .301 [.288, .313] & 12.8 & yes \\
+DBpedia Qwen3-4B & middle / coarse & .748 & .154 [.150, .158] & 11.3 & yes \\
+DBpedia Qwen3-4B & class / middle & .431 & .369 [.365, .374] & 31.9 & yes \\
+Aircraft RGB & family / maker & .255 & .561 [.505, .617] & 5.1 & yes \\
+Aircraft RGB & variant / family & .038 & .874 [.795, .953] & 4.5 & yes \\
+SHD Hellinger & word / language & .984 & \minus.039 [\minus.042, \minus.036] & \minus1.1 & no \\
+SHD Hellinger & speaker / word & .633 & .312 [.305, .319] & 37.2 & yes \\
+ImageNet-R DINOv2-L & middle / coarse & .447 & .121 [.104, .137] & 3.1 & yes \\
+ImageNet-R DINOv2-L & class / middle & .368 & .159 [.144, .173] & 6.4 & yes \\
+HD audio HuBERT & digit / language & .954 & \minus.007 [\minus.009, \minus.004] & \minus0.3 & no \\
+HD audio HuBERT & speaker / digit & .421 & .542 [.537, .548] & 106.5 & yes \\
+Capture-24 harnet10 & cell / participant & .920 & \minus.108 [\minus.111, \minus.106] & \minus8.2 & no \\
+Capture-24 harnet10 & cell / activity & .192 & .806 [.801, .811] & 274.6 & yes \\
+\bottomrule
+\end{tabular}
+
+\section{What the organization means for learning}
+
+\subsection{Errors follow the organization of the data}
+
+The profile is computed without any learner. To test whether it predicts learner behaviour, every class of the 15 relations measured in pretrained representations is split into thirds: one third to compute the profile, one to train a multinomial logistic-regression probe on the leaf labels, and one to test it. Wherever the test passes, the probe's errors stay within the parent more often than chance. For example, 34\% of ImageNet-1k DINOv2-L errors fall within the true middle-level parent, against 1\% by chance. Where the test finds no organization, the errors barely follow the hierarchy: in Capture-24, 1.6\% of the errors stay with the true participant against 0.6\% by chance, while 49\% stay with the true activity against 14\%, for the same probe and the same errors. Across the 15 pairs, $z(A)$ predicts the probe's within-parent excess (Spearman 0.73, \q{$p$~=~0.002}) and how much milder than chance its errors are (0.65, \q{$p$~=~0.009}), also after controlling for probe accuracy; probe accuracy alone does not (0.16 and 0.24).
+
+\publicationfigure[\linewidth]
+  {figures/hierarchical-data-hypothesis-errors.png}{/work/hierarchical-data-hypothesis-errors.png}
+  {Two scatter plots of classifier error statistics against the atypicality of the supplied hierarchy for 15 relations.}
+  {The organization of the data predicts where and how badly a standard classifier errs. Each point is one of 15 relation--representation pairs in pretrained representations; $z(A)$ is computed without any learner on one third of the data, and the errors are those of a linear probe trained and tested on the other two thirds. (a) Share of errors that stay within the true parent, minus its chance level (95\% bootstrap intervals over children). (b) Severity of the errors, counted in levels to the lowest common ancestor, below its chance level. The chance levels depend only on the tree.}
+
+\subsection{Repairing a representation with the energy distance}
+
+Energy agglomerative clustering extracts a hierarchy from a representation using the same distribution distances on which the profile is computed. Cut to the sizes of the WordNet levels, the extracted hierarchy places a growing share of held-out ImageNet-1k images in their own WordNet middle node across depth in every pretrained image model measured, except in the last blocks of DINOv2-L, where the share falls from .329 at block 23 to .294 at the output. Fine-tuning these blocks with a softmax objective over point-to-distribution energy distances, which uses neither labels nor the WordNet hierarchy apart from the number of its nodes at each level, raises the share to .346, above DINOv2-L's own block-23 value. Parent organization rises on ImageNet-1k ($A$ from .126 to .276) and on CIFAR-100, which fine-tuning never sees (.172 to .329), while the linear probe stays at .80. In MoCo v3-B and CLIP-B, whose agreement with WordNet does not fall in the last blocks, the same objective raises $A$ on ImageNet-1k but adds no agreement.
+
+\subsection{Where hierarchical self-supervised learning helps}
+
+HCSC and HIRL impose a learned hierarchy on a representation and use neither labels nor the supplied hierarchy. Both were fine-tuned on six dataset--encoder pairs and compared with MoCo v2 alone. At the three parents the test rejects (spoken-digit language in HuBERT and WavLM, Capture-24 participant), the gain of a 1-shot readout of the parent lies within the range of size-matched random groupings of the same children or, once, just below it. Where the test passes, the 1-shot gain exceeds every random grouping at six of eight parents for both methods, suggesting that the test is a necessary criterion but not sufficient by itself. Leaf accuracy follows the same pattern: it rises by 0.3 to 1.7 points on the three datasets whose supplied relations all pass and changes by \minus0.1 to 0.2 points on the three with a failing relation.
+
+\section{Implications}
+
+Organization favors sharing information among descendants, whereas new variation requires specialization. The test therefore indicates, before any model is trained, at which levels of a taxonomy hierarchy-aware losses, hierarchical evaluation, coarse-label fallbacks, or generative models that share parameters along a tree are warranted, and where a named attribute should not be treated as a parent. For dataset design, a supplied hierarchy can help learners quantifiably, but not unconditionally.
+
+\begin{publicationcitation}
+\begin{verbatim}
+@misc{wiest2026hierarchical,
+  author = {Wiest, Davide},
+  title  = {The Hierarchical Data Hypothesis: Testing
+            Coarse-to-Fine Organization in Data Distributions},
+  year   = {2026},
+  url    = {https://axym.org/work/hierarchical-data-hypothesis/}
+}
+\end{verbatim}
+\end{publicationcitation}
+
+\end{document}

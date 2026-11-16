@@ -176,6 +176,17 @@
 .latex-publication .publication-link-email::before { content: "✉️"; }
 .latex-publication .publication-link-email::after { content: none; }
 
+/* Inline quantities that should not break across lines. */
+.latex-publication .publication-nowrap {
+  white-space: nowrap;
+}
+
+/* Entries announced but not available yet (\publicationarxivpending). */
+.latex-publication .publication-link-disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
 /* GitHub mark (Simple Icons, CC0), drawn in the button's text color. */
 .latex-publication .publication-link-github::before {
   display: inline-block;

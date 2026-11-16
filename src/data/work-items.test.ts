@@ -41,6 +41,13 @@ describe("resourceLinks", () => {
       { kind: "github", label: "Code", url: "https://github.com/Axym-Labs/iewc" },
     ]);
   });
+
+  it("skips disabled entries, which have no link", () => {
+    const content = "<nav class='publication-links'><span class='publication-link publication-link-arxiv publication-link-disabled' title='Not available yet'>arXiv</span><a class='publication-link publication-link-github' href='https://github.com/Axym-Labs/iewc'>Code</a></nav>";
+    expect(resourceLinks({ content })).toEqual([
+      { kind: "github", label: "Code", url: "https://github.com/Axym-Labs/iewc" },
+    ]);
+  });
 });
 
 describe("updateBibtex", () => {

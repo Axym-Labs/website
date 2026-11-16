@@ -11,7 +11,8 @@ const COPY_BUTTON =
  *   shells reject; inside <pre> ordinary spaces already keep the layout.
  * - verbatim blocks get a copy button (handled by LatexContent).
  * - action buttons get the icon of the platform they link to, and links-line
- *   entries (\makepublicationlinks) the icon of their kind.
+ *   entries (\makepublicationlinks), including disabled ones, the icon of
+ *   their kind.
  * - section headings get stable ids for the table of contents.
  * - booktabs \cmidrule leaves a stray <span> inside <tr> and a row of empty
  *   cells, whose column span tex4ht gets wrong; the row is marked and hidden.
@@ -29,7 +30,7 @@ export function preparePublicationHtml(html: string): string {
       const icon = iconForHref(href);
       return icon ? `${match}${platformIconSvg(icon, "publication-action-icon")}` : match;
     })
-    .replace(/(<a class=['"]publication-link publication-link-([a-z]+)['"][^>]*>)/g, (_match, open: string, kind: string) =>
+    .replace(/(<(?:a|span) class=['"]publication-link publication-link-([a-z]+)(?: publication-link-disabled)?['"][^>]*>)/g, (_match, open: string, kind: string) =>
       `${open}${linkIconHtml(kind)}`,
     )
     .replace(/<(h[23]) class=['"]((?:like)?(?:sub)?sectionHead)['"]>([\s\S]*?)<\/\1>/g, (_match, tag: string, cls: string, inner: string) =>

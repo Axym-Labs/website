@@ -1,0 +1,117 @@
+%---
+% slug: prepretraining-not-ready-yet
+% title: Prepretraining is not ready yet
+% category: update
+% eyebrow: RESEARCH UPDATE
+% summary: We tested six published synthetic curricula for language-model prepretraining under one Pythia-410M protocol with three seeds. Five ended with higher evaluation loss than random initialization, and none matched an equal natural-text warmup.
+% author: Davide Wiest
+% draft: false
+% listed: true
+% date: 2026-07-10
+%---
+\documentclass[11pt]{article}
+\usepackage{publication-web}
+\newcommand{\minus}{\ifdefined\HCode\HCode{&\#x2212;}\else\textminus\fi}
+\begin{document}
+
+\publicationtitle{Prepretraining is not ready yet}
+\publicationauthors{Davide Wiest}
+\publicationaffiliations{Axym Labs}
+
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
+
+Prepretraining trains a language model on synthetic or abstract data before it continues on natural text. Its transfer claim is that the synthetic stage yields a better initialization than either random initialization or the same upstream training budget spent on natural text. We tested this claim for six synthetic curricula from the literature under one shared protocol, built on the \href{https://github.com/Axym-Labs/pptrain}{\texttt{pptrain}} library, with a Pythia-410M architecture and three seeds.
+
+Five of the six curricula ended with a higher mean evaluation loss than random initialization, and every curriculum ended with a higher mean loss than the natural-text warmup. Only Simpler tasks finished below random initialization, by 0.16\%, and the evaluated reasoning and algorithmic probes showed no improvement from synthetic initialization. Under this protocol, therefore, none of the tested curricula is yet a better use of upstream compute than natural text.
+
+\section{The claim under test}\label{claim}
+
+A synthetic curriculum is useful for language modeling only if it passes two comparisons. Against random initialization, the synthetic stage has to lower the loss that the same downstream training reaches, which asks whether it helps at all. Against a natural-text warmup of equal length, it has to beat spending the same upstream updates on text, which asks whether synthetic data is the better use of that budget.
+
+The six curricula cover the main families proposed so far: neural cellular automaton (NCA) sequences \cite{lee2026}, LIME reasoning tasks \cite{wu2021}, simpler symbolic transformations \cite{wu2022}, procedural programs and Dyck languages \cite{jiang2026}, and synthetic summarization \cite{krishna2021}.
+
+\section{Setup}\label{setup}
+
+The model used the Pythia-410M architecture and tokenizer with randomly initialized weights and a 12,288-token context, and it trained on streamed public text datasets with disjoint warmup, training, and evaluation slices \cite{biderman2023}. For every curriculum and seed, we ran three conditions that share the same downstream phase: downstream training from random initialization, synthetic upstream training followed by downstream training, and a natural-text upstream phase followed by downstream training. Because all six curricula run on this common public-data protocol, the comparison is a proxy and does not reproduce each source paper's corpus and training budget exactly. Each curriculum used a paper-derived synthetic preset, namely \texttt{paper\_web\_text} (NCA), \texttt{paper\_benchmark\_100k} (LIME), \texttt{paper\_unary\_core\_100k} (Simpler tasks), \texttt{paper\_set\_len64} (Procedural), \texttt{paper\_k64} (Dyck), and \texttt{paper\_ourtasks\_subset\_100k} (Summarization).
+
+A comparison counts as supported or contradicted only when the mean moves in the corresponding direction and at least two of the three seeds agree with it; every other outcome counts as inconclusive.
+
+\section{Downstream loss}\label{loss}
+
+In the downstream loss curves of Figure 1, synthetic initialization starts from roughly the same loss as random initialization, because the input embeddings and the output layer are reinitialized at transfer, and after the first few steps it stays above the random-initialization curve for every curriculum except Simpler tasks, which tracks it closely. The natural-text warmup starts lower and stays lowest throughout.
+
+\publicationfigure[\linewidth]
+  {figures/prepretraining-not-ready-yet-loss-curves.png}
+  {/work/prepretraining-not-ready-yet/loss-curves.svg}
+  {Six panels of downstream training loss against step for random init, text warmup, and synthetic init}
+  {Downstream training loss for each curriculum, logged every 10 steps. Lines show the mean over three seeds and bands the range across seeds. The upstream phase of the two warm-started conditions precedes step 0 and is not shown. Each panel spans 3 nats; the first few hundred steps lie above it.}
+
+Table 1 reports the mean final evaluation losses over three seeds, where lower loss is better and positive gaps favor synthetic initialization.
+
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Task & Random init & Synthetic init & Text warmup & vs.\ random & vs.\ text \\
+\midrule
+NCA & 6.232 & 6.779 & 6.044 & \minus{}8.78\% & \minus{}12.17\% \\
+LIME & 5.134 & 6.032 & 4.713 & \minus{}17.60\% & \minus{}27.99\% \\
+Simpler tasks & 6.237 & 6.227 & 6.040 & +0.16\% & \minus{}3.08\% \\
+Procedural & 6.236 & 6.540 & 6.042 & \minus{}4.87\% & \minus{}8.24\% \\
+Dyck & 6.242 & 6.583 & 6.050 & \minus{}5.46\% & \minus{}8.79\% \\
+Summarization & 5.828 & 6.623 & 5.559 & \minus{}13.66\% & \minus{}19.14\% \\
+\bottomrule
+\end{tabular}
+
+The per-seed gaps in Figure 2 agree with these means. Against random initialization, all three seeds favor the baseline for five curricula, whereas the three Simpler-tasks seeds stay within 0.4\% of it, and against the natural-text warmup every seed of every curriculum favors the warmup.
+
+\publicationfigure[0.92\linewidth]
+  {figures/prepretraining-not-ready-yet-transfer-gaps.png}
+  {/work/prepretraining-not-ready-yet/transfer-gaps.svg}
+  {Dot plot of percentage gaps in final evaluation loss for six curricula against two baselines}
+  {Percentage reduction in final evaluation loss from synthetic initialization, against random initialization and against the natural-text warmup. Small circles are seeds, large dots their mean; positive values favor synthetic initialization.}
+
+\section{Claim outcomes and representations}\label{claims}
+
+Table 2 aggregates every comparison under the three-seed rule, marking each claim as supported (yes), contradicted (no), or inconclusive (unclear). From left to right, the columns test whether synthetic initialization beats random initialization, converges faster than it, beats the text warmup, transfers to reasoning or algorithmic probes, reproduces the source paper's ordering of two synthetic presets, and comes close to the text warmup; a dash marks a claim that was not evaluated for that curriculum, and the last two apply only to Summarization. The loss comparisons are decisive, whereas the reasoning and algorithmic probes remain inconclusive because synthetic and random initialization reach identical probe accuracy on every seed.
+
+\begin{tabular}{@{}llllllll@{}}
+\toprule
+Task & Random & Faster & Text & Reasoning & Algorithmic & Preset & Near text \\
+\midrule
+NCA & no & -- & no & unclear & -- & -- & -- \\
+LIME & no & -- & no & unclear & -- & -- & -- \\
+Simpler tasks & yes & unclear & no & -- & -- & -- & -- \\
+Procedural & no & -- & no & -- & unclear & -- & -- \\
+Dyck & no & -- & no & -- & unclear & -- & -- \\
+Summarization & no & -- & no & -- & -- & yes & no \\
+\bottomrule
+\end{tabular}
+
+NCA shows the clearest failure, with a held-out next-patch token accuracy of 0.0024\% and a mean downstream cross-entropy of 6.779, compared with 6.232 from random initialization and 6.044 after natural-text warmup. The mean effective rank of its middle-layer activations was 4.6, compared with 48.4 from random initialization. Since the generator passed the library's reference-parity fixtures, the failure cannot be attributed to the generator outputs those fixtures cover.
+
+\publicationfigure[0.92\linewidth]
+  {figures/prepretraining-not-ready-yet-effective-rank.png}
+  {/work/prepretraining-not-ready-yet/effective-rank.svg}
+  {Dot plot of activation effective rank for three conditions and six curricula}
+  {Effective rank of middle-layer activations on held-out text after downstream training, computed as the exponentiated entropy of the normalized singular values. Small circles are seeds, large dots their mean.}
+
+\section{What the results mean}\label{meaning}
+
+A loss of network plasticity during synthetic training, followed by the distribution shift to natural text, could produce the observed ordering. Related work documents harmful warm starts, loss of plasticity, and feature distortion during shifted fine-tuning \cite{ash2020,dohare2023,kumar2022}. This experiment, however, does not distinguish that hypothesis from other causes.
+
+Under this Pythia-410M public-data protocol, none of the six synthetic curricula produced a lower mean final loss than natural-text prepretraining, and five produced a higher mean loss than random initialization. Future transfer claims should therefore report all three checks, namely the comparison with random initialization, the comparison with an equal natural-text upstream phase, and performance on the synthetic task itself.
+
+\begin{thebibliography}{99}
+\bibitem{lee2026} Lee et al. \href{https://arxiv.org/abs/2603.10055}{Training Language Models via Neural Cellular Automata}. arXiv:2603.10055, 2026.
+\bibitem{wu2021} Wu et al. \href{https://proceedings.mlr.press/v139/wu21c.html}{LIME: Learning Inductive Bias for Primitives of Mathematical Reasoning}. \textit{ICML}, 2021.
+\bibitem{wu2022} Wu et al. \href{https://arxiv.org/abs/2206.10139}{Insights into Pre-training via Simpler Synthetic Tasks}. arXiv:2206.10139, 2022.
+\bibitem{jiang2026} Jiang et al. \href{https://arxiv.org/abs/2601.21725}{Procedural Pretraining: Warming Up Language Models with Abstract Data}. arXiv:2601.21725, 2026.
+\bibitem{krishna2021} Krishna et al. \href{https://aclanthology.org/2021.findings-emnlp.273/}{Does Pretraining for Summarization Require Knowledge Transfer?} \textit{Findings of EMNLP}, 2021.
+\bibitem{biderman2023} Biderman et al. \href{https://arxiv.org/abs/2304.01373}{Pythia: A Suite for Analyzing Large Language Models Across Training and Scaling}. \textit{ICML}, 2023.
+\bibitem{ash2020} J. T. Ash and R. P. Adams. \href{https://arxiv.org/abs/1910.08475}{On Warm-Starting Neural Network Training}. \textit{NeurIPS}, 2020.
+\bibitem{dohare2023} Dohare et al. \href{https://arxiv.org/abs/2306.13812}{Loss of Plasticity in Deep Continual Learning}. arXiv:2306.13812, 2023.
+\bibitem{kumar2022} Kumar et al. \href{https://arxiv.org/abs/2202.10054}{Fine-Tuning can Distort Pretrained Features and Underperform Out-of-Distribution}. \textit{ICLR}, 2022.
+\end{thebibliography}
+
+\end{document}

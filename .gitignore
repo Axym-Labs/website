@@ -27,3 +27,6 @@ dist-ssr
 src/generated/
 public/publication.css
 public/fonts/
+
+# Python bytecode from scripts/figures
+__pycache__/

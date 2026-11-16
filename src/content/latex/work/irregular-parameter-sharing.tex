@@ -1,0 +1,114 @@
+%---
+% slug: irregular-parameter-sharing
+% title: Parameter sharing works best across width
+% category: update
+% eyebrow: RESEARCH UPDATE
+% summary: We compared nine ways of tying 256 MLP positions of a 16-layer Transformer to 128 shared blocks. Tying parallel MLP chunks within each layer, while keeping layers separate, gave the lowest validation loss across three seeds.
+% author: Davide Wiest
+% draft: false
+% listed: true
+% date: 2026-06-28
+%---
+\documentclass[11pt]{article}
+\usepackage{publication-web}
+\newcommand{\minus}{\ifdefined\HCode\HCode{&\#x2212;}\else\textminus\fi}
+\begin{document}
+
+\publicationtitle{Parameter sharing works best across width}
+\publicationauthors{Davide Wiest}
+\publicationaffiliations{Axym Labs}
+
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
+
+Hard parameter sharing assigns one parameter block to several computational positions, and its topology is the assignment of positions to blocks. In a 16-layer, width-1024 Transformer language model, every shared variant we tested assigns 256 layer-by-width positions to 128 exact MLP blocks, so that each block is used twice. Across three seeds, cycle-width sharing had the lowest mean validation cross-entropy among the nine tested assignments, 4.5043, compared with 4.5645 for balanced random sharing and 4.5279 for maximum-depth-distance sharing. The observed ordering therefore favors keeping separate parameters across depth and tying parallel MLP chunks within each layer.
+
+\section{The question}\label{question}
+
+Universal Transformers apply one transition recurrently, ALBERT shares parameters across depth, and later work compares depth-sharing schedules \cite{dehghani2018,lan2019,takase2021}. All of these designs reuse parameters along depth, whereas we ask whether a fixed number of exact MLP blocks should instead be reused across hidden-width chunks, and how both options compare with irregular assignments that mix the two axes.
+
+\section{Sharing topologies}\label{topologies}
+
+Each of the 16 layer MLPs is split into 16 hidden-width chunks. A schedule assigns each position \((\ell,c)\) to one of \(K=128\) learned blocks,
+
+\[
+a(\ell,c)\in\{0,\ldots,127\},
+\qquad
+\mathrm{MLP}_{\ell}(x)
+=\sum_{c=0}^{15}
+\phi\!\left(xW^{(1)}_{a(\ell,c)}\right)
+W^{(2)}_{a(\ell,c)}.
+\]
+
+The comparison covers sequence and cycle assignments along depth, sequence and cycle assignments along width, a regular diagonal assignment, balanced random sharing, maximum-depth-distance sharing, and the best of a fixed search over 12 random layouts. The unshared dense MLP serves as the practical baseline, while balanced random sharing serves as the parameter-matched baseline. The search ranks layouts after 800 proxy steps and retrains the selected layout from each of the three final seeds.
+
+\publicationfigure[\linewidth]
+  {figures/irregular-parameter-sharing-sharing-topologies.png}
+  {/work/irregular-parameter-sharing/sharing-topologies.svg}
+  {Nine 16 by 16 grids of layer and MLP-chunk positions, with curves linking the two positions that share each block}
+  {The nine assignments on the 16-layer by 16-chunk grid, ordered by mean validation cross-entropy. Each dot is one position, and each curve links the two positions that use the same block; purple curves tie chunks within one layer and grey curves tie chunks across layers. Balanced random sharing draws a new layout per seed, and the panel shows the layout of seed 0.}
+
+\section{Training setup}\label{setup}
+
+The decoder-only model had 16 layers, width 1024, 16 attention heads, sequence length 256, GELU MLPs, and tied output embeddings. Each final run used 5,000 AdamW steps, 100M GPT-2-tokenized OpenWebText training tokens, 2M validation tokens, and seeds 0--2 \cite{radford2019,gokaslan2019}. Code and result files are available in \href{https://github.com/Axym-Labs/irregular-parameter-sharing}{\texttt{Axym-Labs/irregular-parameter-sharing}}.
+
+\section{Results}\label{results}
+
+Table 1 lists the final validation cross-entropy as mean and standard deviation over three seeds. Every shared variant uses 128 MLP blocks and 67.1M MLP-bank parameters, whereas the unshared model uses 256 blocks and 134.2M parameters.
+
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Variant & Tied across & Validation CE & Delta vs random \\
+\midrule
+Unshared dense MLP & none & 4.5928 \textpm{} 0.0384 & +0.0284 \\
+Sequence depth & depth & 4.5723 \textpm{} 0.0781 & +0.0078 \\
+Cycle depth & depth & 4.5322 \textpm{} 0.0733 & \minus{}0.0322 \\
+Sequence width & width & 4.5621 \textpm{} 0.0366 & \minus{}0.0023 \\
+Cycle width & width & \textbf{4.5043 \textpm{} 0.0537} & \textbf{\minus{}0.0601} \\
+Diagonal depth-width & depth and width & 4.5504 \textpm{} 0.0086 & \minus{}0.0140 \\
+Balanced random & depth and width & 4.5645 \textpm{} 0.0601 & 0.0000 \\
+Maximum depth distance & depth and width & 4.5279 \textpm{} 0.0243 & \minus{}0.0366 \\
+Best-of-12 random & depth and width & 4.6057 \textpm{} 0.0523 & +0.0413 \\
+\bottomrule
+\end{tabular}
+
+Cycle-width sharing had a mean cross-entropy 0.0601 below balanced random sharing and 0.0885 below the unshared model within this training budget. Maximum-depth-distance sharing was 0.0366 below balanced random sharing, whereas the layout selected by the 800-step random search ended 0.0413 above it. The spread across seeds is of the same order as these differences, as the per-seed values show.
+
+\publicationfigure[0.92\linewidth]
+  {figures/irregular-parameter-sharing-final-validation-ce.png}
+  {/work/irregular-parameter-sharing/final-validation-ce.svg}
+  {Dot plot of final validation cross-entropy for nine sharing variants with three seeds each}
+  {Validation cross-entropy after 5,000 steps. Small circles are seeds, large dots their mean, and the dashed line marks the balanced random mean.}
+
+Over training, cycle-width sharing has the lowest mean validation cross-entropy at every evaluation step, and its margin over balanced random sharing stays between 0.058 and 0.081 nats.
+
+\publicationfigure[\linewidth]
+  {figures/irregular-parameter-sharing-delta-vs-random-curves.png}
+  {/work/irregular-parameter-sharing/delta-vs-random-curves.svg}
+  {Line plot of validation cross-entropy minus balanced random sharing against training step for eight variants}
+  {Validation cross-entropy minus that of balanced random sharing with the same seed, averaged over three seeds and evaluated every 500 steps. Negative values denote lower loss.}
+
+\section{Interpreting the width-axis result}\label{why-width}
+
+Cycle-width sharing keeps a separate block bank in each layer,
+
+\[
+a_{\mathrm{width\ cycle}}(\ell,c)=8\ell+(c\bmod 8),
+\]
+
+so chunks \(c\) and \(c+8\) use the same block within one layer, and no block is used at two depths. The number of learned blocks nevertheless matches every other shared variant.
+
+Transformer depth indexes successive residual-stream transformations, so a block reused across layers operates on states produced at different stages of the computation. The MLP chunks within one layer instead contribute in parallel to the same residual update. Tying width chunks therefore reduces the number of learned blocks without requiring one block to operate at several depths.
+
+Among the two regular depth schedules, cycle-depth sharing has a lower mean loss than sequence-depth sharing. Maximum-depth-distance sharing also has a lower mean loss than balanced random sharing, while cycle-width sharing has the lowest mean of all tested assignments. These data support a scoped design hypothesis: when exact MLP blocks must be tied under this budget, preserve layer identity before width-chunk identity.
+
+\begin{thebibliography}{99}
+\bibitem{dehghani2018} Dehghani et al. \href{https://arxiv.org/abs/1807.03819}{Universal Transformers}. \textit{ICLR}, 2019.
+\bibitem{lan2019} Lan et al. \href{https://arxiv.org/abs/1909.11942}{ALBERT: A Lite BERT for Self-supervised Learning of Language Representations}. \textit{ICLR}, 2020.
+\bibitem{takase2021} S. Takase and S. Kiyono. \href{https://arxiv.org/abs/2104.06022}{Lessons on Parameter Sharing across Layers in Transformers}. arXiv:2104.06022, 2021.
+\bibitem{radford2019} Radford et al. \href{https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf}{Language Models are Unsupervised Multitask Learners}. OpenAI, 2019.
+\bibitem{gokaslan2019} A. Gokaslan and V. Cohen. \href{https://skylion007.github.io/OpenWebTextCorpus/}{OpenWebText Corpus}. 2019.
+\end{thebibliography}
+
+\end{document}

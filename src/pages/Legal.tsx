@@ -68,16 +68,15 @@ const Legal = () => (
     <p>
       If you write to contact@axym.org or another axym.org address, we process your address, your message, and the metadata of the email to answer you and
       for any follow-up (Art. 6 (1) (b) GDPR where the message concerns a contract or its preparation, otherwise Art. 6 (1) (f) GDPR, our legitimate
-      interest in answering inquiries). Emails to axym.org addresses are forwarded to and stored in a Gmail account, so Google Ireland Limited, Gordon
-      House, Barrow Street, Dublin 4, Ireland, receives them as our email provider; see the{" "}
-      <a href="https://policies.google.com/privacy">Google privacy policy</a>. There is no fixed retention period: we keep emails as long as they are
-      needed for the conversation and its follow-up, and delete them earlier on request unless a legal obligation requires us to keep them.
+      interest in answering inquiries). Our email service provider stores and processes messages on our behalf. There is no fixed retention period:
+      we keep emails as long as they are needed for the conversation and its follow-up, and delete them on request unless a legal obligation requires
+      us to keep them.
     </p>
 
     <h3>Transfers outside the EU</h3>
     <p>
-      GitHub, Google, Hugging Face, and the networks behind jsDelivr may process data in the United States or other countries outside the EU. GitHub and
-      Google state that they participate in the EU-U.S. Data Privacy Framework, for which the European Commission has adopted an adequacy decision. For
+      The providers named above, as well as our email service provider, may process data in the United States or other countries outside the EU.
+      GitHub states that it participates in the EU-U.S. Data Privacy Framework, for which the European Commission has adopted an adequacy decision. For
       the other providers, the safeguards for such transfers, such as the EU standard contractual clauses, are described in their privacy policies.
     </p>
 

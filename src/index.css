@@ -44,6 +44,9 @@ All colors MUST be HSL.
     --ring: 252 69% 42%;
 
     --radius: 0.375rem;
+
+    --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-serif: "Source Serif 4 Variable", "Source Serif 4", Georgia, serif;
   }
 }
 
@@ -199,7 +202,7 @@ All colors MUST be HSL.
    overrides live here with higher specificity. */
 .publication-canvas .latex-publication {
   color: hsl(var(--foreground));
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   font-size: 1.0625rem;
   line-height: 1.66;
 }
@@ -226,7 +229,7 @@ All colors MUST be HSL.
 
 .publication-canvas .latex-publication .publication-title {
   max-width: 44rem;
-  font-family: "Newsreader", "P052", Georgia, serif;
+  font-family: var(--font-serif);
   font-size: clamp(2.2rem, 5vw, 3.35rem);
   font-weight: 400;
   letter-spacing: -0.018em;
@@ -249,7 +252,7 @@ All colors MUST be HSL.
 .publication-canvas .latex-publication h2,
 .publication-canvas .latex-publication h3,
 .publication-canvas .latex-publication h4 {
-  font-family: "Newsreader", "P052", Georgia, serif !important;
+  font-family: var(--font-serif) !important;
   font-weight: 400;
   letter-spacing: -0.01em;
   line-height: 1.18;
@@ -331,7 +334,7 @@ All colors MUST be HSL.
   display: inline;
   margin-right: 0.45rem;
   color: #3f21b6;
-  font-family: "Newsreader", "P052", Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 1.12em;
   font-style: italic;
   line-height: 1;
@@ -405,7 +408,7 @@ All colors MUST be HSL.
 }
 
 .publication-canvas .latex-publication .publication-link-glyph {
-  font-family: "Newsreader", Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 1.3em;
   font-style: italic;
   transform: translateY(-0.06em);
@@ -487,7 +490,7 @@ All colors MUST be HSL.
   border-radius: 999px;
   background: #fff;
   color: #3b3846;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1.2;
@@ -506,17 +509,17 @@ All colors MUST be HSL.
   outline-offset: 2px;
 }
 
-/* Hero landscape: fades out toward the headline. */
-.hero-landscape {
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 45%), linear-gradient(to bottom, #000 70%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 45%), linear-gradient(to bottom, #000 70%, transparent 100%);
+/* Hero field: fades out toward the headline. */
+.hero-field {
+  -webkit-mask-image: linear-gradient(to right, transparent 40%, #000 78%), linear-gradient(to bottom, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 40%, #000 78%), linear-gradient(to bottom, #000 72%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
 
 @media (max-width: 40rem) {
-  .hero-landscape {
-    opacity: 0.6;
+  .hero-field {
+    opacity: 0.45;
   }
 
   .publication-canvas .latex-publication .publication-code .verbatim {
@@ -585,4 +588,73 @@ All colors MUST be HSL.
 
 .publication-canvas .latex-publication table.tabular:not(:has(tr.hline)) tr:last-of-type td {
   border-bottom: 1.5px solid currentColor;
+}
+
+/* Text pages of the site (About, Contact, Legal). */
+.site-prose {
+  color: hsl(var(--foreground) / 0.82);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+.site-prose h2 {
+  margin: 3rem 0 0.9rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid hsl(var(--foreground) / 0.12);
+  color: hsl(var(--foreground));
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.site-prose h2:first-child {
+  margin-top: 0;
+}
+
+.site-prose h3 {
+  margin: 1.75rem 0 0.5rem;
+  color: hsl(var(--foreground));
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.site-prose p,
+.site-prose ul,
+.site-prose dl,
+.site-prose address {
+  margin: 0 0 1rem;
+}
+
+.site-prose address {
+  font-style: normal;
+}
+
+.site-prose ul {
+  padding-left: 1.2rem;
+  list-style: disc;
+}
+
+.site-prose li {
+  margin: 0.35rem 0;
+}
+
+.site-prose a {
+  color: #3f21b6;
+  text-decoration: underline;
+  text-decoration-color: rgb(63 33 182 / 30%);
+  text-underline-offset: 0.2em;
+}
+
+.site-prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+.site-prose .todo {
+  display: block;
+  margin: 0.25rem 0 1rem;
+  padding: 0.6rem 0.8rem;
+  border-left: 3px solid #b45309;
+  background: #fff7ed;
+  color: #7c2d12;
+  font-size: 0.92rem;
 }

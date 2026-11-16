@@ -86,18 +86,27 @@ for (const { attributes } of items) {
   fs.writeFileSync(path.join(routeDir, "index.html"), setHead(baseHtml, attributes, route));
 }
 
-const workDir = path.join(dist, "work");
-fs.mkdirSync(workDir, { recursive: true });
-fs.writeFileSync(path.join(workDir, "index.html"), baseHtml
-  .replace(/<title>.*?<\/title>/, "<title>Work | Axym Labs</title>")
-  .replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${workDescription}" />`)
-  .replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${origin}/work/" />`)
-  .replace(/<meta property="og:title"[^>]*>/, '<meta property="og:title" content="Work | Axym Labs" />')
-  .replace(/<meta property="og:description"[^>]*>/, `<meta property="og:description" content="${workDescription}" />`)
-  .replace(/<meta property="og:url"[^>]*>/, `<meta property="og:url" content="${origin}/work/" />`));
+// Site pages with their own head (direct 200 on GitHub Pages).
+const sitePages = [
+  { route: "/work/", title: "Work | Axym Labs", description: workDescription },
+  { route: "/about/", title: "About | Axym Labs", description: "Axym Labs is a small deep learning research group based in Darmstadt, Germany. It publishes papers, code, models, and data on continual, local, and task-agnostic learning, interpretability, and neuron simulation." },
+  { route: "/contact/", title: "Contact | Axym Labs", description: "How to reach Axym Labs: email for questions and collaboration, the correspondence address for papers, and Discord." },
+  { route: "/legal/", title: "Legal notice and privacy | Axym Labs", description: "Legal notice (Impressum) and privacy notice (Datenschutzerklärung) for axym.org." },
+];
+for (const page of sitePages) {
+  const dir = path.join(dist, page.route.slice(1));
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, "index.html"), baseHtml
+    .replace(/<title>.*?<\/title>/, `<title>${escapeHtml(page.title)}</title>`)
+    .replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${escapeHtml(page.description)}" />`)
+    .replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${origin}${page.route}" />`)
+    .replace(/<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${escapeHtml(page.title)}" />`)
+    .replace(/<meta property="og:description"[^>]*>/, `<meta property="og:description" content="${escapeHtml(page.description)}" />`)
+    .replace(/<meta property="og:url"[^>]*>/, `<meta property="og:url" content="${origin}${page.route}" />`));
+}
 
-const urls = ["/", "/work/", ...items.map(({ attributes }) => `/work/${attributes.slug}/`)];
+const urls = ["/", "/work/", ...items.map(({ attributes }) => `/work/${attributes.slug}/`), "/about/", "/contact/", "/legal/"];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((route) => `  <url><loc>${origin}${route}</loc></url>`).join("\n")}\n</urlset>\n`;
 fs.writeFileSync(path.join(dist, "sitemap.xml"), sitemap);
 
-console.log(`Prepared ${items.length + 1} static work routes, sitemap.xml, and api/work.json`);
+console.log(`Prepared ${items.length} work routes, ${sitePages.length} site pages, sitemap.xml, and api/work.json`);

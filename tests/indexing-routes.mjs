@@ -19,6 +19,9 @@ const routes = [
   "/work/marey/",
   "/work/irregular-parameter-sharing/",
   "/work/prepretraining-not-ready-yet/",
+  "/about/",
+  "/contact/",
+  "/legal/",
 ];
 
 const sitemap = fs.readFileSync(path.join(dist, "sitemap.xml"), "utf8");

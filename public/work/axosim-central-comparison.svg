@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="473.09pt" height="182.03pt" width="1892" height="728" viewBox="0 0 473.09 182.03">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1892" height="728" viewBox="0 0 473.09 182.03">
 <title>AxoSim and baseline comparison (light theme)</title>
 <desc>GRU Medium and Mamba Medium, three released Branch-ELM sizes, two released TCNs, and CoreNEURON; axes show inference throughput, dataset-relative voltage and subthreshold fidelity and Mean F1 0–5 ms, and history throughput. Axis mappings and measurements are documented in the technical report appendix.</desc>
 <defs>

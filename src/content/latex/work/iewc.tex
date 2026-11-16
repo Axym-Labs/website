@@ -6,7 +6,8 @@
 % summary: IEWC derives EWC from an explicit constraint that preserves learned behavior, separating EWC's loss-gradient weighting from parameter sensitivity. Its variants improve on EWC in classification, segmentation, and language. Regularizers derived from what a model should preserve thus give principled continual-learning penalties.
 % draft: false
 % date: 2026-07-15
-% rank: 1
+% rank: 2
+% cover_image: /work/covers/iewc.svg
 %---
 \documentclass[11pt]{article}
 \usepackage{publication-web}
@@ -25,23 +26,21 @@
   {Penalty surfaces comparing EWC with the outer product of loss gradients, uniform IEWC, and weighted IEWC.}
   {Each panel shows the continual-learning penalty over normalized directions for two representative samples. EWC (OPG) inherits sample weighting from output-loss-gradient scale; uniform IEWC removes this scale away from the damping regime, while residual-diversity weighting changes the aggregation measure as a separate design choice.}
 
-\publicationabstract{Elastic Weight Consolidation (EWC) is a widely used regularization-based technique for continual learning, protecting performance on old tasks with a quadratic penalty whose empirical Fisher is usually justified through probabilistic curvature. We instead introduce \emph{Continual Learning as an Optimization Constraint} (CLOC): new training must preserve chosen functionals of learned behavior. EWC's empirical Fisher is exactly the first-order form of this constraint when the preserved functional is each sample's loss. This derivation exposes a flaw: EWC implicitly weights each sample by the scale of its loss gradient, so well-fitted samples lose importance. EWC-DR observed this failure in classification; CLOC identifies its general cause. Improved Elastic Weight Consolidation (IEWC) penalizes output changes according to the first-order approximation of each old sample's loss level set, removing the weighting for any differentiable loss and output geometry, and prevents corrupt samples from dominating the importance matrix. Across classification, segmentation, language, forecasting, and diffusion, IEWC variants match or improve on EWC and outperform EWC-DR. In a held-out evaluation with validation-selected hyperparameters, uniform IEWC improves ImageNet-R accuracy over matched EWC by 2.00 percentage points (95\% CI 0.93--3.07). More broadly, deriving a regularizer from what a model should preserve, rather than from an approximation of curvature, gives a principled recipe for designing continual-learning penalties.}
+\begin{publicationsummary}
+\publicationsummarypart{Problem}{Elastic Weight Consolidation (EWC) is a widely used regularization-based technique for continual learning, protecting performance on old tasks with a quadratic penalty whose empirical Fisher is usually justified through probabilistic curvature.}
+\publicationsummarypart{Idea}{We instead introduce \emph{Continual Learning as an Optimization Constraint} (CLOC): new training must preserve chosen functionals of learned behavior. EWC's empirical Fisher is exactly the first-order form of this constraint when the preserved functional is each sample's loss.}
+\publicationsummarypart{Insight}{This derivation exposes a flaw: EWC implicitly weights each sample by the scale of its loss gradient, so well-fitted samples lose importance. EWC-DR observed this failure in classification; CLOC identifies its general cause.}
+\publicationsummarypart{Method}{Improved Elastic Weight Consolidation (IEWC) penalizes output changes according to the first-order approximation of each old sample's loss level set, removing the weighting for any differentiable loss and output geometry, and prevents corrupt samples from dominating the importance matrix.}
+\publicationsummarypart{Evidence}{Across classification, segmentation, language, forecasting, and diffusion, IEWC variants match or improve on EWC and outperform EWC-DR. In a held-out evaluation with validation-selected hyperparameters, uniform IEWC improves ImageNet-R accuracy over matched EWC by 2.00 percentage points (95\% CI 0.93--3.07).}
+\publicationsummarypart{Significance}{More broadly, deriving a regularizer from what a model should preserve, rather than from an approximation of curvature, gives a principled recipe for designing continual-learning penalties.}
+\end{publicationsummary}
 
-\publicationactions{%
-  \publicationaction{https://arxiv.org/abs/2611.16039}{Read paper}
-  \publicationaction{https://github.com/Axym-Labs/iewc}{View code}%
-}
+\publicationarxiv{2611.16039}
+\publicationcode{https://github.com/Axym-Labs/iewc}
+\publicationcorrespondence{dw@axym.org}
+\makepublicationlinks
 
-\section{From preservation constraints to IEWC}
-
-Continual Learning as an Optimization Constraint (CLOC) starts from a direct requirement: new training must preserve chosen functionals of previously learned behavior. First-order preservation of any differentiable scalar functional yields a gradient outer product; for per-sample negative log likelihood this is exactly EWC's empirical Fisher, without a model-Fisher interpretation. The same derivation shows that EWC weights each sample by the scale of its loss gradient, so well-fitted samples lose importance, the failure that EWC-DR observed in classification. IEWC instead penalizes output changes according to the first-order approximation of each old sample's loss level set, which removes this weighting for any differentiable loss and output geometry.
-
-\section{Main results}
-
-A contamination experiment confirms that normalization prevents corrupt samples from dominating the full importance matrix. Across classification, segmentation, language, forecasting, and diffusion, IEWC variants match or improve on EWC and outperform EWC-DR. In a held-out evaluation with validation-selected hyperparameters, uniform IEWC improves ImageNet-R final average accuracy over matched EWC by 2.00 percentage points (95\% CI 0.93--3.07) and performs comparably on TRACE.
-
-\section{Citation}
-
+\begin{publicationcitation}
 \begin{verbatim}
 @misc{wiest2026iewc,
   author        = {Wiest, Davide},
@@ -49,8 +48,10 @@ A contamination experiment confirms that normalization prevents corrupt samples 
                    Optimization Constraint for Continual Learning},
   year          = {2026},
   eprint        = {2611.16039},
-  archivePrefix = {arXiv}
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2611.16039}
 }
 \end{verbatim}
+\end{publicationcitation}
 
 \end{document}

@@ -7,7 +7,8 @@
 % author: Davide Wiest
 % draft: false
 % date: 2026-09-01
-% rank: 2
+% rank: 2.5
+% cover_image: /work/covers/terel.svg
 %---
 \documentclass[11pt]{article}
 \usepackage{publication-web}
@@ -26,53 +27,20 @@
   {Three stages form a causal VICReg target, define the postsynaptic neuron state, and update local feedforward and lateral synapses.}
   {TeReL in one layer. \textbf{a}, The temporal, variance, and covariance terms form a regularized target. \textbf{b}, Its residual and one pass through the lateral matrix define the neuron state. \textbf{c}, The state drives a Hebbian feedforward and an anti-Hebbian lateral update.}
 
-\publicationabstract{Layer-local self-supervised objectives remove the backward pass between layers, but almost all still compute their loss over a batch of samples and are therefore local in space but not in time. We introduce Temporal Regularized Learning (TeReL), a spatially and temporally local learning rule for self-supervised representation learning from sequential input streams. The key idea is to instantiate a VICReg-style objective with temporally adjacent positives and non-differentiated running population statistics, yielding a per-neuron online loss with bounded state. The objective is a soft form of Slow Feature Analysis, and its gradient is a Hebbian update of the feedforward weights and an anti-Hebbian update of one lateral matrix per layer. The experiments show that the rule works in a small network. On a class-chunked MNIST stream, a two-layer fully connected network trained with batch size one outperforms random features (96.48\% versus 95.09\% linear-probe accuracy) and classical SFA, and a variant that relaxes both locality constraints is comparable to supervised backpropagation. More broadly, TeReL shows that a modern self-supervised objective can be learned one sample at a time with purely local updates, bringing representation learning closer to what brains and neuromorphic hardware can implement.}
+\begin{publicationsummary}
+\publicationsummarypart{Problem}{Layer-local self-supervised objectives remove the backward pass between layers, but almost all still compute their loss over a batch of samples and are therefore local in space but not in time.}
+\publicationsummarypart{Idea}{We introduce Temporal Regularized Learning (TeReL), a spatially and temporally local learning rule for self-supervised representation learning from sequential input streams. The key idea is to instantiate a VICReg-style objective with temporally adjacent positives and non-differentiated running population statistics, yielding a per-neuron online loss with bounded state.}
+\publicationsummarypart{Theory}{The objective is a soft form of Slow Feature Analysis, and its gradient is a Hebbian update of the feedforward weights and an anti-Hebbian update of one lateral matrix per layer.}
+\publicationsummarypart{Evidence}{The experiments show that the rule works in a small network. On a class-chunked MNIST stream, a two-layer fully connected network trained with batch size one outperforms random features (96.48\% versus 95.09\% linear-probe accuracy) and classical SFA, and a variant that relaxes both locality constraints is comparable to supervised backpropagation.}
+\publicationsummarypart{Significance}{More broadly, TeReL shows that a modern self-supervised objective can be learned one sample at a time with purely local updates, bringing representation learning closer to what brains and neuromorphic hardware can implement.}
+\end{publicationsummary}
 
-\publicationactions{%
-  \publicationaction{https://arxiv.org/abs/2611.17019}{Read paper}
-  \publicationaction{https://github.com/Axym-Labs/TeReL}{View code}%
-}
+\publicationarxiv{2611.17019}
+\publicationcode{https://github.com/Axym-Labs/TeReL}
+\publicationcorrespondence{dw@axym.org}
+\makepublicationlinks
 
-\section{A causal VICReg construction}
-
-\href{https://arxiv.org/abs/2105.04906}{VICReg} separates representation learning into invariance between paired views, marginal variance, and cross-coordinate decorrelation. TeReL preserves these three roles while replacing the second view by the preceding observation, batch moments by detached running moments, and the differentiated batch-covariance signal by a lagged same-layer operator. Because the positive pair consists of adjacent observations, its invariance term is a soft \href{https://doi.org/10.1162/089976602317318938}{Slow Feature Analysis} objective.
-
-For current activation $z_t$, preceding activation $p_t$, detached running mean $\mu_t$ and variance $v_t$, and lateral matrix $M_t$, the surrogate gradient is proportional to
-
-\[
-r_t
-=I_t(z_t-p_t)
--\frac{\lambda_V}{\lambda_T}[\tau-v_t]_+\odot(z_t-\mu_t)
-+\frac{\lambda_C}{2\lambda_T}\operatorname{offdiag}(M_t)(z_t-\mu_t).
-\]
-
-The three terms control temporal slowness, variance expansion below the target $\tau$, and covariance. For the detached target $\widehat z_t=\operatorname{sg}(z_t-r_t)$, the local loss $\lambda_T\lVert z_t-\widehat z_t\rVert_2^2/D$ has the same derivative with respect to $z_t$ as the weighted surrogate at its construction point. This is a causal surrogate of VICReg's decomposition, not a scalar re-expression of the original batch objective: its gradient depends on the current observation and fixed-size detached quantities, but not on the history that produced them.
-
-\section{From target residual to neuron-local update}
-
-Mapping the residual through the activation derivative gives $b_t=J_{\phi,t}^{\top}r_t$. One same-layer correction defines the signed postsynaptic state
-
-\[
-s_t=b_t-\eta\kappa M_tb_t.
-\]
-
-The feedforward gradient then factors as
-
-\[
-\nabla_{W_t}\widetilde\ell_a
-=\frac{2\lambda_T}{D}s_tx_t^{\top}.
-\]
-
-Each feedforward synapse therefore reads a presynaptic scalar and a postsynaptic scalar. The same lateral matrix supplies the covariance signal and state correction, while its state--state contribution is anti-Hebbian under the inhibitory sign convention. The output is detached before entering the next learned layer. A width-$D$ layer retains $3D$ causal scalars, one boundary-validity bit, and $D^2$ auxiliary lateral parameters; the reported online rule uses plain stochastic gradient descent without optimizer moments.
-
-\section{Results}
-
-On a class-chunked MNIST stream, TeReL reaches $96.48\pm0.15\%$ held-out linear-probe accuracy, a paired gain of 1.39 percentage points over random features ($95.09\pm0.23\%$). Batch SFA reaches $90.07\pm0.26\%$ and incremental SFA $89.98\pm0.09\%$. Layer-local supervised contrastive learning reaches $96.95\pm0.17\%$ while using labels and minibatches at every layer. The spatially and temporally relaxed TeReL-Offline reference reaches $98.41\pm0.04\%$, on par with fully supervised offline learning at $98.44\pm0.09\%$.
-
-Shuffling the stream reduces TeReL accuracy by $1.08$ paired percentage points, and removing the temporal term reduces it by $1.50$. Removing the variance term collapses the representation to $15.36\pm0.27\%$ accuracy; removing the covariance term makes training diverge for all five initializations.
-
-\section{Citation}
-
+\begin{publicationcitation}
 \begin{verbatim}
 @misc{wiest2026terel,
   author        = {Wiest, Davide},
@@ -80,8 +48,10 @@ Shuffling the stream reduces TeReL accuracy by $1.08$ paired percentage points, 
                    Learning Local in Space and Time},
   year          = {2026},
   eprint        = {2611.17019},
-  archivePrefix = {arXiv}
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2611.17019}
 }
 \end{verbatim}
+\end{publicationcitation}
 
 \end{document}

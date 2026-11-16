@@ -9,4 +9,24 @@ draft: false
 date: 2026-10-12
 rank: 0.5
 external_url: https://axo.axym.org
+cover_image: /work/covers/axo.svg
+links:
+  - kind: home
+    label: AxoSim
+    url: /work/axosim/
+  - kind: home
+    label: AxoBench
+    url: /work/axobench/
+  - kind: docs
+    label: Documentation
+    url: https://axo.axym.org
+  - kind: github
+    label: Code
+    url: https://github.com/Axym-Labs/axosim
+  - kind: huggingface
+    label: Models and data
+    url: https://huggingface.co/Axym-Labs
+  - kind: demo
+    label: Demo
+    url: /work/axosim-connectome-demo/
 ---

@@ -11,13 +11,13 @@
       "url": "https://axo.axym.org"
     },
     {
-      "slug": "iewc",
-      "title": "Improved Elastic Weight Consolidation",
-      "eyebrow": "CONTINUAL LEARNING",
+      "slug": "hierarchical-data-hypothesis",
+      "title": "The Hierarchical Data Hypothesis",
+      "eyebrow": "DATA DISTRIBUTIONS",
       "category": "research",
-      "summary": "IEWC derives EWC from an explicit constraint that preserves learned behavior, separating EWC's loss-gradient weighting from parameter sensitivity. Its variants improve on EWC in classification, segmentation, and language. Regularizers derived from what a model should preserve thus give principled continual-learning penalties.",
-      "date": "2026-07-15",
-      "url": "https://axym.org/work/iewc/"
+      "summary": "Many machine-learning methods assume that data are organized coarse-to-fine, yet this has not been tested on the data. The hierarchical data hypothesis states that each finer level adds variation that the broader categories organize. A model-free test finds this in 18 of 22 cases across images, text, speech, and accelerometry.",
+      "date": "2026-11-15",
+      "url": "https://axym.org/work/hierarchical-data-hypothesis/"
     },
     {
       "slug": "kpsa",
@@ -29,22 +29,22 @@
       "url": "https://axym.org/work/kpsa/"
     },
     {
+      "slug": "iewc",
+      "title": "Improved Elastic Weight Consolidation",
+      "eyebrow": "CONTINUAL LEARNING",
+      "category": "research",
+      "summary": "IEWC derives EWC from an explicit constraint that preserves learned behavior, separating EWC's loss-gradient weighting from parameter sensitivity. Its variants improve on EWC in classification, segmentation, and language. Regularizers derived from what a model should preserve thus give principled continual-learning penalties.",
+      "date": "2026-07-15",
+      "url": "https://axym.org/work/iewc/"
+    },
+    {
       "slug": "terel",
       "title": "Temporal Regularized Learning",
       "eyebrow": "LOCAL LEARNING",
       "category": "research",
       "summary": "TeReL makes VICReg-style self-supervised learning local in space and time by pairing temporally adjacent inputs and replacing batch statistics with running estimates. The objective can thus be learned one sample at a time.",
-      "date": "2026-09-01",
+      "date": "2025-11-04",
       "url": "https://axym.org/work/terel/"
-    },
-    {
-      "slug": "recursive-manifolds",
-      "title": "The Recursive Manifold Hypothesis",
-      "eyebrow": "DATA GEOMETRY",
-      "category": "research",
-      "summary": "The recursive manifold hypothesis states that real-world distributions are organized coarse-to-fine, with finer categories adding variation that remains organized within each parent. A model-free energy-distance test finds, in 13 of 14 image, text, and spiking-speech relation–representation pairs, finer variation that parent categories organize better than random groupings.",
-      "date": "2026-09-02",
-      "url": "https://axym.org/work/recursive-manifolds/"
     },
     {
       "slug": "pptrain",
@@ -63,6 +63,15 @@
       "summary": "A plotting library for F# where the compiler checks your units, and the axes label themselves. Scales, SI prefixes, ticks, and axis titles are derived from unit witnesses, and the same figure renders to SVG, PNG, PDF, or LaTeX source.",
       "date": "2026-08-21",
       "url": "https://axym.org/work/marey/"
+    },
+    {
+      "slug": "irregular-parameter-sharing",
+      "title": "Parameter sharing works best across width",
+      "eyebrow": "ARCHITECTURE",
+      "category": "update",
+      "summary": "We compared nine ways of tying 256 MLP positions of a 16-layer Transformer to 128 shared blocks. Tying parallel MLP chunks within each layer, while keeping layers separate, gave the lowest validation loss across three seeds.",
+      "date": "2026-06-28",
+      "url": "https://axym.org/work/irregular-parameter-sharing/"
     }
   ]
 }

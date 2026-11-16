@@ -391,6 +391,13 @@ All colors MUST be HSL.
   color: #3f21b6;
 }
 
+.publication-canvas .latex-publication .publication-link-disabled,
+.publication-canvas .latex-publication .publication-link-disabled:hover {
+  color: hsl(var(--foreground));
+  opacity: 0.4;
+  cursor: default;
+}
+
 .publication-canvas .latex-publication .publication-link::before,
 .publication-canvas .latex-publication .publication-link::after {
   content: none;

@@ -136,12 +136,24 @@
 \publicationdemo{}
 \publicationprojectpage{}
 \publicationcorrespondence{}
+% Paper announced but not yet on arXiv: \publicationarxivpending prints the
+% arXiv and alphaXiv entries as disabled (unlinked) entries while
+% \publicationarxiv is empty. In HTML each is
+% <span class="publication-link publication-link-KIND publication-link-disabled">.
+\newif\ifpublicationweb@arxivpending
+\newcommand{\publicationarxivpending}{\publicationweb@arxivpendingtrue}
 
 \newcommand{\publicationweb@linkentry}[3]{% kind, url, label
   \ifdefined\HCode
     \HCode{<a class="publication-link publication-link-#1" href="#2">}#3\HCode{</a>}%
   \else
     \mbox{\href{#2}{#3}}\hspace{1.5em plus 0.5em}%
+  \fi}
+\newcommand{\publicationweb@disabledentry}[2]{% kind, label
+  \ifdefined\HCode
+    \HCode{<span class="publication-link publication-link-#1 publication-link-disabled" title="Not available yet">}#2\HCode{</span>}%
+  \else
+    \mbox{\textcolor{gray}{#2}}\hspace{1.5em plus 0.5em}%
   \fi}
 \newcommand{\publicationweb@hostentry}[5]{% url macro, label, host, kind, fallback
   \edef\publicationweb@test{\noexpand\in@{\detokenize{#3}}%
@@ -157,9 +169,15 @@
   \else
     \par\medskip{\centering
   \fi
-  \publicationweb@ifset\PublicationArxiv{%
+  \ifx\PublicationArxiv\empty
+    \ifpublicationweb@arxivpending
+      \publicationweb@disabledentry{arxiv}{arXiv}%
+      \publicationweb@disabledentry{alphaxiv}{alphaXiv}%
+    \fi
+  \else
     \publicationweb@linkentry{arxiv}{https://arxiv.org/abs/\PublicationArxiv}{arXiv}%
-    \publicationweb@linkentry{alphaxiv}{https://www.alphaxiv.org/abs/\PublicationArxiv}{alphaXiv}}%
+    \publicationweb@linkentry{alphaxiv}{https://www.alphaxiv.org/abs/\PublicationArxiv}{alphaXiv}%
+  \fi
   \publicationweb@ifset\PublicationHFPapers{%
     \publicationweb@linkentry{hfpapers}{https://huggingface.co/papers/\PublicationHFPapers}{Hugging Face Papers}}%
   \publicationweb@ifset\PublicationCode{%

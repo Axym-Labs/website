@@ -219,8 +219,8 @@ def axo() -> None:
     )
 
 
-def recursive_manifolds() -> None:
-    """The recursive-hypothesis landscape of the paper's lead figure, computed
+def hierarchical_data_hypothesis() -> None:
+    """The nested-distribution landscape of the paper's original lead figure, computed
     with lead_hypotheses.py's own component definitions."""
     sys.path.insert(0, str(WS / "recursive-manifolds-paper/paper/figures"))
     import lead_hypotheses as lh
@@ -231,7 +231,7 @@ def recursive_manifolds() -> None:
     dens = dens / dens.max()
     resp = comps[4:].sum(0) / np.maximum(comps.sum(0), 1e-12)  # share of the AXYM-coloured half
     _save(
-        "recursive-manifolds",
+        "hierarchical-data-hypothesis",
         {
             "source": "recursive-manifolds-paper/paper/figures/lead_hypotheses.py",
             "x": _r(xx[0], 4),
@@ -304,7 +304,7 @@ JOBS = {
     "axosim": axosim,
     "axobench": axobench,
     "axo": axo,
-    "recursive-manifolds": recursive_manifolds,
+    "hierarchical-data-hypothesis": hierarchical_data_hypothesis,
     "kpsa": kpsa,
     "terel": terel,
     "pptrain": pptrain,

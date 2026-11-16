@@ -53,6 +53,14 @@ describe("links line and headings", () => {
     expect(html).toContain("✉️");
   });
 
+  it("puts the icon of its kind on disabled links-line entries", () => {
+    const html = preparePublicationHtml(
+      "<nav aria-label='Links' class='publication-links'><span class='publication-link publication-link-alphaxiv publication-link-disabled' title='Not available yet'>alphaXiv</span></nav>",
+    );
+
+    expect(html).toContain("<span class='publication-link publication-link-alphaxiv publication-link-disabled' title='Not available yet'><span class=\"publication-link-icon publication-link-glyph\" aria-hidden=\"true\">α</span>alphaXiv</span>");
+  });
+
   it("gives section headings ids that the table of contents links to", () => {
     const source = '<h2 class="sectionHead"><a id="x1-1000"></a>Background: Why do it?</h2><h3 class=\'subsectionHead\'><a id="x1-2000"></a>A &amp; B</h3><h2 class="likesectionHead"><a id="x1-3000"></a>References</h2>';
     const html = preparePublicationHtml(source);

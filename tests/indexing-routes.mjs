@@ -10,7 +10,7 @@ const routes = [
   "/work/axosim/",
   "/work/axobench/",
   "/work/axosim-fly-geometry/",
-  "/work/recursive-manifolds/",
+  "/work/hierarchical-data-hypothesis/",
   "/work/kpsa/",
   "/work/axosim-connectome-demo/",
   "/work/iewc/",
@@ -49,6 +49,19 @@ for (const route of routes) {
     new RegExp(`<meta property="og:url" content="${canonical}" \/>`),
     `${route} must expose the same direct-200 Open Graph URL`,
   );
+}
+
+// Old routes of renamed items redirect to the new route and stay out of the sitemap.
+const redirects = {
+  "/work/recursive-manifolds/": "/work/hierarchical-data-hypothesis/",
+};
+for (const [from, to] of Object.entries(redirects)) {
+  const html = fs.readFileSync(path.join(dist, from.slice(1), "index.html"), "utf8");
+  const target = `${origin}${to}`;
+  assert.match(html, new RegExp(`<link rel="canonical" href="${target}" \/>`), `${from} must declare ${to} as canonical`);
+  assert.match(html, new RegExp(`<meta http-equiv="refresh" content="0; url=${target}" \/>`), `${from} must redirect to ${to}`);
+  assert.match(html, /<meta name="robots" content="noindex" \/>/, `${from} must not be indexed`);
+  assert.ok(!sitemapUrls.includes(`${origin}${from}`), `${from} must not be in the sitemap`);
 }
 
 const workApi = JSON.parse(fs.readFileSync(path.join(dist, "api", "work.json"), "utf8"));

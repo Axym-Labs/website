@@ -153,9 +153,10 @@ def axo(fig):
 AXO_ROWS = 24
 
 
-def recursive_manifolds(fig):
-    """Recursive-hypothesis landscape of the lead figure, as line art."""
-    d = load("recursive-manifolds")
+def hierarchical_data_hypothesis(fig):
+    """Density landscape of nested parent and child distributions (the third
+    panel of the paper's original lead figure), as line art."""
+    d = load("hierarchical-data-hypothesis")
     x, y = np.array(d["x"]), np.array(d["y"])
     z = np.array(d["density"])
     share = np.array(d["share_dark"])
@@ -187,20 +188,6 @@ def recursive_manifolds(fig):
     ax.set_zlim(-0.08, 1.05)
     ax.view_init(elev=27, azim=-58)
     ax.set_box_aspect((1.35, 1.0, 0.68))
-    # tree inset: parent laws and refinements
-    t = fig.add_axes([0.70, 0.74, 0.25, 0.2])
-    _bare(t)
-    lv = {0: [(0.5, 0.92)], 1: [(0.28, 0.64), (0.72, 0.64)], 2: [(0.17, 0.36), (0.39, 0.36), (0.61, 0.36), (0.83, 0.36)],
-          3: [(0.115 + 0.11 * i, 0.08) for i in range(8)]}
-    for l in range(3):
-        for i, p in enumerate(lv[l]):
-            for c in lv[l + 1][2 * i: 2 * i + 2]:
-                t.plot([p[0], c[0]], [p[1], c[1]], color="#7665C8", lw=1.1)
-    for l, nodes in lv.items():
-        cols = BRAND if l == 0 else (["#9C8BDE"] * 4 + [BRAND] * 4 if l == 3 else "#7E69D3")
-        t.scatter(*zip(*nodes), s=34 if l < 3 else 24, c=cols, ec=PAPER, lw=0.8, zorder=3)
-    t.set_xlim(0, 1)
-    t.set_ylim(0, 1)
 
 
 def kpsa(fig):

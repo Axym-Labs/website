@@ -16,19 +16,19 @@ const Content = ({ item }: { item: WorkItem }) =>
   item.content_format === "html" ? <LatexContent>{item.content}</LatexContent> : <MarkdownContent>{item.content}</MarkdownContent>;
 
 const Breadcrumb = ({ item }: { item: WorkItem }) => (
-  <p className="mb-8 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.72rem] font-semibold uppercase tracking-[0.14em]">
+  <p className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-1 sm:gap-x-3 text-[0.72rem] font-semibold uppercase tracking-[0.14em]">
     <Link to={isUpdate(item) ? "/#updates" : "/work/"} className="text-muted-foreground transition-colors hover:text-primary">
       {isUpdate(item) ? "Research update" : "Work"}
     </Link>
     {item.eyebrow && (
       <>
-        <span aria-hidden="true" className="h-px w-5 bg-foreground/20" />
+        <span aria-hidden="true" className="hidden h-px w-5 bg-foreground/20 sm:inline-block" />
         <span className="text-primary">{item.eyebrow}</span>
       </>
     )}
     {item.date && (
       <>
-        <span aria-hidden="true" className="h-px w-5 bg-foreground/20" />
+        <span aria-hidden="true" className="hidden h-px w-5 bg-foreground/20 sm:inline-block" />
         <time dateTime={item.date} className="font-medium normal-case tracking-normal text-muted-foreground">
           {formatDate(item.date)}
         </time>

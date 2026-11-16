@@ -1,45 +1,51 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import CoverImage from "@/components/CoverImage";
+import ResourceLinks from "@/components/ResourceLinks";
+import { itemHref, resourceLinks, type WorkItem } from "@/data/work-items";
 
-interface WorkItem {
-  slug: string;
-  title: string;
-  summary: string;
-  eyebrow?: string;
-  external_url?: string;
-}
+type WorkCardItem = Pick<WorkItem, "slug" | "title" | "summary"> &
+  Partial<Pick<WorkItem, "eyebrow" | "external_url" | "cover_image" | "cover_fit" | "date" | "content" | "links">>;
 
-const CardLink = ({ item, children }: { item: WorkItem; children: ReactNode }) =>
+const ItemLink = ({ item, className, children, tabIndex }: { item: WorkCardItem; className?: string; children: ReactNode; tabIndex?: number }) =>
   item.external_url ? (
-    <a href={item.external_url} className="group block">
+    <a href={item.external_url} className={className} tabIndex={tabIndex}>
       {children}
     </a>
   ) : (
-    <Link to={`/work/${item.slug}/`} className="group block">
+    <Link to={itemHref(item)} className={className} tabIndex={tabIndex}>
       {children}
     </Link>
   );
 
-const WorkCard = ({ item }: { item: WorkItem }) => (
-  <CardLink item={item}>
-    <article className="grid gap-5 py-10 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center md:py-14">
-      <div className="max-w-4xl">
-        {item.eyebrow && (
-          <span className="mb-4 inline-flex rounded-full border border-foreground/15 bg-foreground/10 px-3 py-1 text-[0.7rem] font-semibold tracking-[0.16em] text-foreground/60">
-            {item.eyebrow}
-          </span>
+/** A featured entry: visual, title, summary, and the item's links. */
+const WorkCard = ({ item }: { item: WorkCardItem }) => {
+  const links = resourceLinks({ content: item.content ?? "", links: item.links }).filter((link) => link.kind !== "email");
+  const year = item.date ? String(item.date).slice(0, 4) : undefined;
+
+  return (
+    <article className="group grid gap-7 py-12 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] md:items-center md:gap-12 md:py-14 lg:gap-16">
+      <ItemLink item={item} className="block" tabIndex={-1}>
+        <CoverImage src={item.cover_image} fit={item.cover_fit} className="aspect-[16/9] w-full" />
+      </ItemLink>
+      <div className="min-w-0">
+        {(item.eyebrow || year) && (
+          <p className="flex items-center gap-3 text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-primary">
+            {item.eyebrow && <span>{item.eyebrow}</span>}
+            {item.eyebrow && year && <span aria-hidden="true" className="h-px w-5 bg-primary/30" />}
+            {year && <span className="font-medium text-muted-foreground">{year}</span>}
+          </p>
         )}
-        <h3 className="text-2xl font-semibold leading-tight text-foreground md:text-3xl">
-          {item.title}
+        <h3 className="mt-4 font-serif text-[1.85rem] font-normal leading-[1.1] tracking-[-0.01em] text-foreground md:text-[2.15rem]">
+          <ItemLink item={item} className="decoration-primary/40 decoration-1 underline-offset-[0.12em] transition-colors hover:text-primary">
+            {item.title}
+          </ItemLink>
         </h3>
-        <p className="mt-4 max-w-3xl text-base leading-relaxed text-foreground/65 md:text-lg">
-          {item.summary}
-        </p>
+        <p className="mt-4 max-w-[34rem] text-[0.98rem] leading-relaxed text-muted-foreground">{item.summary}</p>
+        {links.length > 0 && <ResourceLinks links={links} className="mt-6" />}
       </div>
-      <ArrowUpRight className="h-7 w-7 text-foreground/40 transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-accent" />
     </article>
-  </CardLink>
-);
+  );
+};
 
 export default WorkCard;

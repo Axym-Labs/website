@@ -1,8 +1,9 @@
 import Navbar from "@/components/Navbar";
 import WorkList from "@/components/WorkList";
+import UpdatesGrid from "@/components/UpdatesGrid";
 import Footer from "@/components/Footer";
 import type { WorkItem } from "@/data/work-items";
-import { getWorkItems } from "@/data/work-items";
+import { getWorkItems, updateEntries, workEntries } from "@/data/work-items";
 import { useEffect, useState } from "react";
 import { setPageMetadata } from "@/lib/seo";
 
@@ -22,7 +23,8 @@ const Work = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <div className="pt-16">
-        <WorkList items={workItems} title="Work" />
+        <WorkList items={workEntries(workItems)} title="Work" intro="Papers, software, and the project pages behind them." />
+        <UpdatesGrid items={updateEntries(workItems)} />
       </div>
       <Footer />
     </div>

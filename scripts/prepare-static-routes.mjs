@@ -18,7 +18,7 @@ const escapeHtml = (value) => String(value)
 const setHead = (html, item, route) => {
   const title = `${item.title} | Axym Labs`;
   const canonical = `${origin}${route}`;
-  const schemaType = item.category === "product" ? "SoftwareSourceCode" : item.category === "research" ? "ScholarlyArticle" : "Article";
+  const schemaType = { product: "SoftwareSourceCode", research: "ScholarlyArticle", update: "BlogPosting" }[item.category] ?? "Article";
   const schema = JSON.stringify({
     "@context": "https://schema.org",
     "@type": schemaType,

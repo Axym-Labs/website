@@ -33,9 +33,12 @@ def _bare(ax):
     ax.set_facecolor("none")
 
 
+FONT_SCALE = 1.25  # annotation text grows with the full-width figure
+
+
 def _pt(px: float) -> float:
-    """Pixel size to points at the 100-dpi figure scale."""
-    return px * 0.72
+    """Pixel size (at the old half-width layout) to points at the 100-dpi figure scale."""
+    return px * 0.72 * FONT_SCALE
 
 
 # --- papers and products (blueprint) ---------------------------------------
@@ -50,8 +53,8 @@ def axosim(fig):
     ax = fig.add_axes([0.0, 0.0, 1.0, 1.0])
     _bare(ax)
     ax.set_aspect("equal")
-    ax.set_xlim(-1.45, 1.45)
-    ax.set_ylim(-1.5, 1.3)
+    ax.set_xlim(-1.75, 2.75)
+    ax.set_ylim(-1.12, 1.24)
     for r in (0.25, 0.5, 0.75, 1.0):
         p = np.c_[r * np.cos(ang), r * np.sin(ang)]
         ax.add_patch(Polygon(p, closed=True, fill=False, ec=RULE, lw=0.9 if r < 1 else 1.2))
@@ -78,10 +81,10 @@ def axosim(fig):
     # legend
     items = [("AxoSim-GRU Medium", dict(color=BRAND, lw=2.6)), ("AxoSim-Mamba Medium", dict(color=BRAND_MID, lw=1.8)),
              ("Branch-ELM M100", dict(color=GREY, lw=1.6, ls=(0, (4, 2.5)))), ("TCN 7.2M", dict(color=INK, lw=1.3, ls=(0, (1, 2.2)), alpha=0.75))]
-    lx, ly = -1.25, -1.2
+    lx, ly = 1.55, 0.27
     for i, (lab, st) in enumerate(items):
-        xx = lx + (i % 2) * 1.32
-        yy = ly - (i // 2) * 0.13
+        xx = lx
+        yy = ly - i * 0.15
         ax.plot([xx, xx + 0.16], [yy, yy], **st)
         ax.text(xx + 0.22, yy, lab, va="center", fontsize=_pt(14), color=MUTED)
 
@@ -160,7 +163,7 @@ def hierarchical_data_hypothesis(fig):
     x, y = np.array(d["x"]), np.array(d["y"])
     z = np.array(d["density"])
     share = np.array(d["share_dark"])
-    ax = fig.add_axes([-0.12, -0.12, 1.24, 1.24], projection="3d")
+    ax = fig.add_axes([-0.08, -0.13, 1.24, 1.26], projection="3d")
     ax.set_axis_off()
     ax.patch.set_alpha(0)
     from mpl_toolkits.mplot3d.art3d import Line3DCollection
@@ -187,7 +190,7 @@ def hierarchical_data_hypothesis(fig):
     ax.set_ylim(-2.0, 2.0)
     ax.set_zlim(-0.08, 1.05)
     ax.view_init(elev=27, azim=-58)
-    ax.set_box_aspect((1.35, 1.0, 0.68))
+    ax.set_box_aspect((1.35, 1.0, 0.68), zoom=1.2)
 
 
 def kpsa(fig):
@@ -196,7 +199,7 @@ def kpsa(fig):
     cmap = LinearSegmentedColormap.from_list("k", [BRAND_PALE, BRAND_LIGHT, BRAND_MID, BRAND])
     for k, (name, title) in enumerate([("vision", "Vision"), ("forecasting", "Forecasting")]):
         m = np.array(d[name])
-        ax = fig.add_axes([0.07 + k * 0.48, 0.18, 0.45, 0.64])
+        ax = fig.add_axes([0.1 + k * 0.43, 0.13, 0.38, 0.74])
         _bare(ax)
         ax.set_aspect("equal")
         for i in range(12):
@@ -211,7 +214,7 @@ def kpsa(fig):
         ax.text(-0.5, 1.4, title, fontsize=_pt(19), color=INK, va="bottom")
         ax.annotate("", xy=(11.5, -12.8), xytext=(-0.5, -12.8), arrowprops=dict(arrowstyle="-|>", color=LABEL, lw=1, mutation_scale=10), annotation_clip=False)
         ax.text(-0.5, -13.6, "Transformer block 1–12", fontsize=_pt(14), color=MUTED, va="top")
-    fig.text(0.03, 0.5, "12 held-out inputs", rotation=90, fontsize=_pt(14), color=MUTED, va="center", ha="center")
+    fig.text(0.09, 0.5, "12 held-out inputs", rotation=90, fontsize=_pt(14), color=MUTED, va="center", ha="center")
 
 
 def iewc(fig):
@@ -222,7 +225,7 @@ def iewc(fig):
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     asp = fig.get_figheight() / fig.get_figwidth()
-    S_U, S_VX, S_VY, S_Z = 0.12, 0.096 * asp * 1.6, 0.076, 0.42
+    S_U, S_VX, S_VY, S_Z = 0.12 * 0.85, 0.096 * asp * 1.6 * 0.85, 0.076 * 1.25, 0.5
     cx, by = 0.5, 0.33
     ru, rv = 1.75, 0.56
 
@@ -240,12 +243,12 @@ def iewc(fig):
         ax.plot(x, y, color=_mix(BRAND_MID, BRAND, z), lw=1.3 + 0.9 * z, alpha=0.9, zorder=3 + z, solid_capstyle="round")
     o = proj(0, 0, 0)
     for end, lab, off in [((1.3 * 1.55, 0, 0), r"$a_{\mathrm{redundant}}$", (0.01, -0.045)),
-                          ((0, 1.25 * 1.4, 0), r"$a_{\mathrm{novel}}$", (-0.035, -0.035)),
+                          ((0, 1.25 * 1.4, 0), r"$a_{\mathrm{novel}}$", (-0.03, 0.0)),
                           ((0, 0, 1.18), r"penalty $p$", (0.0, 0.03))]:
         e = proj(*end)
         ax.add_patch(FancyArrowPatch(o, e, arrowstyle="-|>", mutation_scale=14, lw=1.2, color=INK, zorder=20))
         ax.text(e[0] + off[0], e[1] + off[1], lab, fontsize=_pt(19), color=INK, ha="center", va="center")
-    ax.text(0.5, 0.08, r"$p=\lambda\,(h_r\,a_{\mathrm{redundant}}^2+h_n\,a_{\mathrm{novel}}^2),\quad h_r\ll h_n$",
+    ax.text(0.5, 0.025, r"$p=\lambda\,(h_r\,a_{\mathrm{redundant}}^2+h_n\,a_{\mathrm{novel}}^2),\quad h_r\ll h_n$",
             fontsize=_pt(19), color=MUTED, ha="center")
 
 
@@ -273,11 +276,11 @@ def pptrain(fig):
     ax.set_xlim(0, asp)
     ax.set_ylim(0, 1)
     n = 24
-    cell = 0.0128
+    cell = 0.0146
     ex, ey = np.array([1.0, -0.5]) * cell, np.array([1.0, 0.5]) * cell  # isometric axes
     frames = d["frames"]
     width = n * (ex + ey)  # extent of one layer
-    step = np.array([0.0, 0.185])  # back layers rise
+    step = np.array([0.0, 0.17])  # upper layers rise
     origin = np.array([(asp - width[0]) / 2, (1 - (n * 2 * 0.5 * cell + step[1] * 3)) / 2 + n * 0.5 * cell])
     for k in range(len(frames)):  # bottom (step 0) first; upper layers occlude
         f = np.array(frames[k])

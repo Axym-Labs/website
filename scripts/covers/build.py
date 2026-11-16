@@ -17,7 +17,7 @@ sys.dont_write_bytecode = True  # keep __pycache__ out of the repo
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import figures as F  # noqa: E402
-from covers import SITE, blueprint, card  # noqa: E402
+from covers import SITE, W, blueprint, card  # noqa: E402
 
 PUBLIC = SITE / "public" / "work"
 
@@ -41,7 +41,7 @@ COVERS = {
                     subtitle="A library for prepretraining"),
     "marey": dict(layout="blueprint", title="Marey", figure="marey", kind="library", date="2026-08",
                   subtitle="A plotting library for F# where the compiler checks your units",
-                  figure_box=(760, 180, 740, 540)),
+                  figure_box=(W / 2 - 570, 95, 1140, 700)),
     # research updates: data line-art cards
     "axosim-fly-geometry": dict(layout="card", figure=F.axosim_fly_geometry_card),
     "prepretraining-not-ready-yet": dict(layout="card", figure=F.prepretraining_card),

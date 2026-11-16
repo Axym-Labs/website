@@ -263,27 +263,35 @@ class Sheet:
 
 
 def blueprint(slug: str, title: str, figure: FigureSource, *, subtitle: str = "", kind: str = "", date: str = "",
-              figure_box: tuple[float, float, float, float] | None = None,
+              figure_box: tuple[float, float, float, float] | None = None, show_title: bool = False,
               title_size: float = 64, title_width: float = 650, out: Path = OUT) -> Path:
-    """Write <out>/<slug>.svg and .png: frame, title left, figure right.
+    """Write <out>/<slug>.svg and .png: drawing-sheet frame, one large figure
+    centred in it, title block in the corner.
 
-    figure_box is (x, y, w, h) in canvas pixels; the default is the right half.
+    The site prints title and summary beside the cover, so by default the
+    cover carries no title; ``show_title=True`` restores the earlier layout
+    (title left, figure right). figure_box is (x, y, w, h) in canvas pixels.
     """
     sheet = Sheet()
     ix0, iy0, ix1, iy1 = sheet.inner()
-    fx, fy, fw, fh = figure_box or (815, 112, 680, 676)
+    if show_title:
+        fx, fy, fw, fh = figure_box or (815, 112, 680, 676)
+    else:
+        fx, fy, fw, fh = figure_box or (W / 2 - 560, 92, 1120, 700)
 
-    lines = wrap(title, title_size, title_width)
-    lh = title_size * 1.12
-    sub_size, sub_lh = 25, 25 * 1.38
-    sub = wrap(subtitle, sub_size, min(title_width - 60, 540), SANS) if subtitle else []
-    gap = 30 if sub else 0
-    block_h = lh * (len(lines) - 1) + title_size * 0.72 + gap + sub_lh * len(sub)
-    tx = 128
-    ty = H / 2 - block_h / 2 + title_size * 0.72
-    title_svg = "".join(text(line, tx, ty + i * lh, title_size, INK) for i, line in enumerate(lines))
-    sy = ty + lh * (len(lines) - 1) + gap + sub_size
-    title_svg += "".join(text(line, tx, sy + i * sub_lh, sub_size, MUTED, SANS) for i, line in enumerate(sub))
+    title_svg = ""
+    if show_title:
+        lines = wrap(title, title_size, title_width)
+        lh = title_size * 1.12
+        sub_size, sub_lh = 25, 25 * 1.38
+        sub = wrap(subtitle, sub_size, min(title_width - 60, 540), SANS) if subtitle else []
+        gap = 30 if sub else 0
+        block_h = lh * (len(lines) - 1) + title_size * 0.72 + gap + sub_lh * len(sub)
+        tx = 128
+        ty = H / 2 - block_h / 2 + title_size * 0.72
+        title_svg = "".join(text(line, tx, ty + i * lh, title_size, INK) for i, line in enumerate(lines))
+        sy = ty + lh * (len(lines) - 1) + gap + sub_size
+        title_svg += "".join(text(line, tx, sy + i * sub_lh, sub_size, MUTED, SANS) for i, line in enumerate(sub))
 
     # Title block in the lower-right corner of the sheet, as on a drawing.
     cells = [("AXYM LABS", BRAND)] + [(c.upper(), MUTED) for c in (kind, date) if c]

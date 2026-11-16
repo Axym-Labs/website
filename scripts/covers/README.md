@@ -8,9 +8,9 @@ Two layouts, one palette (warm paper `#FAF8F4`, ink `#17132A`, Axym violet
 `#3F21B6` and its tints), so the covers read as cards on the white site:
 
 - **blueprint** (papers, products, libraries): drawing-sheet frame with columns
-  1–8 and rows A–E, title (Newsreader, the site's heading serif) and optional
-  subtitle on the left, one figure on the right, title block
-  `AXYM LABS | KIND | DATE`.
+  1–8 and rows A–E, one large figure centred in it, and a small title block
+  `AXYM LABS | KIND | DATE`. No title on the cover: the site prints it beside
+  the cover (`show_title=True` restores a title-left, figure-right layout).
 - **card** (research updates): a full-bleed line drawing of the update's own
   data, no text. Every mark is a measured value or a value recomputed with the
   project's code; the docstring of each card function says what is drawn.

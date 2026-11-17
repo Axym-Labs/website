@@ -1,4 +1,4 @@
-import { forwardRef, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { forwardRef, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import SheetFrame from "@/components/SheetFrame";
 import ResourceLinks from "@/components/ResourceLinks";
@@ -30,65 +30,26 @@ ItemLink.displayName = "ItemLink";
 const sheetKind = (item: WorkCardItem) =>
   (item.kind ?? (item.category === "research" ? "paper" : item.category ?? "")).toUpperCase();
 
-type Box = { top: number; left: number; width: number; height: number };
-
 /**
- * Frame boxes of an entry: around the cover (padded by the reserved sheet
- * space) and around the whole entry. Measured on layout and on resize.
- */
-function useSheetBoxes(entry: React.RefObject<HTMLElement>, cover: React.RefObject<HTMLElement>) {
-  const [boxes, setBoxes] = useState<{ cover: Box; entry: Box } | null>(null);
-  useLayoutEffect(() => {
-    const outer = entry.current;
-    const inner = cover.current;
-    if (!outer || !inner) return;
-    const measure = () => {
-      const reserve = parseFloat(getComputedStyle(outer).paddingLeft) || 0;
-      const o = outer.getBoundingClientRect();
-      const c = inner.getBoundingClientRect();
-      setBoxes({
-        cover: { top: c.top - o.top - reserve, left: c.left - o.left - reserve, width: c.width + 2 * reserve, height: c.height + 2 * reserve },
-        entry: { top: 0, left: 0, width: o.width, height: o.height },
-      });
-    };
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(outer);
-    observer.observe(inner);
-    return () => observer.disconnect();
-  }, [entry, cover]);
-  return boxes;
-}
-
-/**
- * A featured entry: a large cover and a text panel with the title, summary,
- * and links, on a drawing sheet. A sheet wraps the cover; for the entry
- * nearest the viewport centre (`active`, set by WorkList) it fades out while
- * a sheet around the whole entry fades in. The sheets' space is always
- * reserved as padding, so nothing moves.
+ * A featured entry: a large cover (with its paper backdrop) and a text panel
+ * with the title, summary, and links. For the entry nearest the viewport
+ * centre (`active`, set by WorkList) a drawing-sheet frame fades in around
+ * the whole entry; otherwise there is no frame. Its space is always reserved
+ * as padding, so nothing moves.
  */
 const WorkCard = ({ item, active = false }: { item: WorkCardItem; active?: boolean }) => {
   const own = resourceLinks({ content: item.content ?? "", links: item.links }).filter((link) => link.kind !== "email");
   const links = item.external_url ? own : [{ kind: "home", label: "Project page", url: itemHref(item) }, ...own];
   const year = item.date ? String(item.date).slice(0, 4) : undefined;
-  const entry = useRef<HTMLElement>(null);
-  const cover = useRef<HTMLAnchorElement>(null);
-  const boxes = useSheetBoxes(entry, cover);
   const cells = [sheetKind(item), item.date ? String(item.date).slice(0, 7) : ""].filter(Boolean);
 
   return (
     <article
-      ref={entry}
       data-active={active || undefined}
       className="work-entry relative grid md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:items-center"
     >
-      {boxes && (
-        <>
-          <SheetFrame box={boxes.entry} cells={cells} shown={active} />
-          <SheetFrame box={boxes.cover} cells={cells} shown={!active} />
-        </>
-      )}
-      <ItemLink item={item} className="relative z-10 block" tabIndex={-1} ref={cover}>
+      <SheetFrame cells={cells} shown={active} />
+      <ItemLink item={item} className="relative z-10 block" tabIndex={-1}>
         {/* Covers are transparent, with a paper backdrop shaped to the figure. */}
         <img src={item.cover_image} alt="" width={1600} height={900} loading="lazy" decoding="async" className="block aspect-[16/9] h-auto w-full" />
       </ItemLink>

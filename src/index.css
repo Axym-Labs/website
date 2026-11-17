@@ -758,9 +758,8 @@ All colors MUST be HSL.
   --sheet-label: #9c9485;
   --sheet-reserve: calc(var(--sheet-m) + var(--sheet-band) + var(--sheet-gap));
   padding: var(--sheet-reserve);
-  /* Space between the collapsed sheet (which extends --sheet-reserve beyond
-     the cover) and the text. */
-  gap: calc(var(--sheet-reserve) + 1.75rem);
+  /* Cover-to-text gap without a frame between them. */
+  gap: 1.75rem;
 }
 
 @media (min-width: 48rem) {
@@ -768,7 +767,7 @@ All colors MUST be HSL.
     --sheet-m: 12px;
     --sheet-band: 17px;
     --sheet-gap: 16px;
-    gap: calc(var(--sheet-reserve) + 2.25rem);
+    gap: 3.5rem;
   }
 }
 

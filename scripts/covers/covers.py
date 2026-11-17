@@ -228,51 +228,94 @@ def _document(body: str, radius: float = 14, paper: bool = True) -> str:
     )
 
 
-def backdrop(figure: str, pad: float = 46, reach: float = 220, smooth: float = 80, feather: float = 10,
-             edge: float = 28, scale: int = 3) -> str:
-    """Paper backdrop shaped to a figure's footprint: the drawn pixels, closed
-    (dilate by pad + reach, erode by reach) so gaps narrower than about 2*reach
-    fill and a margin of about ``pad`` remains, then Gaussian-smoothed into
-    calm curves.
-    Returns two SVG paths: the backdrop and a lighter feather ``feather`` px
-    outside it for a soft edge. Works at 1/scale resolution."""
+def _footprint(figure: str, scale: int = 4):
+    """Pixel coordinates (canvas units) of the drawn content of an SVG fragment."""
     import cairosvg
     import numpy as np
     from PIL import Image
-    from scipy import ndimage
 
     w, h = W // scale, H // scale
-    doc = f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{W}" height="{H}" viewBox="0 0 {W} {H}">{figure}</svg>'
+    doc = (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
+           f'width="{W}" height="{H}" viewBox="0 0 {W} {H}">{figure}</svg>')
     raw = cairosvg.svg2png(bytestring=doc.encode(), output_width=w, output_height=h)
     alpha = np.asarray(Image.open(io.BytesIO(raw)).convert("RGBA"))[..., 3] > 8
-    # Distance-based closing gives an even margin regardless of stroke weight.
-    outside = ndimage.distance_transform_edt(~alpha)
-    grown = outside <= (pad + reach) / scale
-    shrunk = ndimage.distance_transform_edt(grown) > reach / scale
-    field = ndimage.gaussian_filter(shrunk.astype(float), smooth / scale)
-    # Taper to zero near the canvas edge, so the shape closes inside the canvas
-    # (at least ``edge`` px in) instead of being cut straight by it.
-    yy, xx = np.mgrid[0:h, 0:w]
-    to_edge = np.minimum(np.minimum(xx, w - 1 - xx), np.minimum(yy, h - 1 - yy)) * scale
-    field = field * np.clip((to_edge - edge) / (2 * edge), 0, 1)
-    # Keep the largest smooth region so stray marks do not make islands.
-    fig_, ax = plt.subplots()
-    paths = []
-    for level in (0.5, None):
-        if level is None:
-            d_out = ndimage.distance_transform_edt(field < 0.5)
-            lvl_field, lvl = (d_out <= feather / scale).astype(float), 0.5
-            lvl_field = ndimage.gaussian_filter(lvl_field, 1.5)
-        else:
-            lvl_field, lvl = field, level
-        cs = ax.contour(np.arange(w) * scale, np.arange(h) * scale, lvl_field, levels=[lvl])
-        segs = [seg for seg in cs.allsegs[0] if len(seg) > 12]
-        d = "".join("M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in seg) + "Z" for seg in segs)
-        paths.append(d)
-    plt.close(fig_)
-    core, halo = paths
-    return (f'<path d="{halo}" fill="{BACKDROP}" fill-opacity="0.5" fill-rule="nonzero"/>'
-            f'<path d="{core}" fill="{BACKDROP}" fill-rule="nonzero"/>')
+    ys, xs = np.nonzero(alpha)
+    return np.stack([xs, ys], 1).astype(float) * scale + scale / 2
+
+
+def backdrop_shape(points, seed: str, space: float = 0.2, edge: float = 26, n_points: int = 360):
+    """A calm closed curve around ``points``: a soft superellipse whose
+    proportions and tilt follow the figure's principal axes, with one gentle
+    low-frequency wave along its edge. Exponent, wave, and phase come from a
+    hash of ``seed``, so each cover gets its own shape in one family. The curve
+    is scaled so every content point lies inside with ``space`` (fractional)
+    room to spare. Returns (curve as N x 2 array, figure scale factor): when
+    the curve would leave the canvas (``edge`` px margin), the factor < 1 says
+    how much to shrink the figure."""
+    import hashlib
+
+    import numpy as np
+
+    rng = np.random.default_rng(int(hashlib.sha256(seed.encode()).hexdigest()[:8], 16))
+    exponent = rng.uniform(2.3, 3.1)          # 2 = ellipse, larger = squarer
+    lobes = int(rng.choice([2, 3]))           # wave frequency around the edge
+    wave = rng.uniform(0.035, 0.055)          # wave amplitude, fraction of radius
+    phase = rng.uniform(0, 2 * np.pi)
+
+    centre = (points.min(0) + points.max(0)) / 2
+    cov = np.cov((points - centre).T)
+    vals, vecs = np.linalg.eigh(cov)
+    major = vecs[:, 1]
+    tilt = np.arctan2(major[1], major[0])
+    tilt = (tilt + np.pi / 2) % np.pi - np.pi / 2           # direction, not orientation
+    tilt = float(np.clip(tilt, -0.14, 0.14))                # at most ~8 degrees
+    rot = np.array([[np.cos(tilt), -np.sin(tilt)], [np.sin(tilt), np.cos(tilt)]])
+    local = (points - centre) @ rot                          # figure in the shape's frame
+    half = np.percentile(np.abs(local), 99.5, axis=0)
+    aspect = half[1] / half[0]
+    aspect = 0.75 * aspect + 0.25 * (9 / 16)                  # pull towards the family's proportions
+
+    def radius(theta):
+        c, s_ = np.abs(np.cos(theta)), np.abs(np.sin(theta))
+        r = (c ** exponent + (s_ / aspect) ** exponent) ** (-1 / exponent)
+        return r * (1 + wave * np.sin(lobes * theta + phase))
+
+    # Smallest scale that contains every point, then the extra space.
+    theta_p = np.arctan2(local[:, 1], local[:, 0])
+    need = np.max(np.hypot(local[:, 0], local[:, 1]) / radius(theta_p))
+    scale_ = need * (1 + space)
+    theta = np.linspace(0, 2 * np.pi, n_points, endpoint=False)
+    curve_local = np.stack([np.cos(theta), np.sin(theta)], 1) * (radius(theta) * scale_)[:, None]
+    curve = curve_local @ rot.T + centre
+    # Fit inside the canvas: report how much to shrink the figure if needed.
+    lo, hi = curve.min(0), curve.max(0)
+    room = np.array([W / 2 - edge, H / 2 - edge])
+    extent = np.maximum(np.abs(lo - [W / 2, H / 2]), np.abs(hi - [W / 2, H / 2]))
+    fit = float(min(1.0, *(room / extent)))
+    return curve, fit
+
+
+def backdrop(curve, feather: float = 12) -> str:
+    """SVG for the backdrop curve: the paper shape and a lighter feather around it."""
+    import numpy as np
+
+    centre = curve.mean(0)
+    r = np.hypot(*(curve - centre).T).mean()
+    halo = centre + (curve - centre) * (1 + feather / r)
+
+    def path(c):
+        # Closed cubic Catmull-Rom spline through the points: smooth, no corners.
+        n = len(c)
+        d = f"M{c[0, 0]:.1f} {c[0, 1]:.1f}"
+        for i in range(n):
+            p0, p1, p2, p3 = c[i - 1], c[i], c[(i + 1) % n], c[(i + 2) % n]
+            c1, c2 = p1 + (p2 - p0) / 6, p2 - (p3 - p1) / 6
+            d += f"C{c1[0]:.1f} {c1[1]:.1f} {c2[0]:.1f} {c2[1]:.1f} {p2[0]:.1f} {p2[1]:.1f}"
+        return d + "Z"
+
+    step = max(1, len(curve) // 72)  # 72 knots are plenty for a smooth curve
+    return (f'<path d="{path(halo[::step])}" fill="{BACKDROP}" fill-opacity="0.5"/>'
+            f'<path d="{path(curve[::step])}" fill="{BACKDROP}"/>')
 
 
 @dataclass
@@ -365,12 +408,19 @@ def blueprint(slug: str, title: str, figure: FigureSource, *, subtitle: str = ""
         tb.append(text(c, cx + w / 2, by + bh / 2 + 4.4, size, col, MONO, "middle", spacing=0.12))
         cx += w
 
-    fig = _place_svg(resolve_figure(figure, fw, fh), fx, fy, fw, fh, prefix=f"{slug}-")
+    source = resolve_figure(figure, fw, fh)
+    fig = _place_svg(source, fx, fy, fw, fh, prefix=f"{slug}-")
     if frame:
         return _write(slug, _document(sheet.frame() + title_svg + fig + "".join(tb)), out)
     # Without the frame: transparent canvas, the figure on a paper backdrop
     # shaped to its own footprint (the site draws the frame around it).
-    return _write(slug, _document(backdrop(fig) + fig, paper=False), out)
+    curve, fit = backdrop_shape(_footprint(fig), slug)
+    if fit < 0.999:  # shrink the figure about the canvas centre until the shape fits
+        fw, fh = fw * fit, fh * fit
+        fx, fy = W / 2 + (fx - W / 2) * fit, H / 2 + (fy - H / 2) * fit
+        fig = _place_svg(source, fx, fy, fw, fh, prefix=f"{slug}-")
+        curve, _ = backdrop_shape(_footprint(fig), slug)
+    return _write(slug, _document(backdrop(curve) + fig, paper=False), out)
 
 
 def card(slug: str, draw: Callable[[plt.Figure], None], *, out: Path = OUT) -> Path:

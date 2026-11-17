@@ -8,13 +8,15 @@ Two layouts, one palette (warm paper `#FAF8F4`, ink `#17132A`, Axym violet
 `#3F21B6` and its tints), so the covers read as cards on the white site:
 
 - **blueprint** (papers, products, libraries): one large figure centred on a
-  transparent canvas, on a paper backdrop (`#F5F1E9`) shaped to the figure's
-  own footprint (`covers.backdrop`: the drawn pixels closed with a 220 px reach,
-  a 46 px margin, Gaussian-smoothed, with a soft 10 px feather, kept 28 px
-  inside the canvas). No title and no frame: the site prints the title beside
-  the cover and draws the drawing-sheet frame around it (next section). `frame=True`
-  draws the frame into the image again; `show_title=True` restores the old
-  title-left, figure-right layout.
+  transparent canvas, on a spacious paper backdrop (`#F5F1E9`) of its own
+  (`covers.backdrop_shape`): a soft superellipse whose proportions and slight
+  tilt (at most 8°) follow the figure's principal axes, with one gentle wave
+  along its edge. Exponent (2.3–3.1), wave (2 or 3 lobes, 3.5–5.5%), and phase
+  are seeded from the slug, so every cover has its own shape in one family.
+  The shape contains every drawn pixel with 20% room to spare and stays 26 px
+  inside the canvas (the figure shrinks if needed); a 12 px lighter feather
+  softens its edge. No title and no frame: the site prints the title beside
+  the cover and draws the drawing-sheet frame around the focused entry.
 - **card** (research updates): a full-bleed line drawing of the update's own
   data, no text. Every mark is a measured value or a value recomputed with the
   project's code; the docstring of each card function says what is drawn.

@@ -1,0 +1,362 @@
+{
+ "model": "ViT-B/16 (AugReg, ImageNet-1k)",
+ "queryModel": "DINOv2-S",
+ "layers": 12,
+ "featuresPerLayer": 3072,
+ "atlasSources": 25000,
+ "budgets": [
+  {
+   "pct": 0.02,
+   "k": 7
+  },
+  {
+   "pct": 0.05,
+   "k": 18
+  },
+  {
+   "pct": 0.1,
+   "k": 37
+  }
+ ],
+ "groups": [
+  "Cats",
+  "Dogs",
+  "Birds",
+  "Cars",
+  "Insects",
+  "Food",
+  "Other"
+ ],
+ "images": [
+  {
+   "id": "cats-1",
+   "group": "Cats",
+   "src": "vision/img/cats-1.jpg",
+   "thumb": "vision/img/cats-1_thumb.jpg",
+   "credit": {
+    "author": "\u042e\u0440\u0438\u0439 \u0414.\u041a.",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Cat_in_Efremov,_Russia1.jpg"
+   }
+  },
+  {
+   "id": "cats-2",
+   "group": "Cats",
+   "src": "vision/img/cats-2.jpg",
+   "thumb": "vision/img/cats-2_thumb.jpg",
+   "credit": {
+    "author": "Karin Langner-Bahmann, upload von Martin Bahmann",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Siam_lilacpoint.jpg"
+   }
+  },
+  {
+   "id": "cats-3",
+   "group": "Cats",
+   "src": "vision/img/cats-3.jpg",
+   "thumb": "vision/img/cats-3_thumb.jpg",
+   "credit": {
+    "author": "\u062f\u0631\u0641\u0634 \u06a9\u0627\u0648\u06cc\u0627\u0646\u06cc",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Cat_Iran.jpg"
+   }
+  },
+  {
+   "id": "dogs-1",
+   "group": "Dogs",
+   "src": "vision/img/dogs-1.jpg",
+   "thumb": "vision/img/dogs-1_thumb.jpg",
+   "credit": {
+    "author": "MichaelMcPhee",
+    "license": "CC BY 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Callie_the_golden_retriever_puppy.jpg"
+   }
+  },
+  {
+   "id": "dogs-2",
+   "group": "Dogs",
+   "src": "vision/img/dogs-2.jpg",
+   "thumb": "vision/img/dogs-2_thumb.jpg",
+   "credit": {
+    "author": "Slyronit",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:A_Beagle_sitting_next_to_dog_food.jpg"
+   }
+  },
+  {
+   "id": "dogs-3",
+   "group": "Dogs",
+   "src": "vision/img/dogs-3.jpg",
+   "thumb": "vision/img/dogs-3_thumb.jpg",
+   "credit": {
+    "author": "7575u",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Border_Collie_with_Heterochromia.jpg"
+   }
+  },
+  {
+   "id": "birds-1",
+   "group": "Birds",
+   "src": "vision/img/birds-1.jpg",
+   "thumb": "vision/img/birds-1_thumb.jpg",
+   "credit": {
+    "author": "Saffron Blaze",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Bald_Eagle_Portrait.jpg"
+   }
+  },
+  {
+   "id": "birds-2",
+   "group": "Birds",
+   "src": "vision/img/birds-2.jpg",
+   "thumb": "vision/img/birds-2_thumb.jpg",
+   "credit": {
+    "author": "Giles Laurent",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:002_Greater_flamingo_taking_off_in_the_Camargue_Photo_by_Giles_Laurent.jpg"
+   }
+  },
+  {
+   "id": "birds-3",
+   "group": "Birds",
+   "src": "vision/img/birds-3.jpg",
+   "thumb": "vision/img/birds-3_thumb.jpg",
+   "credit": {
+    "author": "Christopher Kuszajewski",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Macaw_parrot_sitting_on_a_tree_branch.jpg_.jpg"
+   }
+  },
+  {
+   "id": "cars-1",
+   "group": "Cars",
+   "src": "vision/img/cars-1.jpg",
+   "thumb": "vision/img/cars-1_thumb.jpg",
+   "credit": {
+    "author": "Ank Kumar",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:1990_Vector_W8_Twin_Turbo_sports_car_(Ank_Kumar,_Infosys_Limited)_03.jpg"
+   }
+  },
+  {
+   "id": "cars-2",
+   "group": "Cars",
+   "src": "vision/img/cars-2.jpg",
+   "thumb": "vision/img/cars-2_thumb.jpg",
+   "credit": {
+    "author": "S5A-0043",
+    "license": "CC BY 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:(USA-New_York)_NYC_Medallion_Cab_Toyota_RAV4_NY-Taxi-Y202490C_2024-06-15.jpg"
+   }
+  },
+  {
+   "id": "cars-3",
+   "group": "Cars",
+   "src": "vision/img/cars-3.jpg",
+   "thumb": "vision/img/cars-3_thumb.jpg",
+   "credit": {
+    "author": "DeFacto",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Daimler_DB18_drophead_coup%C3%A9_1950.jpg"
+   }
+  },
+  {
+   "id": "insects-1",
+   "group": "Insects",
+   "src": "vision/img/insects-1.jpg",
+   "thumb": "vision/img/insects-1_thumb.jpg",
+   "credit": {
+    "author": "Thomas Bresson",
+    "license": "CC BY 2.0",
+    "url": "https://commons.wikimedia.org/wiki/File:ComputerHotline_-_Danaus_plexippus_(by)_(3).jpg"
+   }
+  },
+  {
+   "id": "insects-2",
+   "group": "Insects",
+   "src": "vision/img/insects-2.jpg",
+   "thumb": "vision/img/insects-2_thumb.jpg",
+   "credit": {
+    "author": "John Severns (Severnjc)",
+    "license": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/File:European_honey_bee_extracts_nectar.jpg"
+   }
+  },
+  {
+   "id": "insects-3",
+   "group": "Insects",
+   "src": "vision/img/insects-3.jpg",
+   "thumb": "vision/img/insects-3_thumb.jpg",
+   "credit": {
+    "author": "Toni W\u00f6hrl",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Anisoptera_near_Joranda_Water_Fall_Simlipal_Biosphere_Reserve.jpg"
+   }
+  },
+  {
+   "id": "food-1",
+   "group": "Food",
+   "src": "vision/img/food-1.jpg",
+   "thumb": "vision/img/food-1_thumb.jpg",
+   "credit": {
+    "author": "Valerio Capello at English Wikipedia",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Eq_it-na_pizza-margherita_sep2005_sml.jpg"
+   }
+  },
+  {
+   "id": "food-2",
+   "group": "Food",
+   "src": "vision/img/food-2.jpg",
+   "thumb": "vision/img/food-2_thumb.jpg",
+   "credit": {
+    "author": "Renee Comet (photographer)",
+    "license": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/File:Cheeseburger.jpg"
+   }
+  },
+  {
+   "id": "food-3",
+   "group": "Food",
+   "src": "vision/img/food-3.jpg",
+   "thumb": "vision/img/food-3_thumb.jpg",
+   "credit": {
+    "author": "Kritzolina",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Cup_of_espresso_02.jpg"
+   }
+  },
+  {
+   "id": "other-1",
+   "group": "Other",
+   "src": "vision/img/other-1.jpg",
+   "thumb": "vision/img/other-1_thumb.jpg",
+   "credit": {
+    "author": "Marco Leiter",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Leuchtturm_in_Westerheversand_crop.jpg"
+   }
+  },
+  {
+   "id": "other-2",
+   "group": "Other",
+   "src": "vision/img/other-2.jpg",
+   "thumb": "vision/img/other-2_thumb.jpg",
+   "credit": {
+    "author": "Elmschrat",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:00_Walden_Acoustic_Guitar_D310e_01.jpg"
+   }
+  },
+  {
+   "id": "other-3",
+   "group": "Other",
+   "src": "vision/img/other-3.jpg",
+   "thumb": "vision/img/other-3_thumb.jpg",
+   "credit": {
+    "author": "Boaworm",
+    "license": "CC BY 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Fimmvorduhals_2010_03_27_dawn.jpg"
+   }
+  },
+  {
+   "id": "other-4",
+   "group": "Other",
+   "src": "vision/img/other-4.jpg",
+   "thumb": "vision/img/other-4_thumb.jpg",
+   "credit": {
+    "author": "Chme82",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Mikado_141.R.1244_Bad_Zurzach.jpg"
+   }
+  },
+  {
+   "id": "other-5",
+   "group": "Other",
+   "src": "vision/img/other-5.jpg",
+   "thumb": "vision/img/other-5_thumb.jpg",
+   "credit": {
+    "author": "ClaudiaTen",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Portrait_of_a_red_fox_in_Rautas_fj%C3%A4llurskog.jpg"
+   }
+  },
+  {
+   "id": "other-6",
+   "group": "Other",
+   "src": "vision/img/other-6.jpg",
+   "thumb": "vision/img/other-6_thumb.jpg",
+   "credit": {
+    "author": "George Chernilevsky",
+    "license": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/File:Carassius_wild_golden_fish_2013_G1.jpg"
+   }
+  },
+  {
+   "id": "other-7",
+   "group": "Other",
+   "src": "vision/img/other-7.jpg",
+   "thumb": "vision/img/other-7_thumb.jpg",
+   "credit": {
+    "author": "Pierre Andr\u00e9 Leclercq",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Hot_air_balloon_F-GVAG_over_Lompret_(2).jpg"
+   }
+  },
+  {
+   "id": "other-8",
+   "group": "Other",
+   "src": "vision/img/other-8.jpg",
+   "thumb": "vision/img/other-8_thumb.jpg",
+   "credit": {
+    "author": "Dan Bollinger",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Teddy_Bear_-_13.jpg"
+   }
+  },
+  {
+   "id": "other-9",
+   "group": "Other",
+   "src": "vision/img/other-9.jpg",
+   "thumb": "vision/img/other-9_thumb.jpg",
+   "credit": {
+    "author": "Renuka Saravanan.1",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Mushroom,forest_mushroom.jpg"
+   }
+  },
+  {
+   "id": "other-10",
+   "group": "Other",
+   "src": "vision/img/other-10.jpg",
+   "thumb": "vision/img/other-10_thumb.jpg",
+   "credit": {
+    "author": "\u0d15\u0d3e\u0d15\u0d4d\u0d15\u0d30",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:An_inside_view_of_an_Umbrella,_%E0%B4%95%E0%B5%81%E0%B4%9F%E0%B4%AF%E0%B5%81%E0%B4%9F%E0%B5%86_%E0%B4%89%E0%B5%BE%E0%B4%B5%E0%B4%B6%E0%B4%82.JPG"
+   }
+  },
+  {
+   "id": "other-11",
+   "group": "Other",
+   "src": "vision/img/other-11.jpg",
+   "thumb": "vision/img/other-11_thumb.jpg",
+   "credit": {
+    "author": "Cbuske46",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Royal-clipper.jpg"
+   }
+  },
+  {
+   "id": "other-12",
+   "group": "Other",
+   "src": "vision/img/other-12.jpg",
+   "thumb": "vision/img/other-12_thumb.jpg",
+   "credit": {
+    "author": "H. Zell",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Ananas_comosus_004.JPG"
+   }
+  }
+ ]
+}

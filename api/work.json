@@ -21,7 +21,7 @@
     },
     {
       "slug": "kpsa-class-sensitivity",
-      "title": "How ImageNet classes divide a vision transformer's parameter sensitivity",
+      "title": "Exploring How ImageNet Classes Relate to Vision Model Features",
       "eyebrow": "INTERPRETABILITY",
       "category": "update",
       "summary": "We measure which MLP parameter groups the training loss of a supervised and a self-supervised ViT-B/16 is sensitive to on 50,000 ImageNet images. Sensitivity becomes class-specific in the second half of both networks, it is carried increasingly by WordNet supergroups with depth, and its class geometry follows the WordNet hierarchy most closely in the middle blocks.",
@@ -30,7 +30,7 @@
     },
     {
       "slug": "qwen-sensitivity-hubs",
-      "title": "Fifteen MLP features hold half of Qwen3-0.6B's loss sensitivity",
+      "title": "A Handful of Neurons Hold Up a Language Model",
       "eyebrow": "INTERPRETABILITY",
       "category": "update",
       "summary": "In Qwen3-0.6B-Base, 15 of 86,016 MLP features hold 48% of the next-token loss's parameter sensitivity on an average input, and the KPSA estimator reproduces this. Zeroing the six of them in block 3 breaks the model, while zeroing 15 random features of the same blocks leaves it intact.",
@@ -84,7 +84,7 @@
     },
     {
       "slug": "irregular-parameter-sharing",
-      "title": "Parameter sharing works best across width",
+      "title": "Share Weights Across Width, Not Depth",
       "eyebrow": "ARCHITECTURE",
       "category": "update",
       "summary": "We compared nine ways of tying 256 MLP positions of a 16-layer Transformer to 128 shared blocks. Tying parallel MLP chunks within each layer, while keeping layers separate, gave the lowest validation loss across three seeds.",

@@ -1,6 +1,6 @@
 const e=`---
 slug: kpsa-demo
-title: Interactive KPSA Demo
+title: Which Neurons Matter for This Input?
 category: demo
 eyebrow: INTERACTIVE DEMO
 summary: Pick an image or a word and see which MLP features of a vision or language model KPSA ranks for it, as features to deactivate or as a sparse sensitivity circuit across depth.

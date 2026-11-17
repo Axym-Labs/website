@@ -38,6 +38,7 @@ W, H = 1600, 900
 # Palette: warm paper, violet-black ink, the Axym violet and its tints.
 PAPER = "#FAF8F4"
 PAPER_EDGE = "#E4DFD5"
+BACKDROP = "#F5F1E9"  # figure backdrop on the white site: one step deeper than PAPER
 RULE = "#CBC4B6"
 LABEL = "#9C9485"
 INK = "#17132A"
@@ -211,7 +212,12 @@ def resolve_figure(fig: FigureSource, w: float, h: float) -> str:
 # --- layouts ----------------------------------------------------------------
 
 
-def _document(body: str, radius: float = 14) -> str:
+def _document(body: str, radius: float = 14, paper: bool = True) -> str:
+    if not paper:  # transparent canvas: the body brings its own backdrop
+        return (
+            f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
+            f'width="{W}" height="{H}" viewBox="0 0 {W} {H}">{body}</svg>'
+        )
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" '
         f'width="{W}" height="{H}" viewBox="0 0 {W} {H}">'
@@ -220,6 +226,53 @@ def _document(body: str, radius: float = 14) -> str:
         f'<rect x="0.75" y="0.75" width="{W - 1.5}" height="{H - 1.5}" rx="{radius}" fill="none" '
         f'stroke="{PAPER_EDGE}" stroke-width="1.5"/></svg>'
     )
+
+
+def backdrop(figure: str, pad: float = 46, reach: float = 220, smooth: float = 80, feather: float = 10,
+             edge: float = 28, scale: int = 3) -> str:
+    """Paper backdrop shaped to a figure's footprint: the drawn pixels, closed
+    (dilate by pad + reach, erode by reach) so gaps narrower than about 2*reach
+    fill and a margin of about ``pad`` remains, then Gaussian-smoothed into
+    calm curves.
+    Returns two SVG paths: the backdrop and a lighter feather ``feather`` px
+    outside it for a soft edge. Works at 1/scale resolution."""
+    import cairosvg
+    import numpy as np
+    from PIL import Image
+    from scipy import ndimage
+
+    w, h = W // scale, H // scale
+    doc = f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{W}" height="{H}" viewBox="0 0 {W} {H}">{figure}</svg>'
+    raw = cairosvg.svg2png(bytestring=doc.encode(), output_width=w, output_height=h)
+    alpha = np.asarray(Image.open(io.BytesIO(raw)).convert("RGBA"))[..., 3] > 8
+    # Distance-based closing gives an even margin regardless of stroke weight.
+    outside = ndimage.distance_transform_edt(~alpha)
+    grown = outside <= (pad + reach) / scale
+    shrunk = ndimage.distance_transform_edt(grown) > reach / scale
+    field = ndimage.gaussian_filter(shrunk.astype(float), smooth / scale)
+    # Taper to zero near the canvas edge, so the shape closes inside the canvas
+    # (at least ``edge`` px in) instead of being cut straight by it.
+    yy, xx = np.mgrid[0:h, 0:w]
+    to_edge = np.minimum(np.minimum(xx, w - 1 - xx), np.minimum(yy, h - 1 - yy)) * scale
+    field = field * np.clip((to_edge - edge) / (2 * edge), 0, 1)
+    # Keep the largest smooth region so stray marks do not make islands.
+    fig_, ax = plt.subplots()
+    paths = []
+    for level in (0.5, None):
+        if level is None:
+            d_out = ndimage.distance_transform_edt(field < 0.5)
+            lvl_field, lvl = (d_out <= feather / scale).astype(float), 0.5
+            lvl_field = ndimage.gaussian_filter(lvl_field, 1.5)
+        else:
+            lvl_field, lvl = field, level
+        cs = ax.contour(np.arange(w) * scale, np.arange(h) * scale, lvl_field, levels=[lvl])
+        segs = [seg for seg in cs.allsegs[0] if len(seg) > 12]
+        d = "".join("M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in seg) + "Z" for seg in segs)
+        paths.append(d)
+    plt.close(fig_)
+    core, halo = paths
+    return (f'<path d="{halo}" fill="{BACKDROP}" fill-opacity="0.5" fill-rule="nonzero"/>'
+            f'<path d="{core}" fill="{BACKDROP}" fill-rule="nonzero"/>')
 
 
 @dataclass
@@ -281,7 +334,7 @@ def blueprint(slug: str, title: str, figure: FigureSource, *, subtitle: str = ""
     elif frame:
         fx, fy, fw, fh = figure_box or (W / 2 - 560, 92, 1120, 700)
     else:
-        fx, fy, fw, fh = figure_box or (W / 2 - 660, 50, 1320, 800)
+        fx, fy, fw, fh = figure_box or (W / 2 - 560, 135, 1120, 630)
 
     title_svg = ""
     if show_title:
@@ -313,8 +366,11 @@ def blueprint(slug: str, title: str, figure: FigureSource, *, subtitle: str = ""
         cx += w
 
     fig = _place_svg(resolve_figure(figure, fw, fh), fx, fy, fw, fh, prefix=f"{slug}-")
-    body = (sheet.frame() + title_svg + fig + "".join(tb)) if frame else fig
-    return _write(slug, _document(body), out)
+    if frame:
+        return _write(slug, _document(sheet.frame() + title_svg + fig + "".join(tb)), out)
+    # Without the frame: transparent canvas, the figure on a paper backdrop
+    # shaped to its own footprint (the site draws the frame around it).
+    return _write(slug, _document(backdrop(fig) + fig, paper=False), out)
 
 
 def card(slug: str, draw: Callable[[plt.Figure], None], *, out: Path = OUT) -> Path:

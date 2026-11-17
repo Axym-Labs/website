@@ -11,7 +11,7 @@ from matplotlib.collections import LineCollection, PolyCollection
 from matplotlib.colors import LinearSegmentedColormap, to_rgb
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Polygon
 
-from covers import (BRAND, BRAND_LIGHT, BRAND_MID, BRAND_PALE, GREY, GREY_LIGHT, HERE, INK, LABEL, MUTED,
+from covers import (BACKDROP, BRAND, BRAND_LIGHT, BRAND_MID, BRAND_PALE, GREY, GREY_LIGHT, HERE, INK, LABEL, MUTED,
                     PAPER, RULE)
 
 DATA = HERE / "data"
@@ -139,7 +139,7 @@ def axo(fig):
         y = y0 + scale * (resp[i] - resp[i, 0])
         motion = types[i].startswith(("T4", "T5"))
         # Paper fill under each trace hides the rows behind it (lower rows are in front).
-        ax.fill_between(t[::2], y[::2] - 0.04, y0 - 1.2, color=PAPER, lw=0, zorder=2 * r)  # occluder only
+        ax.fill_between(t[::2], y[::2] - 0.04, y0 - 1.2, color=BACKDROP, lw=0, zorder=2 * r)  # occluder: backdrop colour
         ax.plot(t, y, color=BRAND if motion else INK, lw=2.2 if motion else 1.15, alpha=1 if motion else 0.85, zorder=2 * r + 1,
                 solid_joinstyle="round", solid_capstyle="round")
         ax.text(t[0] - 0.04, y0, types[i], ha="right", va="center", fontsize=_pt(12),

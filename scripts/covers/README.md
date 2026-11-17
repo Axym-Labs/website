@@ -7,9 +7,12 @@ and research updates. Front matter references them as
 Two layouts, one palette (warm paper `#FAF8F4`, ink `#17132A`, Axym violet
 `#3F21B6` and its tints), so the covers read as cards on the white site:
 
-- **blueprint** (papers, products, libraries): one large figure centred on
-  the paper, no title and no frame. The site prints the title beside the cover
-  and draws the drawing-sheet frame around it (next section). `frame=True`
+- **blueprint** (papers, products, libraries): one large figure centred on a
+  transparent canvas, on a paper backdrop (`#F5F1E9`) shaped to the figure's
+  own footprint (`covers.backdrop`: the drawn pixels closed with a 220 px reach,
+  a 46 px margin, Gaussian-smoothed, with a soft 10 px feather, kept 28 px
+  inside the canvas). No title and no frame: the site prints the title beside
+  the cover and draws the drawing-sheet frame around it (next section). `frame=True`
   draws the frame into the image again; `show_title=True` restores the old
   title-left, figure-right layout.
 - **card** (research updates): a full-bleed line drawing of the update's own

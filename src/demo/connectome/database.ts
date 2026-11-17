@@ -1,7 +1,8 @@
 import { dequantize, knnTransform, loadPacked, percentileOf, type ReferenceStats } from "./assets";
 
-// Image database served from the Axym data host; override with VITE_CONNECTOME_DB for testing.
-export const PRIMARY_DB: string = import.meta.env.VITE_CONNECTOME_DB ?? "https://data.axym.org/axosim-demo";
+// Full image database on the Hugging Face Hub (db/ and images/ at the repo root); override with VITE_CONNECTOME_DB for testing.
+export const PRIMARY_DB: string =
+  import.meta.env.VITE_CONNECTOME_DB ?? "https://huggingface.co/datasets/Axym-Labs/axosim-demo-db/resolve/main";
 export const FALLBACK_DB = "/demo/connectome/fallback-db";
 const TRANSFORM_NEIGHBORS = 15;
 

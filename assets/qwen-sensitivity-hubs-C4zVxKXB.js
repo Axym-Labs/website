@@ -62,7 +62,7 @@ the 40 features with the largest mean, and the mean KPSA estimate over 3,000
 held-out tokens. Right: share of each held-out token’s sensitivity in the 15
 features, exact and estimated by KPSA.</figcaption></figure>
    
-   <h2 class='sectionHead' id='zeroing-the-block-features-breaks-the-model'>  <a id='x1-3000'></a>Zeroing the block-3 features breaks the model</h2>
+   <h2 class='sectionHead' id='zeroing-six-features-breaks-the-model'>  <a id='x1-3000'></a>Zeroing six features breaks the model</h2>
 <!-- l. 46 --><p class='noindent'>We zero features by setting their activation, the input to the down projection, to
 zero at every position, and measure the next-token loss on 512 held-out
 Wikipedia paragraphs of 96 tokens. Zeroing all 15 features raises the loss from
@@ -85,25 +85,38 @@ effects.
 a set of MLP features zeroed. Random features: mean over ten draws of six
 features from block 3 and nine from block 28, excluding the 15.</figcaption></figure>
 <!-- l. 56 --><p class='indent'>   Greedy continuations show what the loss measures. With the six block-3
-features zeroed, the model repeats words of the prompt; with the nine block-28
-features zeroed, it continues fluently.
+features zeroed, the model repeats words of the prompt (bold below); with the
+nine block-28 features zeroed, it continues fluently.
                                                                      
 
                                                                      
 </p>
      <ul class='itemize1'>
-     <li class='itemize'><span class='pplri7t-x-x-109'>The  capital  of  France  is  </span>—  intact:  “Paris.  The  capital  of  Germany
-     is  Berlin.”;  block-3  features  zeroed:  “France  France  France  France
-     France”.
+     <li class='itemize'><span class='pplri7t-x-x-109'>The capital of France is</span><br class='newline' />intact: “Paris. The capital of Germany is Berlin. The capital of Italy is
+     Rome. The capital of Spain is Madrid. The capital of the United States
+     is Washington, D.C. …”<br class='newline' />six  features  zeroed:  <span class='pplb7t-x-x-109'>“France  France  France  France  France  France
+     France France France France France France …”</span>
      </li>
-     <li class='itemize'><span class='pplri7t-x-x-109'>In  1905,  Albert  Einstein  published  </span>—  intact:  “a  paper  in  which  he
-     proposed that”; zeroed: “Albert Einstein Einstein Einstein Einstein”.
+     <li class='itemize'><span class='pplri7t-x-x-109'>In 1905, Albert Einstein published</span><br class='newline' />intact:  “a  paper  in  which  he  proposed  that  the  speed  of  light  is
+     constant  in  all  inertial  frames  of  reference.  This  idea  was  later
+     confirmed by experiments, …”<br class='newline' />six  features  zeroed:  <span class='pplb7t-x-x-109'>“Albert  Einstein  Einstein  Einstein  Einstein
+     Einstein Einstein Einstein Einstein Einstein Einstein Einstein …”</span>
      </li>
-     <li class='itemize'><span class='pplri7t-x-x-109'>To make bread, you first </span>— intact: “mix flour, sugar, and water.”; zeroed:
-     “make bread, you first make bread,”.</li></ul>
+     <li class='itemize'><span class='pplri7t-x-x-109'>To make bread, you first</span><br class='newline' />intact: “mix flour, sugar, and water. Then you cover the mixture and
+     let it rise in the refrigerator. When you’re ready to bake the bread, …”<br class='newline' />six  features  zeroed:  <span class='pplb7t-x-x-109'>“make  bread,  you  first  make  bread,  you  first
+     make bread, you first make bread, you first make bread, …”</span>
+     </li>
+     <li class='itemize'><span class='pplri7t-x-x-109'>The river flows through the old town and</span><br class='newline' />intact: “the new town. The old town has 1000 houses, and the new
+     town has 1500 houses. …”<br class='newline' />six features zeroed: <span class='pplb7t-x-x-109'>“and and and and and and and and and and and
+     and and and and and …”</span>
+     </li>
+     <li class='itemize'><span class='pplri7t-x-x-109'>Photosynthesis is the process by which</span><br class='newline' />intact:  “plants,  algae,  and  some  bacteria  convert  light  energy  into
+     chemical energy. It is a fundamental biological process that underpins
+     the food chain …”<br class='newline' />six features zeroed: <span class='pplb7t-x-x-109'>“is the process by which is the process by which
+     is the process by which is the process by which …”</span></li></ul>
    
    <h2 class='sectionHead' id='outlook'>  <a id='x1-4000'></a>Outlook</h2>
-<!-- l. 66 --><p class='noindent'>Whether these features serve a function or are a byproduct of optimization is
+<!-- l. 68 --><p class='noindent'>Whether these features serve a function or are a byproduct of optimization is
 open, and exploring it would be interesting. If they serve a function,
 this could point to circuits with a centralized structure, in which a few
 features take part in the computation for every input. For KPSA, these
@@ -114,10 +127,7 @@ every word. Code for these measurements is in <a href='https://github.com/Axym-L
    
 </p>
    <h2 class='likesectionHead' id='references'>  <a id='x1-5000'></a>References</h2>
-<!-- l. 68 --><p class='noindent'>
-                                                                     
-
-                                                                     
+<!-- l. 70 --><p class='noindent'>
      </p><section class='thebibliography' role='doc-bibliography'><dl><dt>
   [1]</dt><dd><a id='Xkpsa'></a>D.                                 Wiest,                                 A.                                 H.
      Ariq and A. M. Chowdhury. <a href='https://arxiv.org/abs/2610.12737'>Kernelized Parameter Sensitivity Atlases

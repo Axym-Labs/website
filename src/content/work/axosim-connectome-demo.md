@@ -1,6 +1,6 @@
 ---
 slug: axosim-connectome-demo
-title: Interactive Connectome Demo
+title: A Fly Brain's Visual System in Your Browser
 category: demo
 eyebrow: INTERACTIVE DEMO
 summary: Run a 45,669-neuron simulated fly visual system in your browser. Follow its population trajectory under video, or find the images it treats alike and test how stable its response is.

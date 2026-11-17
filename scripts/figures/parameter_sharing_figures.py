@@ -1,4 +1,4 @@
-"""Figures for the research update "Parameter sharing works best across width".
+"""Figures for the research update "Share Weights Across Width, Not Depth".
 
 Data: the hard block-sharing runs of Axym-Labs/irregular-parameter-sharing,
   $IPS_REPO/runs/hard_block_100m_d16_w1024_c16_b128_b8ga6_search12/live.jsonl

@@ -11,7 +11,7 @@ import { ASSET_BASE, useSimulator } from "@/demo/connectome/useSimulator";
 import VideoSection from "@/demo/connectome/VideoSection";
 
 export const DEMO_SLUG = "axosim-connectome-demo";
-const TITLE = "Interactive Connectome Demo";
+const TITLE = "A Fly Brain's Visual System in Your Browser";
 const SUMMARY =
   "Run a 45,669-neuron simulated fly visual system in your browser: follow its population trajectory under video, or find the images it treats alike and test how stable its response is.";
 
@@ -41,7 +41,7 @@ const ConnectomeDemo = () => {
   return (
     <div className="min-h-screen bg-canvas">
       <Navbar />
-      <main className="pt-16">
+      <main className="pt-[var(--nav-h)]">
         <article className="publication-canvas connectome-page w-full bg-canvas px-5 py-16 text-canvas-foreground sm:px-8 sm:py-20 md:px-12 lg:px-16">
           <div className="latex-publication mx-auto w-full min-w-0 max-w-[46rem]">
             <header className="publication-head">

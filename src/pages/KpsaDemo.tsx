@@ -10,7 +10,7 @@ import type { App, LanguageIndex, Modality, VisionIndex } from "@/demo/kpsa/type
 import VisionView, { type VisionSelection } from "@/demo/kpsa/VisionView";
 
 export const DEMO_SLUG = "kpsa-demo";
-const TITLE = "Interactive KPSA Demo";
+const TITLE = "Which Neurons Matter for This Input?";
 const SUMMARY =
   "Pick an image or a word and see which MLP features of a vision or language model KPSA ranks for it: the features the loss is most sensitive to, and a sparse sensitivity circuit across depth.";
 
@@ -86,7 +86,7 @@ const KpsaDemo = () => {
   return (
     <div className="min-h-screen bg-canvas">
       <Navbar />
-      <main className="pt-16">
+      <main className="pt-[var(--nav-h)]">
         <article className="publication-canvas kpsa-page w-full bg-canvas px-4 py-16 text-canvas-foreground sm:px-8 sm:py-20 md:px-12 lg:px-16">
           <div className="latex-publication mx-auto w-full min-w-0 max-w-[46rem]">
             <header className="publication-head">

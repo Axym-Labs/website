@@ -1,6 +1,6 @@
 %---
 % slug: irregular-parameter-sharing
-% title: Parameter sharing works best across width
+% title: Share Weights Across Width, Not Depth
 % category: update
 % eyebrow: ARCHITECTURE
 % summary: We compared nine ways of tying 256 MLP positions of a 16-layer Transformer to 128 shared blocks. Tying parallel MLP chunks within each layer, while keeping layers separate, gave the lowest validation loss across three seeds.
@@ -15,7 +15,7 @@
 \newcommand{\minus}{\ifdefined\HCode\HCode{&\#x2212;}\else\textminus\fi}
 \begin{document}
 
-\publicationtitle{Parameter sharing works best across width}
+\publicationtitle{Share Weights Across Width, Not Depth}
 \publicationauthors{Davide Wiest}
 \publicationaffiliations{Axym Labs}
 

@@ -86,24 +86,30 @@ supergroups, and of different supergroups. The band spans the 25th to 75th
 percentile of the same-class value over the 1,000 classes.</figcaption></figure>
    
    <h2 class='sectionHead' id='how-selective-are-parameter-groups-for-classes-and-their-supergroups'>  <a id='x1-3000'></a>How selective are parameter groups for classes and their supergroups?</h2>
-<!-- l. 50 --><p class='noindent'>We measure a group’s class selectivity as the information, in bits, that the
+<!-- l. 50 --><p class='noindent'>We measure how much a parameter group’s sensitivity tells about the class of
                                                                      
 
                                                                      
-distribution of its sensitivity over the classes carries relative to the class
-frequencies, weighted by the group’s share of total sensitivity and with
-the value under shuffled image labels subtracted. Selectivity stays at or
+the image. For each group, we take the distribution of its sensitivity over the
+1,000 classes and measure, in bits, how far it is from the class frequencies: a
+group that is equally sensitive to all classes scores 0 bits, and a group sensitive to
+a single class scores about 10 bits. We average this over the groups of
+a block, weighted by their share of the total sensitivity, and subtract
+the value obtained with shuffled image labels. Selectivity stays at or
 below 0.11 bits in blocks 1 to 4 of both models and rises with depth to
 3.21 bits in block 11 of the supervised model and 1.80 bits in block 12 of
 DINO.
-</p><!-- l. 52 --><p class='indent'>   The same quantity computed over supergroups instead of classes, divided by
-the class value on the same classes, gives the share of a group’s class selectivity
-that only distinguishes supergroups. The 35 coarse supergroups account for 37%
-of the class selectivity in block 1 of the supervised model and for 58% in block 10;
-in DINO the share rises from 35% to 68% in block 8. For the 155 supergroups, the
-share reaches 84% and 92%. Deeper parameter groups are therefore more
-selective, and most of their selectivity separates broad categories rather than
-single classes.
+</p><!-- l. 52 --><p class='indent'>   To see how much of this selectivity is about broad categories, we compute the
+same quantity with the classes merged into their supergroups and divide it by
+the class value. The share is 100% when a group’s sensitivity differs only
+between supergroups and is spread evenly over the classes within each, and
+near 0 when it singles out classes within a supergroup. The 35 coarse
+supergroups account for 37% of the class selectivity in block 1 of the
+supervised model and for 58% in block 10; in DINO the share rises from
+35% to 68% in block 8. For the 155 supergroups, the share reaches 84%
+and 92%. Deeper parameter groups are therefore more selective, and
+most of their selectivity separates broad categories rather than single
+classes.
 <a id='x1-3001r2'></a>
 </p>
    <figure class='publication-figure'><img alt='Three line plots: class information against block for both models, and the share of class information carried by supergroups against block for each model' decoding='async' loading='lazy' src='/work/kpsa-class-sensitivity/fig2-selectivity.svg' /><figcaption><span class='pplb7t-x-x-109'>Figure 2. </span>Left: mass-weighted information of parameter-group sensitivity
@@ -121,15 +127,15 @@ variance of an image’s mean sensitivity depth in both models, compared with
 2% under shuffled labels. In the supervised model, the mean depth ranges from
 block 5.4 for carousel, slot and koala to block 7.9 for balloon, parachute and
 gong.
+                                                                     
+
+                                                                     
 </p><!-- l. 64 --><p class='indent'>   For the image grid we take each image’s 37 most sensitive groups, 0.1% of all
 groups, and their per-patch energy. The class explains 10% of the variance of the
 vertical centre of this energy in the supervised model and 2.5% in DINO, against
 2% under shuffled labels. Table lamps and shower caps draw sensitivity from the
 upper part of the image, unicycles and sarongs from the lower part. The
 horizontal centre does not depend on the class in either model. The share of
-                                                                     
-
-                                                                     
 energy on the class token depends on the class more strongly than depth does:
 the class explains 21% of its variance in the supervised model and 20% in
 DINO.
@@ -142,14 +148,17 @@ groups on the 14 by 14 patch grid. <span class='mathjax-inline'>\\(\\eta ^2\\)</
 class.</figcaption></figure>
    
    <h2 class='sectionHead' id='does-the-class-geometry-of-sensitivity-follow-the-wordnet-hierarchy'>  <a id='x1-5000'></a>Does the class geometry of sensitivity follow the WordNet hierarchy?</h2>
-<!-- l. 74 --><p class='noindent'>For each block we compare the 1,000 class-mean profiles with one another and
-correlate their similarity with the depth of the deepest common WordNet
-ancestor of the two classes. The rank correlation rises from 0.32 in block 1 to 0.49
-in block 6 of the supervised model, and from 0.27 to 0.51 in block 7 of DINO.
-Beyond the middle of the network it falls again, to 0.21 and 0.06 in block 12. The
-parameters most specific to single classes therefore sit later than those whose use
-mirrors the full hierarchy. The middle blocks are where the sensitivity of classes
-is organized coarse-to-fine, consistent with the hierarchical data hypothesis
+<!-- l. 74 --><p class='noindent'>The depth of the deepest common WordNet ancestor of two classes measures
+how closely they are related: tabby cat and tiger cat meet in domestic cat, deep in
+the tree, while tabby cat and pickup truck meet only near the root. For each block
+we compare the 1,000 class-mean profiles with one another and correlate the
+similarity of two classes with the depth of their deepest common ancestor. The
+rank correlation rises from 0.32 in block 1 to 0.49 in block 6 of the supervised
+model, and from 0.27 to 0.51 in block 7 of DINO. Beyond the middle of the
+network it falls again, to 0.21 and 0.06 in block 12. The parameters most
+specific to single classes therefore sit later than those whose use mirrors the
+full hierarchy. The middle blocks are where the sensitivity of classes is
+organized coarse-to-fine, consistent with the hierarchical data hypothesis
 <span class='cite'>[<a href='#Xhdh'>4</a>]</span>.
 <a id='x1-5001r4'></a>
 </p>
@@ -158,15 +167,15 @@ the similarity of their class-mean profiles in one block and the depth of their
 deepest common WordNet ancestor. Dotted lines: the same correlation for
 profiles over all blocks.</figcaption></figure>
    
+                                                                     
+
+                                                                     
    <h2 class='sectionHead' id='how-sparse-is-the-dependence-between-parameter-groups-and-classes'>  <a id='x1-6000'></a>How sparse is the dependence between parameter groups and classes?</h2>
 <!-- l. 84 --><p class='noindent'>We count parameter groups by the exponential of the profile’s entropy, the
 effective number of groups. A single image depends on a median of 2,368
 of the 36,864 groups in the supervised model and on 4,823 in DINO,
 and the top 1% of groups carry a median 52% and 35% of an image’s
 sensitivity. The class mean of 50 images spreads over 5,926 and 8,212 effective
-                                                                     
-
-                                                                     
 groups, so images of one class share part of their groups and add their
 own.
 </p><!-- l. 86 --><p class='indent'>   Counted the other way, a group’s sensitivity spreads over the classes
@@ -194,14 +203,14 @@ most images. Code for these measurements is in <a href='https://github.com/Axym-
    
 </p>
    <h2 class='likesectionHead' id='references'>  <a id='x1-8000'></a>References</h2>
+                                                                     
+
+                                                                     
 <!-- l. 98 --><p class='noindent'>
      </p><section class='thebibliography' role='doc-bibliography'><dl><dt>
   [1]</dt><dd><a id='Xkpsa'></a>D.                                 Wiest,                                 A.                                 H.
      Ariq and A. M. Chowdhury. <a href='https://arxiv.org/abs/2610.12737'>Kernelized Parameter Sensitivity Atlases
      for Amortized Conditional Interpretability</a>. arXiv:2610.12737, 2026.
-                                                                     
-
-                                                                     
      </dd><dt>
   [2]</dt><dd><a id='Xsteiner2022'></a>A.  Steiner  et  al.  <a href='https://arxiv.org/abs/2106.10270'>How  to  train  your  ViT?  Data,  Augmentation,  and
      Regularization in Vision Transformers</a>. <span class='pplri7t-x-x-109'>TMLR</span>, 2022.

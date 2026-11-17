@@ -3,7 +3,7 @@ import { ExternalLink, Search, X } from "lucide-react";
 import CircuitPanel from "./CircuitPanel";
 import { useJson } from "./data";
 import FeatureCard from "./FeatureCard";
-import { BudgetSummary, FeatureList } from "./FeatureList";
+import { FeatureList, InterventionTable } from "./FeatureList";
 import { prob, tokenText } from "./format";
 import { TextNeighbors } from "./Neighbors";
 import type { App, LanguageIndex, LanguageTarget, Passage, PassageData, RankedFeature } from "./types";
@@ -53,6 +53,10 @@ export default function LanguageView({ app, sel, update }: Props) {
 
   if (index.error) return <ErrorText>Could not load the passages ({index.error}).</ErrorText>;
 
+  const card = feature && info && (
+    <FeatureCard ref={cardRef} modality="language" feature={feature} featuresPerLayer={info.featuresPerLayer} outcome={outcome} onClose={() => update({ featureId: null })} />
+  );
+
   return (
     <div className="space-y-5">
       <div className="grid gap-5 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)]">
@@ -79,13 +83,45 @@ export default function LanguageView({ app, sel, update }: Props) {
         </Panel>
       </div>
 
+      {app === "circuit" && (
+        <>
+          {info && target ? (
+            <CircuitPanel
+              budgets={info.budgets}
+              budget={budget}
+              onBudget={(pct) => update({ budget: pct })}
+              features={ranked}
+              layers={info.layers}
+              featuresPerLayer={info.featuresPerLayer}
+              layerMass={target.layerMass}
+              factors={info.factors}
+              sets={target.sets}
+              intact={target.p}
+              outcome={outcome}
+              selectedId={featureId}
+              onSelect={select}
+            />
+          ) : detail.error || data ? null : (
+            <Skeleton className="h-80 w-full" />
+          )}
+          {card}
+        </>
+      )}
+
       <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
         <Panel label="Selected word" className="space-y-6">
           {data && target && t !== null ? (
             <>
               <WordPrediction tokens={data.tokens} t={t} target={target} />
               {app === "attribution" && info && (
-                <BudgetSummary budgets={info.budgets} effects={target.setEffect} intact={target.p} outcome={outcome} totalFeatures={info.layers * info.featuresPerLayer} />
+                <InterventionTable
+                  budgets={info.budgets}
+                  factors={info.factors}
+                  sets={target.sets}
+                  intact={target.p}
+                  outcome={outcome}
+                  totalFeatures={info.layers * info.featuresPerLayer}
+                />
               )}
             </>
           ) : detail.error ? null : data ? (
@@ -99,7 +135,7 @@ export default function LanguageView({ app, sel, update }: Props) {
             app === "attribution" ? (
               <FeatureList features={ranked} selectedId={featureId} onSelect={select} outcome={outcome} inputKey={`${passageId}:${t}`} />
             ) : (
-              <TextNeighbors neighbors={target.neighbors} atlasSources={info.atlasSources} />
+              <TextNeighbors neighbors={target.neighbors} half={target.neighborsHalf} atlasSources={info.atlasSources} />
             )
           ) : detail.error ? (
             <ErrorText>Could not load this passage ({detail.error}).</ErrorText>
@@ -109,27 +145,7 @@ export default function LanguageView({ app, sel, update }: Props) {
         </Panel>
       </div>
 
-      {app === "circuit" && info && target && (
-        <CircuitPanel
-          budgets={info.budgets}
-          budget={budget}
-          onBudget={(pct) => update({ budget: pct })}
-          features={ranked}
-          layers={info.layers}
-          featuresPerLayer={info.featuresPerLayer}
-          layerMass={target.layerMass}
-          effects={target.setEffect}
-          intact={target.p}
-          outcome={outcome}
-          selectedId={featureId}
-          onSelect={select}
-        />
-      )}
-      {app === "circuit" && !target && !detail.error && <Skeleton className="h-80 w-full" />}
-
-      {feature && info && (
-        <FeatureCard ref={cardRef} modality="language" feature={feature} featuresPerLayer={info.featuresPerLayer} outcome={outcome} onClose={() => update({ featureId: null })} />
-      )}
+      {app === "attribution" && card}
     </div>
   );
 }

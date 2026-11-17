@@ -29,3 +29,10 @@ export function tokenText(token: string): string {
   if (text) return text;
   return token.includes("\n") ? "↵" : "␣";
 }
+
+/** Column label of an activation multiplier. */
+export function factorLabel(factor: number): { short: string; long: string } {
+  if (factor === 0) return { short: "×0", long: "deactivate" };
+  if (factor < 1) return { short: `×${factor}`, long: "scale down" };
+  return { short: `×${factor}`, long: "scale up" };
+}

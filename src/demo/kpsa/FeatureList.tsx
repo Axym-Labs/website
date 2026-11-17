@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { featureLabel, prob, share } from "./format";
+import { factorLabel, featureLabel, prob, share } from "./format";
 import type { Budget, RankedFeature } from "./types";
 import { Bar, PanelHeading } from "./ui";
 
@@ -10,7 +10,7 @@ interface ListProps {
   features: RankedFeature[];
   selectedId: string | null;
   onSelect: (id: string) => void;
-  /** What the deactivation column measures, e.g. "tabby cat". */
+  /** What the p-after column measures, e.g. "tabby cat". */
   outcome: string;
   /** Resets the "show more" state when the input changes. */
   inputKey: string;
@@ -25,7 +25,7 @@ export function FeatureList({ features, selectedId, onSelect, outcome, inputKey 
 
   return (
     <div>
-      <PanelHeading aside={`top ${features.length}`}>Features to deactivate</PanelHeading>
+      <PanelHeading aside={`top ${features.length}`}>Most sensitive features</PanelHeading>
       <div className="kpsa-list-head grid grid-cols-[1.75rem_minmax(6.5rem,1fr)_minmax(5rem,1.2fr)_4.75rem] items-end gap-x-3 border-b border-[#18161f]/10 pb-1.5 text-[0.7rem] font-medium text-[#6b6875]">
         <span className="text-right">#</span>
         <span>Feature</span>
@@ -72,34 +72,69 @@ export function FeatureList({ features, selectedId, onSelect, outcome, inputKey 
   );
 }
 
-interface BudgetProps {
+/** Cell tint: purple for a drop, grey for a rise, stronger for larger changes. */
+function changeTint(p: number, intact: number): string {
+  if (!Number.isFinite(p)) return "transparent";
+  const change = Math.min(1, Math.abs(Math.log((p + 1e-4) / (intact + 1e-4))) / Math.log(100));
+  const alpha = (0.04 + 0.26 * change).toFixed(3);
+  return p < intact ? `rgba(63, 33, 182, ${alpha})` : `rgba(24, 22, 31, ${(0.03 + 0.1 * change).toFixed(3)})`;
+}
+
+interface InterventionProps {
   budgets: Budget[];
-  /** Probability after zeroing the top-k set, aligned with `budgets`. */
-  effects: number[];
+  factors: number[];
+  /** Probability after scaling the top-k set, [budget][factor]. */
+  sets: number[][];
   intact: number;
   outcome: string;
   totalFeatures: number;
 }
 
-/** Probability of the model's output after deactivating the top-k features at each budget. */
-export function BudgetSummary({ budgets, effects, intact, outcome, totalFeatures }: BudgetProps) {
-  const rows = [{ key: "intact", label: "None", detail: "", p: intact }, ...budgets.map((budget, i) => ({ key: String(budget.pct), label: `Top ${budget.k}`, detail: `${budget.pct} %`, p: effects[i] }))];
+/** Probability of the model's output after scaling the activations of the top-ranked set at each budget. */
+export function InterventionTable({ budgets, factors, sets, intact, outcome, totalFeatures }: InterventionProps) {
   return (
     <div>
-      <PanelHeading aside={`of ${totalFeatures.toLocaleString("en-US")} features`}>Deactivating the top features together</PanelHeading>
+      <PanelHeading aside={`of ${totalFeatures.toLocaleString("en-US")} features`}>Intervening on the top features together</PanelHeading>
       <p className="mb-3 text-[0.8rem] leading-snug text-[#5c5966]">
-        Probability of <span className="font-medium text-[#18161f]">“{outcome}”</span> after zeroing the top-ranked set.
+        Probability of <span className="font-medium text-[#18161f]">“{outcome}”</span>, now <span className="tabular-nums text-[#18161f]">{prob(intact)}</span>,
+        after multiplying the activations of the top-ranked set.
       </p>
-      <div className="space-y-2">
-        {rows.map((row) => (
-          <div key={row.key} className="grid grid-cols-[4.25rem_3rem_minmax(0,1fr)_3rem] items-center gap-x-2.5 text-sm">
-            <span className="font-medium text-[#18161f]">{row.label}</span>
-            <span className="text-xs tabular-nums text-[#8a8794]">{row.detail}</span>
-            <Bar value={row.p ?? 0} tone={row.key === "intact" ? "muted" : "brand"} />
-            <span className="text-right text-xs tabular-nums text-[#4b4857]">{row.p !== undefined ? prob(row.p) : "–"}</span>
-          </div>
-        ))}
-      </div>
+      <table className="w-full table-fixed border-separate border-spacing-[3px] text-sm">
+        <thead>
+          <tr className="text-[0.7rem] font-medium text-[#6b6875]">
+            <th scope="col" className="w-[4.5rem] text-left font-medium">
+              <span className="sr-only">Set</span>
+            </th>
+            {factors.map((factor) => {
+              const label = factorLabel(factor);
+              return (
+                <th key={factor} scope="col" className="pb-0.5 text-center font-medium leading-tight">
+                  <span className="block font-mono text-[0.75rem] text-[#18161f]">{label.short}</span>
+                  <span className="block">{label.long}</span>
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
+        <tbody>
+          {budgets.map((budget, i) => (
+            <tr key={budget.pct}>
+              <th scope="row" className="text-left font-normal leading-tight">
+                <span className="block font-medium text-[#18161f]">Top {budget.k}</span>
+                <span className="block text-[0.7rem] tabular-nums text-[#8a8794]">{budget.pct} %</span>
+              </th>
+              {factors.map((factor, j) => {
+                const p = sets[i]?.[j];
+                return (
+                  <td key={factor} className="rounded-md py-1.5 text-center text-xs tabular-nums text-[#18161f]" style={{ background: changeTint(p ?? NaN, intact) }}>
+                    {p !== undefined ? prob(p) : "–"}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

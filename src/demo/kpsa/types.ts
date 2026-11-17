@@ -27,6 +27,8 @@ export interface VisionIndex {
   featuresPerLayer: number;
   atlasSources: number;
   budgets: Budget[];
+  /** Activation multipliers of the set interventions, e.g. [0.5, 0, 3, 10]. */
+  factors: number[];
   groups: string[];
   images: VisionImage[];
 }
@@ -44,9 +46,13 @@ export interface VisionQuery {
   id: string;
   prediction: { label: string; p: number; top5: [string, number][] };
   features: VisionFeature[];
-  setEffect: { pct: number; k: number; p: number }[];
+  /** Probability of the predicted class after scaling the top-k set, [budget][factor]. */
+  sets: number[][];
   layerMass: number[];
+  /** Atlas sources with the largest readout weight phi(z*) . phi(z_i), weights normalized over all sources. */
   neighbors: { thumb: string; label: string; w: number }[];
+  /** Number of sources that together hold half of the readout weight. */
+  neighborsHalf: number;
 }
 
 export interface VisionFeatureCard {
@@ -68,6 +74,7 @@ export interface LanguageIndex {
   featuresPerLayer: number;
   atlasSources: number;
   budgets: Budget[];
+  factors: number[];
   passages: Passage[];
   /** Features that hold a large share of every input's sensitivity and are left out of the ranking. */
   excluded?: { count: number; share: number };
@@ -78,9 +85,11 @@ export interface LanguageTarget {
   top: [string, number][];
   features: [number, number, number][];
   deact: number[];
-  setEffect: number[];
+  /** Probability of the target token after scaling the top-k set, [budget][factor]. */
+  sets: number[][];
   layerMass: number[];
   neighbors: { text: string; target: string; w: number }[];
+  neighborsHalf: number;
 }
 
 export interface PassageData {

@@ -536,6 +536,11 @@ All colors MUST be HSL.
   scrollbar-color: rgb(24 22 31 / 18%) transparent;
 }
 
+/* Scroll hint: the last rows fade out above the panel edge. */
+.kpsa-fade-bottom {
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 2.25rem), transparent);
+}
+
 .kpsa-search::-webkit-search-cancel-button {
   display: none;
 }

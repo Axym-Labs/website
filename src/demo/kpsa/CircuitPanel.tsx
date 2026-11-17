@@ -1,5 +1,5 @@
 import DepthDiagram from "./DepthDiagram";
-import { prob } from "./format";
+import { factorLabel, prob } from "./format";
 import type { Budget, RankedFeature } from "./types";
 import { Panel, PanelHeading, PillChoice } from "./ui";
 
@@ -11,8 +11,9 @@ interface Props {
   layers: number;
   featuresPerLayer: number;
   layerMass: number[];
-  /** Probability after zeroing the circuit at each budget, aligned with `budgets`. */
-  effects: number[];
+  factors: number[];
+  /** Probability after scaling the circuit's activations, [budget][factor]. */
+  sets: number[][];
   intact: number;
   outcome: string;
   selectedId: string | null;
@@ -20,11 +21,11 @@ interface Props {
 }
 
 /** Sensitivity circuit at a chosen budget, drawn across depth. */
-export default function CircuitPanel({ budgets, budget, onBudget, features, layers, featuresPerLayer, layerMass, effects, intact, outcome, selectedId, onSelect }: Props) {
+export default function CircuitPanel({ budgets, budget, onBudget, features, layers, featuresPerLayer, layerMass, factors, sets, intact, outcome, selectedId, onSelect }: Props) {
   const index = Math.max(0, budgets.findIndex((b) => b.pct === budget));
   const { k } = budgets[index] ?? { k: features.length };
   const circuit = features.slice(0, k);
-  const effect = effects[index];
+  const effects = sets[index] ?? [];
   const total = layers * featuresPerLayer;
 
   return (
@@ -35,13 +36,23 @@ export default function CircuitPanel({ budgets, budget, onBudget, features, laye
           <span className="text-xs text-[#5c5966]">Budget</span>
           <PillChoice label="Circuit budget" options={budgets.map((b) => ({ value: b.pct, label: `${b.pct} %` }))} value={budget} onChange={onBudget} />
         </div>
-        {effect !== undefined && (
-          <p className="text-[0.8rem] text-[#5c5966]">
-            Probability of <span className="font-medium text-[#18161f]">“{outcome}”</span>: <span className="tabular-nums text-[#18161f]">{prob(intact)}</span>
-            <span className="mx-1.5 text-[#8a8794]">→</span>
-            <span className="font-medium tabular-nums text-[#3f21b6]">{prob(effect)}</span> with the circuit zeroed
-          </p>
-        )}
+        <p className="text-[0.8rem] text-[#5c5966]">
+          Probability of <span className="font-medium text-[#18161f]">“{outcome}”</span>: <span className="tabular-nums text-[#18161f]">{prob(intact)}</span>
+        </p>
+      </div>
+      <div className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4" aria-label="Probability after scaling the circuit's activations">
+        {factors.map((factor, j) => {
+          const label = factorLabel(factor);
+          const p = effects[j];
+          return (
+            <div key={factor} className="rounded-md border border-[#18161f]/[0.08] bg-white/60 px-3 py-2">
+              <p className="text-[0.7rem] text-[#6b6875]">
+                <span className="font-mono text-[#18161f]">{label.short}</span> {label.long}
+              </p>
+              <p className={`text-base font-medium tabular-nums ${p !== undefined && p < intact ? "text-[#3f21b6]" : "text-[#18161f]"}`}>{p !== undefined ? prob(p) : "–"}</p>
+            </div>
+          );
+        })}
       </div>
       <DepthDiagram layers={layers} features={circuit} layerMass={layerMass} massOf={features.length} selectedId={selectedId} onSelect={onSelect} outcome={outcome} />
       <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 text-[0.72rem] text-[#6b6875]">

@@ -1,14 +1,26 @@
 import { assetUrl } from "./data";
-import { tokenText } from "./format";
+import { share, tokenText } from "./format";
 import { PanelHeading } from "./ui";
 
-const weight = (w: number) => `${(w * 100).toFixed(0)} %`;
+const weight = share;
 
-/** Atlas source images with the highest kernel weight for the query. */
-export function ImageNeighbors({ neighbors, atlasSources }: { neighbors: { thumb: string; label: string; w: number }[]; atlasSources: number }) {
+/** How concentrated the atlas readout is for this query. */
+function HalfNote({ half, atlasSources, kind }: { half: number; atlasSources: number; kind: string }) {
+  return (
+    <p className="mb-3 text-[0.8rem] leading-snug text-[#5c5966]">
+      The atlas weights each source's profile by the overlap of its prototype responses with the query's.{" "}
+      <span className="tabular-nums text-[#18161f]">{half.toLocaleString("en-US")}</span> of {atlasSources.toLocaleString("en-US")} {kind} hold half of the weight; the
+      highest-weighted are shown.
+    </p>
+  );
+}
+
+/** Atlas source images with the highest readout weight for the query. */
+export function ImageNeighbors({ neighbors, half, atlasSources }: { neighbors: { thumb: string; label: string; w: number }[]; half: number; atlasSources: number }) {
   return (
     <div>
-      <PanelHeading aside={`of ${atlasSources.toLocaleString("en-US")}`}>Source images the atlas drew on</PanelHeading>
+      <PanelHeading>Source images the atlas drew on</PanelHeading>
+      <HalfNote half={half} atlasSources={atlasSources} kind="source images" />
       <ul className="grid grid-cols-3 gap-3">
         {neighbors.map((n, i) => (
           <li key={i} className="min-w-0">
@@ -22,7 +34,7 @@ export function ImageNeighbors({ neighbors, atlasSources }: { neighbors: { thumb
               <div aria-hidden className="h-1 flex-1 overflow-hidden rounded-full bg-[#18161f]/[0.07]">
                 <div className="h-full rounded-full bg-[#9c8ee0]" style={{ width: `${Math.min(100, n.w * 100 / Math.max(...neighbors.map((m) => m.w)))}%` }} />
               </div>
-              <span className="text-[0.68rem] tabular-nums text-[#6b6875]" title="Kernel weight">
+              <span className="text-[0.68rem] tabular-nums text-[#6b6875]" title="Share of the atlas readout weight">
                 {weight(n.w)}
               </span>
             </div>
@@ -33,12 +45,13 @@ export function ImageNeighbors({ neighbors, atlasSources }: { neighbors: { thumb
   );
 }
 
-/** Atlas source contexts with the highest kernel weight, the target token emphasized. */
-export function TextNeighbors({ neighbors, atlasSources }: { neighbors: { text: string; target: string; w: number }[]; atlasSources: number }) {
+/** Atlas source contexts with the highest readout weight, the target token emphasized. */
+export function TextNeighbors({ neighbors, half, atlasSources }: { neighbors: { text: string; target: string; w: number }[]; half: number; atlasSources: number }) {
   const max = Math.max(1e-9, ...neighbors.map((n) => n.w));
   return (
     <div>
-      <PanelHeading aside={`of ${atlasSources.toLocaleString("en-US")}`}>Source contexts the atlas drew on</PanelHeading>
+      <PanelHeading>Source contexts the atlas drew on</PanelHeading>
+      <HalfNote half={half} atlasSources={atlasSources} kind="source contexts" />
       <ul className="space-y-2.5">
         {neighbors.map((n, i) => (
           <li key={i} className="grid grid-cols-[minmax(0,1fr)_3.25rem] items-start gap-3">
@@ -51,7 +64,7 @@ export function TextNeighbors({ neighbors, atlasSources }: { neighbors: { text: 
               <div aria-hidden className="h-1 overflow-hidden rounded-full bg-[#18161f]/[0.07]">
                 <div className="h-full rounded-full bg-[#9c8ee0]" style={{ width: `${(n.w / max) * 100}%` }} />
               </div>
-              <p className="mt-0.5 text-right text-[0.68rem] tabular-nums text-[#6b6875]" title="Kernel weight">
+              <p className="mt-0.5 text-right text-[0.68rem] tabular-nums text-[#6b6875]" title="Share of the atlas readout weight">
                 {weight(n.w)}
               </p>
             </div>

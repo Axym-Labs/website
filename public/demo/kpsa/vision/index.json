@@ -1,6 +1,6 @@
 {
  "model": "ViT-B/16 (AugReg, ImageNet-1k)",
- "queryModel": "DINOv2-S",
+ "queryModel": "DINOv2-S image embedding (self-supervised)",
  "layers": 12,
  "featuresPerLayer": 3072,
  "atlasSources": 25000,
@@ -17,6 +17,12 @@
    "pct": 0.1,
    "k": 37
   }
+ ],
+ "factors": [
+  0.5,
+  0.0,
+  3.0,
+  10.0
  ],
  "groups": [
   "Cats",
@@ -62,6 +68,28 @@
    }
   },
   {
+   "id": "cats-4",
+   "group": "Cats",
+   "src": "vision/img/cats-4.jpg",
+   "thumb": "vision/img/cats-4_thumb.jpg",
+   "credit": {
+    "author": "Grendelkhan",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Black_and_white_cat_sitting_on_lawn.jpg"
+   }
+  },
+  {
+   "id": "cats-5",
+   "group": "Cats",
+   "src": "vision/img/cats-5.jpg",
+   "thumb": "vision/img/cats-5_thumb.jpg",
+   "credit": {
+    "author": "Eva Oktaviany",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Cute_Orange_Cat.jpg"
+   }
+  },
+  {
    "id": "dogs-1",
    "group": "Dogs",
    "src": "vision/img/dogs-1.jpg",
@@ -92,6 +120,28 @@
     "author": "7575u",
     "license": "CC BY-SA 4.0",
     "url": "https://commons.wikimedia.org/wiki/File:Border_Collie_with_Heterochromia.jpg"
+   }
+  },
+  {
+   "id": "dogs-4",
+   "group": "Dogs",
+   "src": "vision/img/dogs-4.jpg",
+   "thumb": "vision/img/dogs-4_thumb.jpg",
+   "credit": {
+    "author": "Canarian",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:German_Shepherd_Dog_Alsatian_2.jpg"
+   }
+  },
+  {
+   "id": "dogs-5",
+   "group": "Dogs",
+   "src": "vision/img/dogs-5.jpg",
+   "thumb": "vision/img/dogs-5_thumb.jpg",
+   "credit": {
+    "author": "Slyronit",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Beagle_at_the_dog_park.jpg"
    }
   },
   {
@@ -128,6 +178,28 @@
    }
   },
   {
+   "id": "birds-4",
+   "group": "Birds",
+   "src": "vision/img/birds-4.jpg",
+   "thumb": "vision/img/birds-4_thumb.jpg",
+   "credit": {
+    "author": "Arjan Haverkamp",
+    "license": "CC BY 2.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Erithacus_rubecula_-Netherlands-8.jpg"
+   }
+  },
+  {
+   "id": "birds-5",
+   "group": "Birds",
+   "src": "vision/img/birds-5.jpg",
+   "thumb": "vision/img/birds-5_thumb.jpg",
+   "credit": {
+    "author": "Giles Laurent",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:189_Red-and-green_macaw_couple_flying_in_Chapada_dos_Guimar%C3%A3es_National_Park_Photo_by_Giles_Laurent.jpg"
+   }
+  },
+  {
    "id": "cars-1",
    "group": "Cars",
    "src": "vision/img/cars-1.jpg",
@@ -158,6 +230,28 @@
     "author": "DeFacto",
     "license": "CC BY-SA 4.0",
     "url": "https://commons.wikimedia.org/wiki/File:Daimler_DB18_drophead_coup%C3%A9_1950.jpg"
+   }
+  },
+  {
+   "id": "cars-4",
+   "group": "Cars",
+   "src": "vision/img/cars-4.jpg",
+   "thumb": "vision/img/cars-4_thumb.jpg",
+   "credit": {
+    "author": "Tess Mattew",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2024.07.13_Exhibition_of_Vintage_Police_Cars_in_Salihorsk_Kazlova_Street_64_Minsk_Region_Belarus_05.jpg"
+   }
+  },
+  {
+   "id": "cars-5",
+   "group": "Cars",
+   "src": "vision/img/cars-5.jpg",
+   "thumb": "vision/img/cars-5_thumb.jpg",
+   "credit": {
+    "author": "Ermell",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Chevrolet_Impala_Convertible_1959_Leimershof_-20190907-RM-163522.jpg"
    }
   },
   {
@@ -194,6 +288,28 @@
    }
   },
   {
+   "id": "insects-4",
+   "group": "Insects",
+   "src": "vision/img/insects-4.jpg",
+   "thumb": "vision/img/insects-4_thumb.jpg",
+   "credit": {
+    "author": "Andr\u00e9 Karwath aka Aka",
+    "license": "CC BY-SA 2.5",
+    "url": "https://commons.wikimedia.org/wiki/File:Aeshna_cyanea_-_head_close-up_(aka).jpg"
+   }
+  },
+  {
+   "id": "insects-5",
+   "group": "Insects",
+   "src": "vision/img/insects-5.jpg",
+   "thumb": "vision/img/insects-5_thumb.jpg",
+   "credit": {
+    "author": "Rhododendrites",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Monarch_butterfly_in_BBG_(84685).jpg"
+   }
+  },
+  {
    "id": "food-1",
    "group": "Food",
    "src": "vision/img/food-1.jpg",
@@ -224,6 +340,28 @@
     "author": "Kritzolina",
     "license": "CC BY-SA 4.0",
     "url": "https://commons.wikimedia.org/wiki/File:Cup_of_espresso_02.jpg"
+   }
+  },
+  {
+   "id": "food-4",
+   "group": "Food",
+   "src": "vision/img/food-4.jpg",
+   "thumb": "vision/img/food-4_thumb.jpg",
+   "credit": {
+    "author": "Kurtkaiser",
+    "license": "CC0",
+    "url": "https://commons.wikimedia.org/wiki/File:Cheeseburger_2.jpg"
+   }
+  },
+  {
+   "id": "food-5",
+   "group": "Food",
+   "src": "vision/img/food-5.jpg",
+   "thumb": "vision/img/food-5_thumb.jpg",
+   "credit": {
+    "author": "Yakshitha",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Pizza_2023.jpg"
    }
   },
   {
@@ -356,6 +494,72 @@
     "author": "H. Zell",
     "license": "CC BY-SA 3.0",
     "url": "https://commons.wikimedia.org/wiki/File:Ananas_comosus_004.JPG"
+   }
+  },
+  {
+   "id": "other-13",
+   "group": "Other",
+   "src": "vision/img/other-13.jpg",
+   "thumb": "vision/img/other-13_thumb.jpg",
+   "credit": {
+    "author": "Wilhelm Kuhnert",
+    "license": "Public domain",
+    "url": "https://commons.wikimedia.org/wiki/File:Common_foxes_in_the_snow.jpg"
+   }
+  },
+  {
+   "id": "other-14",
+   "group": "Other",
+   "src": "vision/img/other-14.jpg",
+   "thumb": "vision/img/other-14_thumb.jpg",
+   "credit": {
+    "author": "Tomas Castelazo",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Darth_vader_hot_air_balloon.jpg"
+   }
+  },
+  {
+   "id": "other-15",
+   "group": "Other",
+   "src": "vision/img/other-15.jpg",
+   "thumb": "vision/img/other-15_thumb.jpg",
+   "credit": {
+    "author": "Markus Leupold-L\u00f6wenthal",
+    "license": "CC BY-SA 3.0",
+    "url": "https://commons.wikimedia.org/wiki/File:AnanasComosusOnPlant.jpg"
+   }
+  },
+  {
+   "id": "other-16",
+   "group": "Other",
+   "src": "vision/img/other-16.jpg",
+   "thumb": "vision/img/other-16_thumb.jpg",
+   "credit": {
+    "author": "Sophie Curtis",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:False_Parasol_mushroom_in_Kings_Forest,_Suffolk.jpg"
+   }
+  },
+  {
+   "id": "other-17",
+   "group": "Other",
+   "src": "vision/img/other-17.jpg",
+   "thumb": "vision/img/other-17_thumb.jpg",
+   "credit": {
+    "author": "Alexxx1979",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:Rostov-on-Don._Museum_of_North_Caucasus_Railway,_steam_locomotive_L-0029_P9161386_2350.jpg"
+   }
+  },
+  {
+   "id": "other-18",
+   "group": "Other",
+   "src": "vision/img/other-18.jpg",
+   "thumb": "vision/img/other-18_thumb.jpg",
+   "credit": {
+    "author": "Antoine Lamielle",
+    "license": "CC BY-SA 4.0",
+    "url": "https://commons.wikimedia.org/wiki/File:2017-04_Circumpolar_trails_sunset_at_La_Hague_lighthouse.jpg"
    }
   }
  ]

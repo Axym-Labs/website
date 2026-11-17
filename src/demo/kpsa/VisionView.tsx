@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import CircuitPanel from "./CircuitPanel";
 import { useJson } from "./data";
 import FeatureCard from "./FeatureCard";
-import { BudgetSummary, FeatureList } from "./FeatureList";
+import { FeatureList, InterventionTable } from "./FeatureList";
 import { featureLabel, prob } from "./format";
 import HeatmapImage from "./Heatmap";
 import { ImageNeighbors } from "./Neighbors";
@@ -50,10 +50,42 @@ export default function VisionView({ app, sel, update }: Props) {
 
   const outcome = q?.prediction.label ?? "";
 
+  const imagePanel = (
+    <Panel label="Selected image">
+      <div className="relative">
+        {image ? (
+          <HeatmapImage key={image.id} src={image.src} alt={`${image.group}: ${image.id}`} map={feature?.map} eager className="rounded-md" />
+        ) : (
+          <Skeleton className="aspect-square w-full" />
+        )}
+        {feature?.map && (
+          <span className="absolute left-2.5 top-2.5 rounded-full bg-white/90 px-2.5 py-1 font-mono text-[0.72rem] font-medium text-[#3f21b6] shadow-sm backdrop-blur">
+            {featureLabel(feature.l, feature.f)} activation
+          </span>
+        )}
+      </div>
+      {image?.credit && (
+        <p className="mt-2 truncate text-[0.7rem] text-[#6b6875]">
+          <a href={image.credit.url} target="_blank" rel="noreferrer" className="kpsa-link">
+            {image.credit.author}
+          </a>
+          , {image.credit.license}
+        </p>
+      )}
+      <div className="mt-4">
+        <Prediction query={q} error={query.error} />
+      </div>
+    </Panel>
+  );
+
+  const card = feature && info && (
+    <FeatureCard ref={cardRef} modality="vision" feature={feature} featuresPerLayer={info.featuresPerLayer} outcome={outcome} onClose={() => update({ featureId: null })} />
+  );
+
   return (
     <div className="space-y-5">
       <Panel label="Query images">
-        <PanelHeading aside={info ? `${info.images.length} images` : undefined}>Pick an image</PanelHeading>
+        <PanelHeading>Pick an image</PanelHeading>
         {info ? (
           <Gallery info={info} selected={imageId} onSelect={(id) => update({ imageId: id, featureId: undefined })} />
         ) : (
@@ -65,89 +97,71 @@ export default function VisionView({ app, sel, update }: Props) {
         )}
       </Panel>
 
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-        <Panel label="Selected image">
-          <div className="relative">
-            {image ? (
-              <HeatmapImage key={image.id} src={image.src} alt={`${image.group}: ${image.id}`} map={feature?.map} eager className="rounded-md" />
-            ) : (
-              <Skeleton className="aspect-square w-full" />
-            )}
-            {feature?.map && (
-              <span className="absolute left-2.5 top-2.5 rounded-full bg-white/90 px-2.5 py-1 font-mono text-[0.72rem] font-medium text-[#3f21b6] shadow-sm backdrop-blur">
-                {featureLabel(feature.l, feature.f)} activation
-              </span>
-            )}
+      {app === "attribution" ? (
+        <>
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+            {imagePanel}
+            <Panel label="Activation attribution" className="space-y-6">
+              {q && info ? (
+                <>
+                  <FeatureList features={ranked} selectedId={featureId} onSelect={select} outcome={outcome} inputKey={q.id} />
+                  <InterventionTable
+                    budgets={info.budgets}
+                    factors={info.factors}
+                    sets={q.sets}
+                    intact={q.prediction.p}
+                    outcome={outcome}
+                    totalFeatures={info.layers * info.featuresPerLayer}
+                  />
+                </>
+              ) : query.error ? (
+                <ErrorText>Could not load this image's features ({query.error}).</ErrorText>
+              ) : (
+                <ListSkeleton />
+              )}
+            </Panel>
           </div>
-          {image?.credit && (
-            <p className="mt-2 truncate text-[0.7rem] text-[#6b6875]">
-              <a href={image.credit.url} target="_blank" rel="noreferrer" className="kpsa-link">
-                {image.credit.author}
-              </a>
-              , {image.credit.license}
-            </p>
+          {card}
+        </>
+      ) : (
+        <>
+          {info && q ? (
+            <CircuitPanel
+              budgets={info.budgets}
+              budget={budget}
+              onBudget={(pct) => update({ budget: pct })}
+              features={ranked}
+              layers={info.layers}
+              featuresPerLayer={info.featuresPerLayer}
+              layerMass={q.layerMass}
+              factors={info.factors}
+              sets={q.sets}
+              intact={q.prediction.p}
+              outcome={outcome}
+              selectedId={featureId}
+              onSelect={select}
+            />
+          ) : query.error ? null : (
+            <Skeleton className="h-80 w-full" />
           )}
-          <div className="mt-4">
-            <Prediction query={q} error={query.error} />
+          {card}
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+            {imagePanel}
+            <Panel label="Atlas neighbours">
+              {q && info ? (
+                <ImageNeighbors neighbors={q.neighbors} half={q.neighborsHalf} atlasSources={info.atlasSources} />
+              ) : query.error ? (
+                <ErrorText>Could not load this image's atlas neighbours ({query.error}).</ErrorText>
+              ) : (
+                <div className="grid grid-cols-3 gap-3">
+                  {Array.from({ length: 6 }, (_, i) => (
+                    <Skeleton key={i} className="aspect-square w-full" />
+                  ))}
+                </div>
+              )}
+            </Panel>
           </div>
-        </Panel>
-
-        {app === "attribution" ? (
-          <Panel label="Activation attribution" className="space-y-6">
-            {q && info ? (
-              <>
-                <FeatureList features={ranked} selectedId={featureId} onSelect={select} outcome={outcome} inputKey={q.id} />
-                <BudgetSummary
-                  budgets={info.budgets}
-                  effects={info.budgets.map((b) => q.setEffect.find((e) => e.pct === b.pct)?.p ?? NaN)}
-                  intact={q.prediction.p}
-                  outcome={outcome}
-                  totalFeatures={info.layers * info.featuresPerLayer}
-                />
-              </>
-            ) : query.error ? (
-              <ErrorText>Could not load this image's features ({query.error}).</ErrorText>
-            ) : (
-              <ListSkeleton />
-            )}
-          </Panel>
-        ) : (
-          <Panel label="Atlas neighbours">
-            {q && info ? (
-              <ImageNeighbors neighbors={q.neighbors} atlasSources={info.atlasSources} />
-            ) : query.error ? (
-              <ErrorText>Could not load this image's atlas neighbours ({query.error}).</ErrorText>
-            ) : (
-              <div className="grid grid-cols-3 gap-3">
-                {Array.from({ length: 6 }, (_, i) => (
-                  <Skeleton key={i} className="aspect-square w-full" />
-                ))}
-              </div>
-            )}
-          </Panel>
-        )}
-      </div>
-
-      {app === "circuit" && info && q && (
-        <CircuitPanel
-          budgets={info.budgets}
-          budget={budget}
-          onBudget={(pct) => update({ budget: pct })}
-          features={ranked}
-          layers={info.layers}
-          featuresPerLayer={info.featuresPerLayer}
-          layerMass={q.layerMass}
-          effects={info.budgets.map((b) => q.setEffect.find((e) => e.pct === b.pct)?.p ?? NaN)}
-          intact={q.prediction.p}
-          outcome={outcome}
-          selectedId={featureId}
-          onSelect={select}
-        />
-      )}
-      {app === "circuit" && !q && !query.error && <Skeleton className="h-80 w-full" />}
-
-      {feature && info && (
-        <FeatureCard ref={cardRef} modality="vision" feature={feature} featuresPerLayer={info.featuresPerLayer} outcome={outcome} onClose={() => update({ featureId: null })} />
+        </>
       )}
     </div>
   );
@@ -156,7 +170,7 @@ export default function VisionView({ app, sel, update }: Props) {
 function Gallery({ info, selected, onSelect }: { info: VisionIndex; selected: string | null; onSelect: (id: string) => void }) {
   const groups = info.groups.filter((group) => info.images.some((im) => im.group === group));
   return (
-    <div className="flex flex-wrap gap-x-7 gap-y-4">
+    <div className="kpsa-scroll kpsa-fade-bottom -mx-1 flex max-h-[14.5rem] flex-wrap gap-x-7 gap-y-4 overflow-y-auto px-1 pb-6 pt-1 sm:max-h-[16.75rem]">
       {groups.map((group) => (
         <div key={group} role="group" aria-label={group} className="min-w-0 max-w-full">
           <p className="mb-1.5 text-[0.72rem] font-medium text-[#5c5966]">{group}</p>

@@ -12,7 +12,7 @@ import VisionView, { type VisionSelection } from "@/demo/kpsa/VisionView";
 export const DEMO_SLUG = "kpsa-demo";
 const TITLE = "Interactive KPSA Demo";
 const SUMMARY =
-  "Pick an image or a word and see which MLP features of a vision or language model KPSA ranks for it: features to deactivate, or a sparse sensitivity circuit across depth.";
+  "Pick an image or a word and see which MLP features of a vision or language model KPSA ranks for it: the features the loss is most sensitive to, and a sparse sensitivity circuit across depth.";
 
 const APPS: { value: App; label: string; short: string }[] = [
   { value: "attribution", label: "Activation attribution", short: "Attribution" },
@@ -25,7 +25,7 @@ const MODALITIES: { value: Modality; label: string }[] = [
 
 const LEADS: Record<App, string> = {
   attribution:
-    "Features are ranked by their KPSA score, the estimated share of the loss's sensitivity they hold on this input. Select one to see where it is active and the dataset examples that activate it most.",
+    "Features are ranked by their KPSA score, the estimated share of the loss's sensitivity they hold on this input. Sensitivity measures how strongly the loss responds to a feature, not in which direction, so the intervention table scales the top features down, off, and up. Select one to see where it is active and the dataset examples that activate it most.",
   circuit:
     "The top-ranked features at a budget form a sensitivity circuit: a sparse set of parameter groups across depth whose perturbation changes the output. Select a node to open its feature.",
 };
@@ -96,7 +96,7 @@ const KpsaDemo = () => {
               <Link to="/work/kpsa/">Kernelized Parameter Sensitivity Atlases</Link> (KPSA) estimate, for a new input and without a backward pass, which
               MLP features a model's loss is most sensitive to. An atlas stores sensitivity profiles measured on source inputs, and a kernel in a query
               representation space retrieves them for the new input. Pick an image, or a word in a passage, to see what KPSA returns for the paper's two
-              applications: which features to deactivate to change the output, and a sparse sensitivity circuit across depth. How these sensitivities are
+              applications: which features to intervene on to change the output, and a sparse sensitivity circuit across depth. How these sensitivities are
               organized by ImageNet classes is the subject of our <Link to="/work/kpsa-class-sensitivity/">research update</Link>.
             </p>
           </div>

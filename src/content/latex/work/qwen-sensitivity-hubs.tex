@@ -41,7 +41,7 @@ KPSA retrieves profiles from an atlas instead of computing gradients, and its es
   {Bar plot of the mean sensitivity share of the 40 most sensitive MLP features with the first 15 highlighted, and a histogram of the share of each held-out token's sensitivity in these 15 features}
   {Left: mean share of the exact profile over 300,000 source contexts for the 40 features with the largest mean, and the mean KPSA estimate over 3,000 held-out tokens. Right: share of each held-out token's sensitivity in the 15 features, exact and estimated by KPSA.}
 
-\section{Zeroing the block-3 features breaks the model}\label{ablation}
+\section{Zeroing six features breaks the model}\label{ablation}
 
 We zero features by setting their activation, the input to the down projection, to zero at every position, and measure the next-token loss on 512 held-out Wikipedia paragraphs of 96 tokens. Zeroing all 15 features raises the loss from 3.05 to 6.88 nats and lowers top-1 accuracy from 42\% to 17\%. Zeroing 15 random features of the same blocks leaves the loss at 3.05 (largest of ten draws: 3.07), and zeroing the next 15 features by mean sensitivity raises it to 3.16.
 
@@ -53,12 +53,14 @@ Almost all of the damage comes from the six features of block 3. Zeroing them al
   {Horizontal bar plots of next-token loss and top-1 accuracy for the intact model and for five sets of zeroed features}
   {Next-token loss and top-1 accuracy on 48,640 held-out tokens with a set of MLP features zeroed. Random features: mean over ten draws of six features from block 3 and nine from block 28, excluding the 15.}
 
-Greedy continuations show what the loss measures. With the six block-3 features zeroed, the model repeats words of the prompt; with the nine block-28 features zeroed, it continues fluently.
+Greedy continuations show what the loss measures. With the six block-3 features zeroed, the model repeats words of the prompt (bold below); with the nine block-28 features zeroed, it continues fluently.
 
 \begin{itemize}
-\item \textit{The capital of France is} --- intact: ``Paris. The capital of Germany is Berlin.''; block-3 features zeroed: ``France France France France France''.
-\item \textit{In 1905, Albert Einstein published} --- intact: ``a paper in which he proposed that''; zeroed: ``Albert Einstein Einstein Einstein Einstein''.
-\item \textit{To make bread, you first} --- intact: ``mix flour, sugar, and water.''; zeroed: ``make bread, you first make bread,''.
+\item \textit{The capital of France is}\newline intact: ``Paris. The capital of Germany is Berlin. The capital of Italy is Rome. The capital of Spain is Madrid. The capital of the United States is Washington, D.C.\,\ldots''\newline six features zeroed: \textbf{``France France France France France France France France France France France France\,\ldots''}
+\item \textit{In 1905, Albert Einstein published}\newline intact: ``a paper in which he proposed that the speed of light is constant in all inertial frames of reference. This idea was later confirmed by experiments,\,\ldots''\newline six features zeroed: \textbf{``Albert Einstein Einstein Einstein Einstein Einstein Einstein Einstein Einstein Einstein Einstein Einstein\,\ldots''}
+\item \textit{To make bread, you first}\newline intact: ``mix flour, sugar, and water. Then you cover the mixture and let it rise in the refrigerator. When you're ready to bake the bread,\,\ldots''\newline six features zeroed: \textbf{``make bread, you first make bread, you first make bread, you first make bread, you first make bread,\,\ldots''}
+\item \textit{The river flows through the old town and}\newline intact: ``the new town. The old town has 1000 houses, and the new town has 1500 houses.\,\ldots''\newline six features zeroed: \textbf{``and and and and and and and and and and and and and and and and\,\ldots''}
+\item \textit{Photosynthesis is the process by which}\newline intact: ``plants, algae, and some bacteria convert light energy into chemical energy. It is a fundamental biological process that underpins the food chain\,\ldots''\newline six features zeroed: \textbf{``is the process by which is the process by which is the process by which is the process by which\,\ldots''}
 \end{itemize}
 
 \section{Outlook}\label{outlook}

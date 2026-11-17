@@ -14,6 +14,9 @@ export default {
       },
     },
     extend: {
+      maxWidth: {
+        site: "1634px",
+      },
       fontFamily: {
         sans: ['"Inter Variable"', 'Inter', 'system-ui', 'sans-serif'],
         serif: ['"Source Serif 4 Variable"', '"Source Serif 4"', 'Georgia', 'serif'],

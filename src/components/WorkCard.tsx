@@ -62,10 +62,10 @@ function useSheetBoxes(entry: React.RefObject<HTMLElement>, cover: React.RefObje
 
 /**
  * A featured entry: a large cover and a text panel with the title, summary,
- * and links, on a drawing sheet. The sheet wraps the cover and, for the entry
- * nearest the viewport centre (`active`, set by WorkList), grows to enclose
- * the text too. The sheet's space is always reserved as padding, so nothing
- * moves.
+ * and links, on a drawing sheet. A sheet wraps the cover; for the entry
+ * nearest the viewport centre (`active`, set by WorkList) it fades out while
+ * a sheet around the whole entry fades in. The sheets' space is always
+ * reserved as padding, so nothing moves.
  */
 const WorkCard = ({ item, active = false }: { item: WorkCardItem; active?: boolean }) => {
   const own = resourceLinks({ content: item.content ?? "", links: item.links }).filter((link) => link.kind !== "email");
@@ -82,12 +82,15 @@ const WorkCard = ({ item, active = false }: { item: WorkCardItem; active?: boole
       data-active={active || undefined}
       className="work-entry relative grid md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:items-center"
     >
-      {boxes && <SheetFrame box={active ? boxes.entry : boxes.cover} cells={cells} />}
+      {boxes && (
+        <>
+          <SheetFrame box={boxes.entry} cells={cells} shown={active} />
+          <SheetFrame box={boxes.cover} cells={cells} shown={!active} />
+        </>
+      )}
       <ItemLink item={item} className="relative z-10 block" tabIndex={-1} ref={cover}>
-        <div className="aspect-[16/9] w-full overflow-hidden rounded-[6px]">
-          {/* The cover's own paper edge is cropped; the sheet supplies the edge. */}
-          <img src={item.cover_image} alt="" width={1600} height={900} loading="lazy" decoding="async" className="block h-full w-full scale-[1.04] object-cover" />
-        </div>
+        {/* Covers are transparent, with a paper backdrop shaped to the figure. */}
+        <img src={item.cover_image} alt="" width={1600} height={900} loading="lazy" decoding="async" className="block aspect-[16/9] h-auto w-full" />
       </ItemLink>
       <div className="relative z-10 min-w-0 pb-8 md:pr-2">
         {(item.eyebrow || year) && (

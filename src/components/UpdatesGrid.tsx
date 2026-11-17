@@ -13,10 +13,10 @@ interface UpdatesGridProps {
 const UpdatesGrid = ({ items, title = "Research updates, experiments and demonstrations", sectionId = "updates" }: UpdatesGridProps) => {
   if (items.length === 0) return null;
   return (
-    <section id={sectionId} className="scroll-mt-20 px-5 pb-24 pt-8 sm:px-6 lg:px-8 lg:pb-32">
-      <div className="mx-auto max-w-6xl">
+    <section id={sectionId} className="site-section px-5 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-site">
         <SectionHeading>{title}</SectionHeading>
-        <ul className="mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="section-body grid gap-x-8 gap-y-8 sm:grid-cols-2 md:gap-y-12 lg:grid-cols-3 min-[1800px]:gap-x-10">
           {items.map((item) => (
             <li key={item.slug}>
               <Link to={itemHref(item)} className="group block">

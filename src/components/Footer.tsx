@@ -20,8 +20,8 @@ const SITE: { label: string; to: string; external?: boolean }[] = [
 ];
 
 const Footer = () => (
-  <footer className="border-t border-foreground/10 bg-paper px-5 pb-10 pt-16 sm:px-6 md:pt-20 lg:px-8">
-    <div className="mx-auto max-w-6xl">
+  <footer className="border-t border-foreground/10 bg-paper px-5 pb-10 pt-[72px] sm:px-6 lg:px-8 lg:pt-[120px] min-[1800px]:pt-[143px]">
+    <div className="mx-auto max-w-site">
       <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
         <p aria-hidden="true" className="select-none text-[4.2rem] font-semibold leading-[0.85] tracking-[-0.055em] text-foreground sm:text-[6rem] lg:text-[8.5rem]">
           Axym Labs

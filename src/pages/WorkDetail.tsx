@@ -105,7 +105,7 @@ const WorkDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar section={isUpdate(item) ? "updates" : "work"} />
-      <main className="pt-16">{isUpdate(item) ? <UpdateLayout item={item} /> : <ProjectLayout item={item} />}</main>
+      <main className="pt-[var(--nav-h)]">{isUpdate(item) ? <UpdateLayout item={item} /> : <ProjectLayout item={item} />}</main>
       <Footer />
     </div>
   );

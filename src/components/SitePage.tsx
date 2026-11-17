@@ -23,7 +23,7 @@ const SitePage = ({ title, metaTitle, description, path, lead, children }: SiteP
     <div className="min-h-screen bg-background">
       <Navbar />
       <main className="px-5 pb-24 pt-32 sm:px-6 md:pt-40 lg:px-8">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-site">
           <header className="max-w-[46rem]">
             <h1 className="text-[2.2rem] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground md:text-[2.75rem]">{title}</h1>
             {lead && <div className="mt-6 text-[1.15rem] leading-relaxed text-foreground/75 md:text-[1.25rem]">{lead}</div>}

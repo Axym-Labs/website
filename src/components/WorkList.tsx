@@ -64,8 +64,8 @@ const WorkList = ({ items, title, intro, sectionId = "work", moreHref }: WorkLis
   const centered = useCenteredIndex(list, items.length);
 
   return (
-  <section id={sectionId} className="scroll-mt-20 px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
-    <div className="mx-auto max-w-6xl">
+  <section id={sectionId} className="site-section px-5 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-site">
       <SectionHeading
         aside={
           moreHref && (
@@ -79,7 +79,7 @@ const WorkList = ({ items, title, intro, sectionId = "work", moreHref }: WorkLis
         {title}
       </SectionHeading>
       {intro && <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">{intro}</p>}
-      <div ref={list} className="mt-8 space-y-8 md:space-y-10">
+      <div ref={list} className="section-body space-y-8 lg:space-y-10 min-[1800px]:space-y-12">
         {items.map((item, i) => <WorkCard key={item.slug} item={item} active={i === centered} />)}
       </div>
     </div>

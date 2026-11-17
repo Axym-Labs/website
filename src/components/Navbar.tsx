@@ -22,7 +22,7 @@ const Navbar = ({ section }: { section?: Section }) => {
 
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-foreground/[0.08] bg-white/90 px-5 backdrop-blur-md sm:px-6 lg:px-8">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between">
+      <div className="mx-auto flex h-[var(--nav-h)] max-w-site items-center justify-between">
         <Link
           to="/"
           aria-label="Axym Labs home"

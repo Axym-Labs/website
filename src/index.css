@@ -45,6 +45,9 @@ All colors MUST be HSL.
 
     --radius: 0.375rem;
 
+    /* Fixed navbar height, after goodfire.com (74, 78, 85 px at 390, 1440, 1920). */
+    --nav-h: 72px;
+
     --font-sans: "Inter Variable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-serif: "Source Serif 4 Variable", "Source Serif 4", Georgia, serif;
   }
@@ -773,9 +776,14 @@ All colors MUST be HSL.
   padding: var(--sheet-m);
   border: 1px solid #e4dfd5;
   border-radius: 8px;
-  background: #faf8f4;
-  transition: top 600ms cubic-bezier(0.22, 1, 0.36, 1), left 600ms cubic-bezier(0.22, 1, 0.36, 1),
-    width 600ms cubic-bezier(0.22, 1, 0.36, 1), height 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* White sheet: the covers bring their own paper backdrop, shaped to the figure. */
+  background: #fff;
+  opacity: 0;
+  transition: opacity 550ms ease;
+}
+
+.sheet[data-shown] {
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -849,7 +857,7 @@ All colors MUST be HSL.
   height: calc(var(--sheet-band) * 1.5);
   border-top: 1px solid var(--sheet-rule);
   border-left: 1px solid var(--sheet-rule);
-  background: #faf8f4;
+  background: #fff;
   color: #5e5868;
   font-family: "JetBrains Mono", ui-monospace, monospace;
   font-size: 7.5px;
@@ -876,4 +884,65 @@ All colors MUST be HSL.
 
 .sheet-block-brand {
   color: #3f21b6;
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --nav-h: 78px;
+  }
+}
+
+@media (min-width: 112.5rem) {
+  :root {
+    --nav-h: 84px;
+  }
+}
+
+/* Homepage rhythm after goodfire.com, measured at 390, 1440 and 1920 px:
+   section top and bottom space, heading-to-content gap, hero offset. */
+.site-section {
+  padding-top: 104px;
+  padding-bottom: 80px;
+  scroll-margin-top: var(--nav-h);
+}
+
+.section-body {
+  margin-top: 8px;
+}
+
+.hero-pad {
+  padding-top: calc(var(--nav-h) + 118px);
+  padding-bottom: 48px;
+}
+
+@media (min-width: 64rem) {
+  .site-section {
+    padding-top: 160px;
+    padding-bottom: 128px;
+  }
+
+  .section-body {
+    margin-top: 32px;
+  }
+
+  .hero-pad {
+    padding-top: calc(var(--nav-h) + 226px);
+    padding-bottom: 60px;
+  }
+}
+
+@media (min-width: 112.5rem) {
+  .site-section {
+    padding-top: 190px;
+    padding-bottom: 150px;
+  }
+
+  .section-body {
+    margin-top: 40px;
+  }
+
+  .hero-pad {
+    padding-top: calc(var(--nav-h) + 237px);
+    padding-bottom: 64px;
+  }
 }

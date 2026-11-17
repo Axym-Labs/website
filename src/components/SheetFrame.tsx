@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 // on paper, with a small title block in the lower-right corner. Styling
 // follows scripts/covers/covers.py (rule #CBC4B6, labels #9C9485 in mono,
 // paper #FAF8F4, edge #E4DFD5). The cells are flex items, so the ticks stay
-// evenly spaced at any frame size, also while the frame animates.
+// evenly spaced at any frame size. Entries draw two sheets and crossfade them.
 
 const COLUMNS = ["1", "2", "3", "4", "5", "6", "7", "8"];
 const ROWS = ["A", "B", "C", "D", "E"];
@@ -25,12 +25,14 @@ interface SheetFrameProps {
   box: { top: number; left: number; width: number; height: number };
   /** Title-block cells after AXYM LABS, e.g. ["PAPER", "2026-07"]. */
   cells: string[];
+  /** Whether this sheet is faded in. */
+  shown: boolean;
 }
 
-const SheetFrame = ({ box, cells }: SheetFrameProps) => {
+const SheetFrame = ({ box, cells, shown }: SheetFrameProps) => {
   const style: CSSProperties = { top: box.top, left: box.left, width: box.width, height: box.height };
   return (
-    <div aria-hidden="true" className="sheet pointer-events-none absolute" style={style}>
+    <div aria-hidden="true" data-shown={shown || undefined} className="sheet pointer-events-none absolute" style={style}>
       <div className="sheet-frame relative h-full w-full">
         <Band labels={COLUMNS} className="sheet-top" />
         <Band labels={COLUMNS} className="sheet-bottom" />

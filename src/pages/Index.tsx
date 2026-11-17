@@ -32,10 +32,10 @@ const Index = () => {
 
       <UpdatesGrid items={updateEntries(workItems, { homepage: true })} />
 
-      <section id="about" className="scroll-mt-20 px-5 pb-24 sm:px-6 lg:px-8 lg:pb-32">
-        <div className="mx-auto max-w-6xl">
+      <section id="about" className="site-section px-5 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-site">
           <SectionHeading>About</SectionHeading>
-          <div className="mt-8 grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] md:gap-16">
+          <div className="section-body grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] md:gap-16">
             <p className="text-[1.3rem] font-medium leading-snug tracking-[-0.01em] text-foreground md:text-[1.5rem]">
               We combine theoretical analysis, empirical evaluation, and implementation to develop new deep-learning methods and improve existing ones.
             </p>

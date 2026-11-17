@@ -12,6 +12,7 @@ const routes = [
   "/work/axosim-fly-geometry/",
   "/work/hierarchical-data-hypothesis/",
   "/work/kpsa-class-sensitivity/",
+  "/work/qwen-sensitivity-hubs/",
   "/work/kpsa/",
   "/work/axosim-connectome-demo/",
   "/work/kpsa-demo/",

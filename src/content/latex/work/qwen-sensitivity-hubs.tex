@@ -1,0 +1,75 @@
+%---
+% slug: qwen-sensitivity-hubs
+% title: Fifteen MLP features hold half of Qwen3-0.6B's loss sensitivity
+% category: update
+% eyebrow: INTERPRETABILITY
+% summary: In Qwen3-0.6B-Base, 15 of 86,016 MLP features hold 48% of the next-token loss's parameter sensitivity on an average input, and the KPSA estimator reproduces this. Zeroing the six of them in block 3 breaks the model, while zeroing 15 random features of the same blocks leaves it intact.
+% author: Davide Wiest
+% draft: false
+% listed: true
+% date: 2026-11-17
+% rank: 1.2
+% cover_image: /work/covers/qwen-sensitivity-hubs.svg
+%---
+\documentclass[11pt]{article}
+\usepackage{publication-web}
+\begin{document}
+
+\publicationtitle{Fifteen MLP features hold half of Qwen3-0.6B's loss sensitivity}
+\publicationauthors{Davide Wiest}
+\publicationaffiliations{Axym Labs}
+
+\begin{publicationhead}
+\makepublicationtitle
+\end{publicationhead}
+
+While building the \href{https://axym.org/work/kpsa-demo/}{interactive KPSA demo} for the language model Qwen3-0.6B-Base \cite{qwen3}, we found that a handful of MLP features dominate its parameter sensitivity on every input. Of its 86,016 MLP features, 15 hold 48\% of the next-token loss's sensitivity on an average input. Six of them sit in block 3 and carry activations hundreds of times larger than a typical feature; zeroing these six breaks the model. The other nine sit in the last block, and zeroing them changes the loss only slightly.
+
+\section{Setup}\label{setup}
+
+As in \href{https://axym.org/work/kpsa/}{KPSA} \cite{kpsa} and our \href{https://axym.org/work/kpsa-class-sensitivity/}{update on ImageNet classes}, the sensitivity of a parameter group is the squared norm of the loss gradient with respect to it, and an input's profile is this quantity normalized over all groups. A group here is one MLP feature of a transformer block: the matching rows of the gate and up projections and the column of the down projection. The loss is the next-token negative log-likelihood. We compute exact profiles for 300,000 Wikipedia contexts, the sources of the demo's atlas, and for 3,000 held-out contexts. The 15 features are those whose mean share over the 300,000 sources exceeds 0.4\%.
+
+\section{Fifteen features hold half of the sensitivity}\label{shares}
+
+The largest feature alone holds 13.8\% of the mean profile, and the 15 together hold 48\%. The next 15 features hold 2.9\%. The concentration is not an effect of averaging: on the median held-out token, the 15 features hold 48\% of the sensitivity, and on 90\% of tokens between 38\% and 61\%. Of a token's 15 most sensitive features, a median of 11 belong to this set.
+
+KPSA retrieves profiles from an atlas instead of computing gradients, and its estimate shows the same structure. Its mean over the held-out tokens closely matches the exact mean of the 40 largest features, and its estimate of the 15 features' share is 48\% on the median token. The estimate varies less across tokens than the exact share, as expected from an average over source profiles.
+
+\publicationfigure[\linewidth]
+  {figures/qwen-sensitivity-hubs-fig1-shares.png}
+  {/work/qwen-sensitivity-hubs/fig1-shares.svg}
+  {Bar plot of the mean sensitivity share of the 40 most sensitive MLP features with the first 15 highlighted, and a histogram of the share of each held-out token's sensitivity in these 15 features}
+  {Left: mean share of the exact profile over 300,000 source contexts for the 40 features with the largest mean, and the mean KPSA estimate over 3,000 held-out tokens. Right: share of each held-out token's sensitivity in the 15 features, exact and estimated by KPSA.}
+
+\section{Zeroing the block-3 features breaks the model}\label{ablation}
+
+We zero features by setting their activation, the input to the down projection, to zero at every position, and measure the next-token loss on 512 held-out Wikipedia paragraphs of 96 tokens. Zeroing all 15 features raises the loss from 3.05 to 6.88 nats and lowers top-1 accuracy from 42\% to 17\%. Zeroing 15 random features of the same blocks leaves the loss at 3.05 (largest of ten draws: 3.07), and zeroing the next 15 features by mean sensitivity raises it to 3.16.
+
+Almost all of the damage comes from the six features of block 3. Zeroing them alone raises the loss to 6.46 nats, while zeroing the nine features of block 28 raises it to 3.33. On 64 of these paragraphs, the block-3 features reach activations between 670 and 3,700, where the median feature of the block peaks at 2. This matches the massive activations and super weights reported for other language models, single values whose removal destroys the model's output \cite{sun2024,yu2024}. Each of the six alone raises the loss by at most 0.15 nats, so their joint effect is much larger than the sum of their single effects.
+
+\publicationfigure[\linewidth]
+  {figures/qwen-sensitivity-hubs-fig2-ablation.png}
+  {/work/qwen-sensitivity-hubs/fig2-ablation.svg}
+  {Horizontal bar plots of next-token loss and top-1 accuracy for the intact model and for five sets of zeroed features}
+  {Next-token loss and top-1 accuracy on 48,640 held-out tokens with a set of MLP features zeroed. Random features: mean over ten draws of six features from block 3 and nine from block 28, excluding the 15.}
+
+Greedy continuations show what the loss measures. With the six block-3 features zeroed, the model repeats words of the prompt; with the nine block-28 features zeroed, it continues fluently.
+
+\begin{itemize}
+\item \textit{The capital of France is} --- intact: ``Paris. The capital of Germany is Berlin.''; block-3 features zeroed: ``France France France France France''.
+\item \textit{In 1905, Albert Einstein published} --- intact: ``a paper in which he proposed that''; zeroed: ``Albert Einstein Einstein Einstein Einstein''.
+\item \textit{To make bread, you first} --- intact: ``mix flour, sugar, and water.''; zeroed: ``make bread, you first make bread,''.
+\end{itemize}
+
+\section{Outlook}\label{outlook}
+
+Whether these features serve a function or are a byproduct of optimization is open, and exploring it would be interesting. If they serve a function, this could point to circuits with a centralized structure, in which a few features take part in the computation for every input. For KPSA, these features are part of every input's profile: the demo leaves them out of its rankings, which would otherwise begin with the same features for every word. Code for these measurements is in \href{https://github.com/Axym-Labs/kpsa}{\texttt{Axym-Labs/kpsa}} under \texttt{src/kpsa/adoption}.
+
+\begin{thebibliography}{99}
+\bibitem{kpsa} D. Wiest, A. H. Ariq and A. M. Chowdhury. \href{https://arxiv.org/abs/2610.12737}{Kernelized Parameter Sensitivity Atlases for Amortized Conditional Interpretability}. arXiv:2610.12737, 2026.
+\bibitem{qwen3} Qwen Team. \href{https://arxiv.org/abs/2505.09388}{Qwen3 Technical Report}. arXiv:2505.09388, 2025.
+\bibitem{sun2024} M. Sun, X. Chen, J. Z. Kolter and Z. Liu. \href{https://arxiv.org/abs/2402.17762}{Massive Activations in Large Language Models}. \textit{COLM}, 2024.
+\bibitem{yu2024} M. Yu, D. Wang, Q. Shan, C. J. Reed and A. Wan. \href{https://arxiv.org/abs/2411.07191}{The Super Weight in Large Language Models}. arXiv:2411.07191, 2024.
+\end{thebibliography}
+
+\end{document}

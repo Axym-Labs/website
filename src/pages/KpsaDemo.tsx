@@ -44,7 +44,10 @@ function ModelLine({ modality }: { modality: Modality }) {
       {"excluded" in data && data.excluded ? (
         <>
           <span className="mx-1.5 text-[#b9b5c4]">·</span>
-          {data.excluded.count} features that hold {Math.round(data.excluded.share * 100)} % of the average input's sensitivity are not ranked
+          <Link to="/work/qwen-sensitivity-hubs/" className="kpsa-link">
+            {data.excluded.count} features that hold {Math.round(data.excluded.share * 100)} % of the average input's sensitivity
+          </Link>{" "}
+          are not ranked
         </>
       ) : null}
     </p>

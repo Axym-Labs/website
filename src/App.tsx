@@ -14,6 +14,7 @@ import Contact from "./pages/Contact";
 import Legal from "./pages/Legal";
 
 const ConnectomeDemo = lazy(() => import("./pages/ConnectomeDemo"));
+const KpsaDemo = lazy(() => import("./pages/KpsaDemo"));
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,14 @@ const App = () => (
             element={
               <Suspense fallback={<div className="min-h-screen bg-canvas" />}>
                 <ConnectomeDemo />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/work/kpsa-demo/"
+            element={
+              <Suspense fallback={<div className="min-h-screen bg-canvas" />}>
+                <KpsaDemo />
               </Suspense>
             }
           />

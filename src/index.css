@@ -436,14 +436,16 @@ All colors MUST be HSL.
 }
 
 /* Demo links: Axym purple and underlined on the white canvas, a lighter purple inside dark panels. */
-.connectome-page .latex-publication a {
+.connectome-page .latex-publication a,
+.kpsa-page .latex-publication a {
   color: #3f21b6;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
 }
 
-.connectome-page .latex-publication a:hover {
+.connectome-page .latex-publication a:hover,
+.kpsa-page .latex-publication a:hover {
   color: #2f1889;
 }
 
@@ -456,6 +458,86 @@ All colors MUST be HSL.
 
 .connectome-link:hover {
   color: #ffffff;
+}
+
+/* Interactive KPSA demo: light plates on the canvas, one purple accent. */
+.kpsa-panel {
+  padding: 1.25rem;
+  border: 1px solid rgb(24 22 31 / 7%);
+  border-radius: 0.6rem;
+  background: hsl(var(--paper));
+}
+
+@media (min-width: 640px) {
+  .kpsa-panel {
+    padding: 1.5rem;
+  }
+}
+
+.kpsa-card {
+  background: #fff;
+  box-shadow: 0 1rem 2.5rem rgb(18 15 35 / 7%);
+}
+
+.kpsa-eyebrow {
+  color: #5c5966;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.kpsa-toggle {
+  border: 1px solid rgb(24 22 31 / 9%);
+  background: hsl(var(--paper));
+}
+
+.kpsa-toggle-indicator {
+  background: #3f21b6;
+  box-shadow: 0 1px 2px rgb(18 15 35 / 18%), 0 4px 12px rgb(63 33 182 / 22%);
+}
+
+.kpsa-link {
+  color: #3f21b6;
+  text-decoration: underline;
+  text-decoration-color: rgb(63 33 182 / 35%);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.kpsa-link:hover {
+  text-decoration-color: currentColor;
+}
+
+.kpsa-skeleton {
+  background: linear-gradient(90deg, rgb(24 22 31 / 5%) 0%, rgb(24 22 31 / 9%) 50%, rgb(24 22 31 / 5%) 100%);
+  background-size: 200% 100%;
+  animation: kpsa-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes kpsa-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kpsa-skeleton {
+    animation: none;
+  }
+}
+
+.kpsa-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(24 22 31 / 18%) transparent;
+}
+
+.kpsa-search::-webkit-search-cancel-button {
+  display: none;
 }
 
 /* Platform icons on project-page action buttons. */

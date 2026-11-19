@@ -45,7 +45,7 @@ removing this weighting alone raises ImageNet-R accuracy over EWC by
 CLOC turns the design of continual-learning penalties into a choice of
 what to preserve, from which a principled penalty follows by derivation.</dd></div>
 </dl>
-   <nav aria-label='Links' class='publication-links'><a class='publication-link publication-link-arxiv' href='https://arxiv.org/abs/2611.16039'>arXiv</a><a class='publication-link publication-link-alphaxiv' href='https://www.alphaxiv.org/abs/2611.16039'>alphaXiv</a><a class='publication-link publication-link-github' href='https://github.com/Axym-Labs/iewc'>Code</a><a class='publication-link publication-link-email' href='mailto:dw@axym.org'>dw@axym.org</a></nav>
+   <nav aria-label='Links' class='publication-links'><a class='publication-link publication-link-arxiv' href='https://arxiv.org/abs/2611.16039'>arXiv</a><a class='publication-link publication-link-alphaxiv' href='https://www.alphaxiv.org/abs/2611.16039'>alphaXiv</a><a class='publication-link publication-link-github' href='https://github.com/Axym-Labs/iewc'>Code</a><a class='publication-link publication-link-package' href='https://github.com/aimagelab/mammoth/blob/master/models/iewc.py'>Mammoth</a><a class='publication-link publication-link-email' href='mailto:dw@axym.org'>dw@axym.org</a></nav>
    <section class='publication-citation' id='citation'><h2 class='publication-citation-heading'>Citation</h2>
                                                                      
 
@@ -62,6 +62,6 @@ what to preserve, from which a principled penalty follows by derivation.</dd></d
   url          = {https://arxiv.org/abs/2611.16039}
 }
 </pre>
-<!-- l. 55 --><p class='nopar'> </p></section>
+<!-- l. 56 --><p class='nopar'> </p></section>
 </div>
 `;export{a as default};
